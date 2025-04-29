@@ -76,18 +76,6 @@ All notable changes to this project will be documented in this file.
 - @microblink/blinkid-ux-manager
 - @microblink/camera-manager
 
-### Installation
-
-```bash
-npm install @microblink/blinkid@7.1.0
-```
-
-Or with pnpm:
-
-```bash
-pnpm add @microblink/blinkid@7.1.0
-```
-
 # v7.0.1
 
 ---
@@ -105,18 +93,6 @@ This is a hotfix release that addresses issues with remote licenses.
 - @microblink/blinkid-core
 - @microblink/blinkid-ux-manager
 - @microblink/camera-manager
-
-### Installation
-
-```bash
-npm install @microblink/blinkid@7.0.1
-```
-
-Or with pnpm:
-
-```bash
-pnpm add @microblink/blinkid@7.0.1
-```
 
 # v7.0.0
 
