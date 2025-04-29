@@ -80,4 +80,6 @@ export type DocumentType =
   | "non-voter-id"
   | "reciprocal-health-insurance-card"
   | "vehicle-registration"
-  | "esaad-card";
+  | "esaad-card"
+  | "registration-certificate"
+  | "medical-marijuana-id";
