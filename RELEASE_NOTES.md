@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# 7.2.1
+
+## Hotfix Release
+
+- Fixed an issue with frame quality estimation that could cause the recognition process to get stuck. This fix significantly improves success rate of document capturing, especially for the desktop cameras
+
+### Fixes
+
+- Fixed an issue with frame quality estimation.
+
 ## 7.2.0
 
 ## What's new

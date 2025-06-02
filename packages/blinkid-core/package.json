@@ -1,7 +1,7 @@
 {
   "name": "@microblink/blinkid-core",
   "description": "BlinkID Core SDK",
-  "version": "7.2.0",
+  "version": "7.2.1",
   "author": "Microblink",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",

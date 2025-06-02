@@ -1,5 +1,11 @@
 # example-blinkid-simple
 
+## 1.1.5
+
+### Patch Changes
+
+- @microblink/blinkid@7.2.1
+
 ## 1.1.4
 
 ### Patch Changes
