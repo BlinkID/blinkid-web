@@ -8,21 +8,38 @@ import { getCrossOriginWorkerURL } from "./getCrossOriginWorkerURL";
 import { oneLineTrim } from "common-tags";
 
 /**
- * Creates a Comlink-proxied Web Worker
- *
- * @param resourcesLocation where the "resources" directory is placed, default
- * is `window.location.href`
- * @returns a Comlink-proxied instance of the Web Worker
+ * Checks if a URL is a data URL
+ * @param url URL to check
+ * @returns boolean indicating if it's a data URL
  */
-export const createProxyWorker = async (
-  resourcesLocation: string = window.location.href,
-) => {
-  const workerUrl = await getCrossOriginWorkerURL(
-    new URL("resources/blinkid-worker.js", resourcesLocation).toString(),
-  );
+const isDataUrl = (url: string): boolean => {
+  return url.startsWith("data:");
+};
 
-  // Try to validate the worker file exists before creating the worker
-  // Attempt to fetch the worker script to check if it exists
+/**
+ * Checks if a URL is a blob URL
+ * @param url URL to check
+ * @returns boolean indicating if it's a blob URL
+ */
+const isBlobUrl = (url: string): boolean => {
+  return url.startsWith("blob:");
+};
+
+/**
+ * Checks if a URL needs HTTP validation
+ * @param url URL to check
+ * @returns boolean indicating if HTTP validation is needed
+ */
+const needsHttpValidation = (url: string): boolean => {
+  return !isDataUrl(url) && !isBlobUrl(url);
+};
+
+/**
+ * Validates a worker file via HTTP request
+ * @param workerUrl URL of the worker file
+ * @throws Error if the worker file is not valid
+ */
+const validateHttpWorkerFile = async (workerUrl: string): Promise<void> => {
   const response = await fetch(workerUrl, { method: "HEAD" });
   const contentType = response.headers.get("content-type");
 
@@ -45,6 +62,26 @@ export const createProxyWorker = async (
     throw new Error(
       `Worker file not found or inaccessible: ${response.status} ${response.statusText}`,
     );
+  }
+};
+
+/**
+ * Creates a Comlink-proxied Web Worker
+ *
+ * @param resourcesLocation where the "resources" directory is placed, default
+ * is `window.location.href`
+ * @returns a Comlink-proxied instance of the Web Worker
+ */
+export const createProxyWorker = async (
+  resourcesLocation: string = window.location.href,
+) => {
+  const workerUrl = await getCrossOriginWorkerURL(
+    new URL("resources/blinkid-worker.js", resourcesLocation).toString(),
+  );
+
+  // Only validate HTTP URLs, skip data: and blob: URLs
+  if (needsHttpValidation(workerUrl)) {
+    await validateHttpWorkerFile(workerUrl);
   }
 
   const worker = new Worker(workerUrl, {

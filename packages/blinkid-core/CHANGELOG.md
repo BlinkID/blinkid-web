@@ -1,5 +1,14 @@
 # @microblink/blinkid-core
 
+## 7.2.2
+
+### Patch Changes
+
+- a7ace02: Fixed an issue where the Web Worker failed to initialize when SDK resources were hosted on a different origin than the application.
+- Updated dependencies [a7ace02]
+  - @microblink/blinkid-wasm@7.2.2
+  - @microblink/blinkid-worker@7.2.2
+
 ## 7.2.1
 
 ### Patch Changes

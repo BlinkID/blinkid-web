@@ -9,6 +9,4 @@ export default defineWorkspace([
   // TODO: tries to run tests in these packages, but they don't have any
   // https://vitest.dev/guide/workspace.html#defining-a-workspace
   "!packages/blinkid",
-  "!packages/blinkid-core",
-  // "!packages/blinkid-worker",
 ]);

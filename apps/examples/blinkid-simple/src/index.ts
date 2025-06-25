@@ -9,6 +9,7 @@ const blinkid = await createBlinkId({
   cameraManagerUiOptions: {
     showMirrorCameraButton: false,
   },
+  resourcesLocation: "https://localhost:3001",
 });
 
 blinkid.addOnResultCallback((result) => {

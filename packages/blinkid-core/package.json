@@ -1,7 +1,7 @@
 {
   "name": "@microblink/blinkid-core",
   "description": "BlinkID Core SDK",
-  "version": "7.2.1",
+  "version": "7.2.2",
   "author": "Microblink",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",
@@ -18,6 +18,8 @@
     "prepack": "pnpm prepare-publish",
     "prepare-publish": "tsx scripts/prepare-publish.mts",
     "publish-test": "pnpm build:publish && pnpm prepare-publish && pnpm pack-check",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "type-rollup": "api-extractor run --local",
     "watch": "concurrently pnpm:watch:js pnpm:watch:types",
     "watch:js": "pnpm run build:js --watch --mode development",
@@ -67,6 +69,7 @@
     "tsx": "^4.19.2",
     "typescript": "^5.8.3",
     "vite": "^6.2.1",
+    "vitest": "3.0.8",
     "write-package": "^7.1.0",
     "zx": "^8.5.2"
   },

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# v7.2.2
+
+## Hotfix Release
+
+- Fixed an issue where the SDK failed to initialize properly when resources were hosted on a different origin than the application, which was caused by Web Worker initialization failures.
+
+### Fixes
+
+- Fixed an issue where the Web Worker failed to initialize when SDK resources were hosted on a different origin than the application.
+
 # v7.2.1
 
 ## Hotfix Release
@@ -12,7 +22,7 @@ All notable changes to this project will be documented in this file.
 
 - Fixed an issue with frame quality estimation.
 
-## v7.2.0
+# v7.2.0
 
 ## What's new
 
@@ -33,8 +43,6 @@ All notable changes to this project will be documented in this file.
 - Fixed bug that forced scanning of the back side of the Germany Residence Permit in passport document
 - Fixed bug that caused skipping back side when only signature was present
 - Fixed an issue which caused certain feedback messages to be displayed too briefly.
-
----
 
 # v7.1.0
 
@@ -125,8 +133,6 @@ pnpm add @microblink/blinkid@7.1.0
 
 # v7.0.1
 
----
-
 ## Hotfix Release
 
 This is a hotfix release that addresses issues with remote licenses.
@@ -154,9 +160,9 @@ Or with pnpm:
 pnpm add @microblink/blinkid@7.0.1
 ```
 
-# v7.0.0
-
 ---
+
+# v7.0.0
 
 We're excited to introduce BlinkID v7, a major upgrade designed to simplify your integration and deliver a simpler ID scanning experience. With BlinkID v7, we're taking a fresh approach to scanning logic by introducing a more straightforward, session-based API for an easier configuration path, all while boosting first-time scan success rate.
 

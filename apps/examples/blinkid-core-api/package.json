@@ -2,7 +2,7 @@
   "name": "example-blinkid-core-api",
   "description": "Example of using BlinkID Core API",
   "private": true,
-  "version": "1.1.5",
+  "version": "1.1.6",
   "scripts": {
     "build": "vite build",
     "build:js-dev": "vite build --mode development",

@@ -2,13 +2,6 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
-/**
- * Original: https://github.com/CezaryDanielNowak/CrossOriginWorker
- */
-
-// TODO: use https://github.com/hexagon/proper-tags
-import { stripIndents } from "common-tags";
-
 const type = "application/javascript";
 
 type Options = {
@@ -64,28 +57,13 @@ export const getCrossOriginWorkerURL = (
       })
         .then((res) => res.text())
         .then((codeString) => {
-          const workerPath = new URL(originalWorkerUrl).href.split("/");
-          workerPath.pop();
-
-          // This needs to be removed if used in the worker context itself as
-          // the global variables are already injected there!
-          const importScriptsFix = stripIndents`
-            const _importScripts = importScripts;
-            const _fixImports = (url) => new URL(url, '${
-              workerPath.join("/") + "/"
-            }').href;
-            importScripts = (...urls) => _importScripts(...urls.map(_fixImports));
-          `;
-
           let finalURL = "";
 
           if (options.useBlob) {
-            const blob = new Blob([importScriptsFix + codeString], { type });
+            const blob = new Blob([codeString], { type });
             finalURL = URL.createObjectURL(blob);
           } else {
-            finalURL =
-              `data:${type},` +
-              encodeURIComponent(importScriptsFix + codeString);
+            finalURL = `data:${type},` + encodeURIComponent(codeString);
           }
 
           resolve(finalURL);

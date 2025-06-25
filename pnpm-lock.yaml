@@ -590,6 +590,9 @@ importers:
       vite:
         specifier: ^6.2.1
         version: 6.2.1(@types/node@20.8.8)(jiti@2.4.2)(sass@1.85.0)(tsx@4.19.2)(yaml@2.5.1)
+      vitest:
+        specifier: 3.0.8
+        version: 3.0.8(@types/debug@4.1.12)(@types/node@20.8.8)(@vitest/browser@3.0.8)(happy-dom@15.7.4)(jiti@2.4.2)(jsdom@25.0.1)(msw@2.7.3(@types/node@20.8.8)(typescript@5.8.3))(sass@1.85.0)(tsx@4.19.2)(yaml@2.5.1)
       write-package:
         specifier: ^7.1.0
         version: 7.1.0
