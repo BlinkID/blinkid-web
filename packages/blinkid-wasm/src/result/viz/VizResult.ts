@@ -97,4 +97,10 @@ export type VizResult = {
   dependentsInfo?: DependentInfo[];
   /** The vehicle owner */
   vehicleOwner?: StringResult;
+  /** The certificate number of the document owner */
+  certificateNumber?: StringResult;
+  /** The country code of the document owner */
+  countryCode?: StringResult;
+  /** The national insurance number of the document owner */
+  nationalInsuranceNumber?: StringResult;
 };

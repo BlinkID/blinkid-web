@@ -4,7 +4,7 @@
 
 /** Represents level of anonymization performed on the scanning result. */
 export type AnonymizationMode =
-  /** FullDocumentImage is anonymized with black boxes covering sensitive data. */
+  /** DocumentImage is anonymized with black boxes covering sensitive data. */
   | "image-only"
   /** Result fields containing sensitive data are removed from result. */
   | "result-fields-only"

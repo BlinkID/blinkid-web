@@ -51,6 +51,7 @@ export type BlinkIdComponent = {
 
 export const createBlinkId = async ({
   licenseKey,
+  microblinkProxyUrl,
   targetNode,
   cameraManagerUiOptions,
   initialMemory,
@@ -64,6 +65,7 @@ export const createBlinkId = async ({
   // we first initialize the direct API. This loads the WASM module and initializes the engine
   const blinkIdCore = await loadBlinkIdCore({
     licenseKey,
+    microblinkProxyUrl,
     initialMemory,
     resourcesLocation,
     useLightweightBuild,

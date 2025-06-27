@@ -32,7 +32,12 @@ export type CameraUiStore = {
   /** This is the camera manager zustand store converted to SolidJS' signal store via `solid-zustand` */
   cameraManagerSolidStore: ReturnType<typeof createCameraManagerSolidStore>;
   mountTarget: MountableElement;
+  /** Whether to show the mirror camera button */
   showMirrorCameraButton: boolean;
+  /** Whether to show the torch button */
+  showTorchButton: boolean;
+  /** Whether to show the close button */
+  showCloseButton: boolean;
   /** Sets a callback to be called when the component is unmounted.
    * Returns a cleanup function that removes the callback when called.
    */
@@ -44,6 +49,8 @@ export const CameraUiStoreProvider: ParentComponent<{
   cameraManager: CameraManager;
   mountTarget: MountableElement;
   showMirrorCameraButton: boolean;
+  showTorchButton: boolean;
+  showCloseButton: boolean;
   addOnDismountCallback: (fn: DismountCallback) => () => void;
 }> = (props) => {
   // initial context value
@@ -62,6 +69,10 @@ export const CameraUiStoreProvider: ParentComponent<{
     mountTarget: props.mountTarget,
     // eslint-disable-next-line solid/reactivity
     showMirrorCameraButton: props.showMirrorCameraButton,
+    // eslint-disable-next-line solid/reactivity
+    showTorchButton: props.showTorchButton,
+    // eslint-disable-next-line solid/reactivity
+    showCloseButton: props.showCloseButton,
   };
 
   onCleanup(() => {

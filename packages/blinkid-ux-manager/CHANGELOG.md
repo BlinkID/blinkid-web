@@ -1,10 +1,23 @@
 # @microblink/blinkid-ux-manager
 
+## 7.3.0
+
+### Minor Changes
+
+- Added `showHelpButton` property to `FeedbackUiOptions` for improved UI control.
+- Added part attribute `help-button-part` to the help button to enable external styling.
+- Added additional control of the help tooltip via `setHelpTooltipShowDelay` and `setHelpTooltipHideDelay` methods on the `BlinkIdUxManager`
+- `setTimeoutDuration` now defaultly sets `setHelpTooltipShowDelay` to the 50% duration
+- Updated help tooltip default behaviour
+- Updated dependencies
+  - @microblink/camera-manager@7.2.0
+  - @microblink/blinkid-core@7.3.0
+
 ## 7.2.2
 
 ### Patch Changes
 
-- Updated dependencies [a7ace02]
+- Updated dependencies
   - @microblink/blinkid-core@7.2.2
 
 ## 7.2.1
@@ -17,9 +30,9 @@
 
 ### Minor Changes
 
-- 5d08204: - Implemented passport feedback
-  - Added document filtered callbacks
-  - Various bug fixes
+- Implemented passport feedback
+- Added document filtered callbacks
+- Various bug fixes
 
 ### Patch Changes
 
@@ -37,7 +50,6 @@
 
 ### Patch Changes
 
-- Bump package version
 - Updated dependencies
   - @microblink/blinkid-core@7.0.1
   - @microblink/camera-manager@7.0.1

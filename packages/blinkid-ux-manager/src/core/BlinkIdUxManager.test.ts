@@ -17,6 +17,7 @@ import { OverrideProperties } from "type-fest";
 import {
   CameraManager,
   FrameCaptureCallback,
+  PlaybackState,
 } from "@microblink/camera-manager";
 
 type PartialProcessResultWithBuffer = Partial<
@@ -50,9 +51,7 @@ describe("BlinkIdUxManager - Document Class Filter", () => {
     startFrameCapture: ReturnType<typeof vi.fn>;
   } = {
     addFrameCaptureCallback: vi.fn(),
-    subscribe: vi.fn().mockReturnValue(() => {
-      //
-    }),
+    subscribe: vi.fn().mockReturnValue(vi.fn()),
     stopFrameCapture: vi.fn(),
     startFrameCapture: vi.fn().mockResolvedValue(undefined),
   };
@@ -377,6 +376,220 @@ describe("BlinkIdUxManager - Document Class Filter", () => {
     cleanupResultListener();
     cleanupFilteredCallback();
     filterCleanup();
+    feedbackStabilizerSpy.mockRestore();
+  });
+});
+
+describe("BlinkIdUxManager - Timeout Behavior", () => {
+  let manager: BlinkIdUxManager;
+  let frameCaptureCallback: FrameCaptureCallback;
+  let playbackStateCallback: (state: PlaybackState) => void;
+  let mockCameraManager: {
+    addFrameCaptureCallback: ReturnType<typeof vi.fn>;
+    subscribe: ReturnType<typeof vi.fn>;
+    stopFrameCapture: ReturnType<typeof vi.fn>;
+    startFrameCapture: ReturnType<typeof vi.fn>;
+  };
+
+  interface TestCameraState {
+    playbackState: PlaybackState;
+    videoElement: HTMLVideoElement | undefined;
+  }
+
+  const mockScanningSession = {
+    process: vi.fn(),
+    getSettings: vi.fn().mockResolvedValue({ scanningSettings: {} }),
+    showDemoOverlay: vi.fn().mockResolvedValue(false),
+    showProductionOverlay: vi.fn().mockResolvedValue(false),
+    getResult: vi.fn(),
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.useFakeTimers();
+
+    playbackStateCallback = vi.fn();
+
+    mockCameraManager = {
+      addFrameCaptureCallback: vi.fn(),
+      subscribe: vi
+        .fn()
+        .mockImplementationOnce(
+          (
+            selector: (s: TestCameraState) => PlaybackState,
+            callback: (state: PlaybackState) => void,
+          ) => {
+            playbackStateCallback = callback;
+            return vi.fn();
+          },
+        )
+        .mockImplementationOnce(
+          (
+            selector: (s: TestCameraState) => HTMLVideoElement | undefined,
+            callback: (el: HTMLVideoElement | undefined) => void,
+          ) => {
+            // For these tests, we don't need to capture the videoElement subscription callback.
+            return vi.fn();
+          },
+        ),
+      stopFrameCapture: vi.fn(),
+      startFrameCapture: vi.fn().mockResolvedValue(undefined),
+    };
+
+    manager = new BlinkIdUxManager(
+      mockCameraManager as never,
+      mockScanningSession as never,
+    );
+
+    expect(mockCameraManager.addFrameCaptureCallback).toHaveBeenCalledTimes(1);
+    frameCaptureCallback =
+      mockCameraManager.addFrameCaptureCallback.mock.calls[0][0];
+  });
+
+  afterEach(() => {
+    manager.reset();
+    vi.useRealTimers();
+  });
+
+  test("should set timeout duration and help tooltip duration", () => {
+    const timeoutDuration = 15000;
+    manager.setTimeoutDuration(timeoutDuration);
+
+    expect(manager.getTimeoutDuration()).toBe(timeoutDuration);
+    expect(manager.getHelpTooltipShowDelay()).toBe(timeoutDuration / 2);
+  });
+
+  test("should set tooltip show delay and help tooltip duration", () => {
+    const duration = 12000;
+    manager.setHelpTooltipShowDelay(duration);
+    manager.setHelpTooltipHideDelay(duration);
+
+    expect(manager.getHelpTooltipShowDelay()).toBe(duration);
+    expect(manager.getHelpTooltipHideDelay()).toBe(duration);
+  });
+
+  test("should set timeout duration without affecting help tooltip show delay", () => {
+    const timeoutDuration = 15000;
+    const helpTooltipShowDelay = 5000;
+
+    manager.setHelpTooltipShowDelay(helpTooltipShowDelay);
+    manager.setTimeoutDuration(timeoutDuration, false);
+
+    expect(manager.getHelpTooltipShowDelay()).toBe(helpTooltipShowDelay);
+  });
+
+  test("should throw error when setting invalid timeout duration", () => {
+    expect(() => manager.setTimeoutDuration(-1000)).toThrow();
+    expect(() => manager.setTimeoutDuration(0)).toThrow();
+  });
+
+  test("should throw error when setting invalid help tooltip show delay", () => {
+    expect(() => manager.setHelpTooltipShowDelay(-1000)).toThrow();
+    expect(() => manager.setHelpTooltipShowDelay(0)).toThrow();
+  });
+
+  test("should throw error when setting invalid help tooltip hide delay", () => {
+    expect(() => manager.setHelpTooltipHideDelay(-1000)).toThrow();
+    expect(() => manager.setHelpTooltipHideDelay(0)).toThrow();
+  });
+
+  test("should allow setting null timeout duration", () => {
+    expect(() => manager.setTimeoutDuration(null)).not.toThrow();
+    expect(() => manager.setHelpTooltipShowDelay(null)).not.toThrow();
+    expect(() => manager.setHelpTooltipHideDelay(null)).not.toThrow();
+  });
+
+  test("should trigger timeout and error callback", () => {
+    const timeoutDuration = 5000;
+    manager.setTimeoutDuration(timeoutDuration);
+
+    const errorCallback = vi.fn();
+    manager.addOnErrorCallback(errorCallback);
+
+    // Simulate camera starting capture
+    playbackStateCallback("capturing");
+
+    // Advance timer to trigger timeout
+    vi.advanceTimersByTime(timeoutDuration);
+
+    expect(errorCallback).toHaveBeenCalledWith("timeout");
+    expect(mockCameraManager.stopFrameCapture).toHaveBeenCalled();
+  });
+
+  test("should clear timeout when stopping capture", () => {
+    const timeoutDuration = 5000;
+    manager.setTimeoutDuration(timeoutDuration);
+
+    const errorCallback = vi.fn();
+    manager.addOnErrorCallback(errorCallback);
+
+    // Simulate camera starting capture
+    playbackStateCallback("capturing");
+
+    // Simulate camera stopping capture
+    playbackStateCallback("idle");
+
+    // Advance timer past timeout duration
+    vi.advanceTimersByTime(timeoutDuration + 1000);
+
+    expect(errorCallback).not.toHaveBeenCalled();
+  });
+
+  test("should not set timeout when timeout duration is null", () => {
+    manager.setTimeoutDuration(null);
+
+    const errorCallback = vi.fn();
+    manager.addOnErrorCallback(errorCallback);
+
+    // Simulate camera starting capture
+    playbackStateCallback("capturing");
+
+    // Advance timer to trigger timeout
+    vi.advanceTimersByTime(20000);
+
+    expect(errorCallback).not.toHaveBeenCalled();
+  });
+
+  test("should reset timeout when UI state changes", async () => {
+    const timeoutDuration = 5000;
+    manager.setTimeoutDuration(timeoutDuration);
+
+    const errorCallback = vi.fn();
+    manager.addOnErrorCallback(errorCallback);
+
+    // Mock process result to trigger UI state change
+    const mockProcessResult = createMockProcessResult("success", {
+      country: "usa",
+      type: "dl",
+    });
+    mockScanningSession.process.mockResolvedValue(mockProcessResult);
+
+    // Mock feedback stabilizer to return a different state
+    const mockNewState = {
+      key: "DOCUMENT_DETECTED",
+      minDuration: 0,
+    };
+    const feedbackStabilizerSpy = vi
+      .spyOn(manager.feedbackStabilizer, "getNewUiState")
+      .mockReturnValue(mockNewState as never);
+
+    // Simulate camera starting capture
+    playbackStateCallback("capturing");
+
+    // Process frame immediately to trigger UI state change
+    await frameCaptureCallback({
+      data: new Uint8ClampedArray(0),
+      width: 100,
+      height: 100,
+      colorSpace: "srgb",
+    });
+
+    expect(errorCallback).not.toHaveBeenCalled();
+
+    // Advance full timeout duration
+    vi.advanceTimersByTime(timeoutDuration);
+    expect(errorCallback).toHaveBeenCalledWith("timeout");
+
     feedbackStabilizerSpy.mockRestore();
   });
 });

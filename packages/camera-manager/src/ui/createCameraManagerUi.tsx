@@ -49,7 +49,24 @@ export type DismountCallback = () => void;
 
 export type CameraManagerUiOptions = {
   localizationStrings?: Partial<CameraUiLocalizationStrings>;
+  /**
+   * If set to `true`, the mirror camera button will be shown.
+   *
+   * @defaultValue false
+   */
   showMirrorCameraButton?: boolean;
+  /**
+   * If set to `true`, the torch button will be shown.
+   *
+   * @defaultValue true
+   */
+  showTorchButton?: boolean;
+  /**
+   * If set to `true`, the close button will be shown.
+   *
+   * @defaultValue true
+   */
+  showCloseButton?: boolean;
 };
 
 /**
@@ -61,6 +78,8 @@ export function createCameraManagerUi(
   {
     localizationStrings,
     showMirrorCameraButton = false,
+    showTorchButton = true,
+    showCloseButton = true,
   }: CameraManagerUiOptions = {},
 ) {
   let mountTarget: HTMLElement;
@@ -159,6 +178,8 @@ export function createCameraManagerUi(
           dismountCameraUi={dismountCameraManagerUi}
           cameraManager={cameraManager}
           showMirrorCameraButton={showMirrorCameraButton}
+          showTorchButton={showTorchButton}
+          showCloseButton={showCloseButton}
           mountTarget={mountTarget}
         >
           <RootComponent />

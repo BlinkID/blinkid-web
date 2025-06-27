@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 5d08204: Stabilizer properly waits for previous state to finish on success events
+- Stabilizer properly waits for previous state to finish on success events
 
 ## 7.1.0
 

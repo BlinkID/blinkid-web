@@ -95,6 +95,7 @@ export const CameraSelector: Component = () => {
       {() => (
         <>
           <Select.Root
+            part="camera-select-part"
             collection={cameraCollection()}
             value={selectedCameraInCollection()}
             positioning={{

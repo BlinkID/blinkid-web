@@ -167,6 +167,7 @@ export const CaptureScreen: Component = () => {
 
         {/* Video feed */}
         <video
+          part="video-element-part"
           class="block absolute top-0 left-0 size-full"
           style={{
             "object-fit": fitMode(),

@@ -3,4 +3,4 @@
  */
 
 /** Represents the types of images that can be extracted from the document. */
-export type ImageExtractionType = "face" | "signature" | "full-document";
+export type ImageExtractionType = "face" | "signature" | "document";

@@ -38,8 +38,12 @@ export class BlinkIdUxManager {
   #successProcessResult: ProcessResultWithBuffer | undefined;
   #threadBusy = false;
   #timeoutId?: number;
-  /** Timeout duration in ms */
-  #timeoutDuration = 10000; // 10s
+  /** Timeout duration in ms for the scanning session. If null, timeout won't be triggered ever. */
+  #timeoutDuration: number | null = 10000; // 10s
+  /** Time in ms before the help tooltip is shown. If null, tooltip won't be auto shown. */
+  #helpTooltipShowDelay: number | null = 5000; // 5s
+  /** Time in ms before the help tooltip is hidden. If null, tooltip won't be auto hidden. */
+  #helpTooltipHideDelay: number | null = 5000; // 5s
 
   #onUiStateChangedCallbacks = new Set<(uiState: BlinkIdUiState) => void>();
   #onResultCallbacks = new Set<(result: BlinkIdScanningResult) => void>();
@@ -80,6 +84,12 @@ export class BlinkIdUxManager {
       (s) => s.playbackState,
       (playbackState) => {
         console.debug(`⏯️ ${playbackState}`);
+
+        // if timeout duration is null, we don't want to start a timeout
+        if (this.#timeoutDuration === null) {
+          return;
+        }
+
         if (playbackState !== "capturing") {
           this.clearScanTimeout();
         } else {
@@ -119,6 +129,30 @@ export class BlinkIdUxManager {
    */
   getShowProductionOverlay(): boolean {
     return this.showProductionOverlay;
+  }
+
+  /**
+   * Returns the timeout duration in ms. Null if timeout won't be triggered ever.
+   * @returns The timeout duration in ms.
+   */
+  getTimeoutDuration(): number | null {
+    return this.#timeoutDuration;
+  }
+
+  /**
+   * Returns the time in ms before the help tooltip is shown. Null if tooltip won't be auto shown.
+   * @returns The time in ms before the help tooltip is shown.
+   */
+  getHelpTooltipShowDelay(): number | null {
+    return this.#helpTooltipShowDelay;
+  }
+
+  /**
+   * Returns the time in ms before the help tooltip is hidden. Null if tooltip won't be auto hidden.
+   * @returns The time in ms before the help tooltip is hidden.
+   */
+  getHelpTooltipHideDelay(): number | null {
+    return this.#helpTooltipHideDelay;
   }
 
   /**
@@ -342,17 +376,64 @@ export class BlinkIdUxManager {
   };
 
   /**
-   * Set the duration of the timeout in milliseconds.
+   * Sets the duration after which the scanning session will timeout. The timeout can occur in various scenarios
+   * and may be restarted by different scanning events.
+   *
+   * @param duration The timeout duration in milliseconds. If null, timeout won't be triggered ever.
+   * @param setHelpTooltipShowDelay If true, also sets the help tooltip show delay to half of the provided duration. If timeout duration is null, help tooltip show delay will be set to null. Defaults to true.
+   * @throws {Error} Throws an error if duration is less than or equal to 0 when not null.
    */
-  setTimeoutDuration(duration: number) {
+  setTimeoutDuration(duration: number | null, setHelpTooltipShowDelay = true) {
+    if (duration !== null && duration <= 0) {
+      throw new Error("Timeout duration must be greater than 0");
+    }
+
     this.#timeoutDuration = duration;
+
+    if (setHelpTooltipShowDelay) {
+      this.setHelpTooltipShowDelay(duration !== null ? duration / 2 : null);
+    }
+  }
+
+  /**
+   * Sets the duration in milliseconds before the help tooltip is shown.
+   * A value of null means the help tooltip will not be auto shown.
+   * @param duration The duration in milliseconds before the help tooltip is shown. If null, tooltip won't be auto shown.
+   * @throws {Error} Throws an error if duration is less than or equal to 0 when not null.
+   */
+  setHelpTooltipShowDelay(duration: number | null) {
+    if (duration !== null && duration <= 0) {
+      throw new Error("Help tooltip show delay must be greater than 0");
+    }
+
+    this.#helpTooltipShowDelay = duration;
+  }
+
+  /**
+   * Sets the duration in milliseconds before the help tooltip is hidden.
+   * A value of null means the help tooltip will not be auto hidden.
+   * @param duration The duration in milliseconds before the help tooltip is hidden. If null, tooltip won't be auto hidden.
+   * @throws {Error} Throws an error if duration is less than or equal to 0 when not null.
+   */
+  setHelpTooltipHideDelay(duration: number | null) {
+    if (duration !== null && duration <= 0) {
+      throw new Error("Help tooltip display duration must be greater than 0");
+    }
+
+    this.#helpTooltipHideDelay = duration;
   }
 
   #setTimeout = (uiState: BlinkIdUiState) => {
+    if (this.#timeoutDuration === null) {
+      console.debug("⏳🟢 timeout duration is null, not starting timeout");
+      return;
+    }
+
     this.clearScanTimeout();
     console.debug(`⏳🟢 starting timeout for ${uiState.key}`);
 
     this.#timeoutId = window.setTimeout(() => {
+      console.debug("⏳🟢 timeout triggered");
       this.cameraManager.stopFrameCapture();
 
       this.#invokeOnErrorCallbacks("timeout");
@@ -393,7 +474,9 @@ export class BlinkIdUxManager {
 
   // Side-effects are handled here
   #handleUiStateChange = async (uiState: BlinkIdUiState) => {
-    this.#setTimeout(uiState);
+    if (this.#timeoutDuration !== null) {
+      this.#setTimeout(uiState);
+    }
 
     // Handle all first side captured states to display both the
     // animation to reposition the document and the success animation
@@ -441,6 +524,11 @@ export class BlinkIdUxManager {
    * Clears any active timeout.
    */
   clearScanTimeout = () => {
+    // if timeout id is not set, we don't want to clear it
+    if (!this.#timeoutId) {
+      return;
+    }
+
     console.debug("⏳🔴 clearing timeout");
     window.clearTimeout(this.#timeoutId);
   };

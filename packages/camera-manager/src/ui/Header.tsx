@@ -20,8 +20,10 @@ export const Header: Component = () => {
   const {
     dismountCameraUi,
     cameraManagerSolidStore,
-    showMirrorCameraButton,
     cameraManager,
+    showMirrorCameraButton,
+    showTorchButton,
+    showCloseButton,
   } = useCameraUiStore();
   const { t } = useLocalization();
   const isMirrored = cameraManagerSolidStore((s) => s.mirrorX);
@@ -63,6 +65,7 @@ export const Header: Component = () => {
             {/* Mirror button */}
             <Show when={showMirrorCameraButton && isActive()}>
               <ToolbarButton
+                part="mirror-camera-button-part"
                 tooltipLabel={t.mirror_camera}
                 onClick={() => toggleMirrorX()}
               >
@@ -79,8 +82,9 @@ export const Header: Component = () => {
             </Show>
 
             {/* Torch */}
-            <Show when={hasTorch() && isActive()}>
+            <Show when={showTorchButton && hasTorch() && isActive()}>
               <ToolbarButton
+                part="torch-button-part"
                 onClick={() => toggleTorch()}
                 tooltipLabel={t.torch}
               >
@@ -102,16 +106,20 @@ export const Header: Component = () => {
             </Show>
           </div>
 
-          <div class="justify-self-end">
-            {/* close button */}
-            <ToolbarButton
-              onClick={() => dismountCameraUi()}
-              tooltipLabel={t.close}
-            >
-              <span class="sr-only">{t.close}</span>
-              <CloseIcon class="size-6 shrink-0" />
-            </ToolbarButton>
-          </div>
+          {/* close button */}
+          <Show when={showCloseButton}>
+            <div class="justify-self-end">
+              {/* close button */}
+              <ToolbarButton
+                part="close-button-part"
+                onClick={() => dismountCameraUi()}
+                tooltipLabel={t.close}
+              >
+                <span class="sr-only">{t.close}</span>
+                <CloseIcon class="size-6 shrink-0" />
+              </ToolbarButton>
+            </div>
+          </Show>
         </div>
       )}
     </SmartEnvironmentProvider>

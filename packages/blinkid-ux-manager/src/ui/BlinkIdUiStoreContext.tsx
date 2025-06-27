@@ -22,6 +22,7 @@ export type BlinkIdUiStore = {
   showOnboardingGuide?: boolean;
   showHelpTooltipTimeout?: number;
   showHelpModal?: boolean;
+  showHelpButton?: boolean;
   dismountFeedbackUi: () => void;
 };
 
@@ -36,6 +37,7 @@ export const BlinkIdUiStoreProvider: ParentComponent<{
   blinkIdUxManager: BlinkIdUxManager;
   cameraManagerComponent: CameraManagerComponent;
   showOnboardingGuide?: boolean;
+  showHelpButton?: boolean;
   showHelpTooltipTimeout?: number;
   dismountFeedbackUi: () => void;
 }> = (props) => {
@@ -51,6 +53,7 @@ export const BlinkIdUiStoreProvider: ParentComponent<{
     cameraManagerComponent: props.cameraManagerComponent,
     showOnboardingGuide: props.showOnboardingGuide,
     showHelpTooltipTimeout: props.showHelpTooltipTimeout,
+    showHelpButton: props.showHelpButton,
     dismountFeedbackUi: props.dismountFeedbackUi,
     /* eslint-enable solid/reactivity */
   });

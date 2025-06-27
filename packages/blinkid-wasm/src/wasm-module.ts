@@ -21,4 +21,5 @@ export interface BlinkIdBindings {
     serverPermission: unknown,
   ) => ServerPermissionSubmitResult;
   getActiveLicenseTokenInfo: () => LicenseUnlockResult;
+  setPingProxyUrl: (url: string) => void;
 }

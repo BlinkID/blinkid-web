@@ -1,10 +1,21 @@
 # @microblink/blinkid-wasm
 
+## 7.3.0
+
+### Minor Changes
+
+- Fixed incorrect property name in `MrzResult`: `rawMRZString` is now correctly exposed as `rawMrzString`.
+- Fixed incorrect `full-document` type `document` type in `ImageExtractionType`.
+- Fixed typing issue by correctly adding the `vehicleOwner` property to `BlinkIdScanningResult`.
+- Added `certificateNumber`, `countryCode` and `nationalInsuranceNumber` to `BlinkIdScanningResult` and `VizResult` types.
+- Added `non-card-tribal-id` and `diplomatic-id` to `DocumentType`
+- This change updates the Emscripten toolchain to version 4.0.9, upgrades multiple C++ package dependencies, and adds new document types (`non-card-tribal-id`, `diplomatic-id`) and field types (certificateNumber, countryCode, nationalInsuranceNumber) to the BlinkID recognition system.
+
 ## 7.2.2
 
 ### Patch Changes
 
-- a7ace02: Fixed an issue where the Web Worker failed to initialize when SDK resources were hosted on a different origin than the application.
+- Fixed an issue where the Web Worker failed to initialize when SDK resources were hosted on a different origin than the application.
 
 ## 7.2.1
 
@@ -16,16 +27,16 @@
 
 ### Minor Changes
 
-- 3655cc6: Update WASM files
-- 5d08204: - Implemented `showDemoOverlay` and `showProductionOverlay`
-  - Various bugfixes
+- Update WASM files
+- Implemented `showDemoOverlay` and `showProductionOverlay`
+- Various bugfixes
 
 ## 7.1.0
 
 ### Minor Changes
 
 - Updated internal dependencies
-  - Added new documents support
+- Added new documents support
 
 ## 7.0.1
 

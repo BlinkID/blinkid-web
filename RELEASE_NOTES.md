@@ -2,6 +2,75 @@
 
 All notable changes to this project will be documented in this file.
 
+# v7.3.0
+
+## What's New
+- Improved extraction for Canada/Nunavut ID and DL by introducing error correction for "1" and "I" characters which look the same in the font used on a document
+## Bugfixes
+- Fixed document number extraction from Canada/Nunavut barcodes
+- Fix for ARGENTINA ID and ALIEN_ID documents - made separate barcode scanning step optional for these documents. They have a barcode on the front side, and requiring barcode extraction was causing the scanning process to get stuck on the front.
+## New Documents Support
+- Canada, Nunavut - Driver's License
+- Canada, Nunavut - Identity Card
+- Liberia - Identity Card
+- Mali - Identity Card
+- UK - Military ID
+## New Document Versions for Supported Documents
+- Bahrain - Identity Card
+- Canada - Weapon Permit
+- Chile - Alien ID
+- Chile - Identity Card
+- Finland - Driver's License
+- Indonesia - Driver's License
+- Kosovo - Identity Card
+- Latvia - Polycarbonate Passport
+- Mexico, Chiapas - Driver's License
+- Mexico, Ciudad de Mexico - Driver's License
+- Mexico, Durango - Driver's License
+- Mexico, Jalisco - Driver's License
+- Sri Lanka - Driver's License
+- USA, Alaska - Driver's License
+- USA, New Hampshire - Driver's License
+- European Union - Health Insurance Card
+## New Beta Documents Support
+- Canada - Non Card Tribal ID
+- Dominica - Paper Passport
+- Dominica - Polycarbonate Passport
+- UAE - Diplomatic ID
+- USA, Georgia - Medical Marijuana ID
+## New Document Versions for Beta-Supported Documents
+- Egypt - Driver's License
+- Mexico, Quintana Roo - Driver's License
+- Philippines - Postal ID
+- Vietnam - Identity Card
+## New Segments Supported on Documents
+- European Union, Health Insurance Card - `countryCode`
+- Italy, Identity Card - `documentOptionalAdditionalNumber`
+- France, Identity Card - `additionalNameInformation`
+- UK, Asylum Request - `residencePermitType`, `remarks`
+- UK, Residence Permit - `residencePermitType`, `remarks`, `certificateNumber`, `nationalInsuranceNumber`
+## Renamed segments 
+- Bahrain - Identity Card - `documentNumber` -> `personalIdNumber`
+## Changes inside packages
+### @microblink/blinkid-ux-manager
+- Added `showHelpButton` property to `FeedbackUiOptions` for improved UI control.
+- Added part attribute `help-button-part` to the help button to enable external styling.
+- Added additional control of the help tooltip via `setHelpTooltipShowDelay` and `setHelpTooltipHideDelay` methods on the `BlinkIdUxManager`
+- `setTimeoutDuration` now defaultly sets `setHelpTooltipShowDelay` to the 50% duration
+- Updated help tooltip default behaviour
+### @microblink/blinkid-wasm
+- Fixed incorrect property name in `MrzResult`: `rawMRZString` is now correctly exposed as `rawMrzString`.
+- Fixed incorrect `full-document` type `document` type in `ImageExtractionType`.
+- Fixed typing issue by correctly adding the `vehicleOwner` property to `BlinkIdScanningResult`.
+- Added `certificateNumber`, `countryCode` and `nationalInsuranceNumber` to `BlinkIdScanningResult` and `VizResult` types.
+- Added `non-card-tribal-id` and `diplomatic-id` to `DocumentType`
+- This change updates the Emscripten toolchain to version 4.0.9, upgrades multiple C++ package dependencies, and adds new document types (`non-card-tribal-id`, `diplomatic-id`) and field types (certificateNumber, countryCode, nationalInsuranceNumber) to the BlinkID recognition system.
+### @microblink/camera-manager
+- Enhanced customization capabilities with additional modification options.
+- Added `showTorchButton` and `showCloseButton` properties to `CameraManagerUiOptions` for improved UI control.
+- Added part attribute `camera-select-part` to the camera select element to enable external styling.
+- Added part attribute `video-element-part` to the video element to enable external styling.
+
 # v7.2.2
 
 ## Hotfix Release
@@ -112,25 +181,6 @@ All notable changes to this project will be documented in this file.
 - Egypt, Driver's Licenses
   - expanding support for extracting segments in Arabic script
 
-### Affected Packages
-
-- @microblink/blinkid
-- @microblink/blinkid-core
-- @microblink/blinkid-ux-manager
-- @microblink/camera-manager
-
-### Installation
-
-```bash
-npm install @microblink/blinkid@7.1.0
-```
-
-Or with pnpm:
-
-```bash
-pnpm add @microblink/blinkid@7.1.0
-```
-
 # v7.0.1
 
 ## Hotfix Release
@@ -140,25 +190,6 @@ This is a hotfix release that addresses issues with remote licenses.
 ### Fixes
 
 - Fixed issues with remote license handling
-
-### Affected Packages
-
-- @microblink/blinkid
-- @microblink/blinkid-core
-- @microblink/blinkid-ux-manager
-- @microblink/camera-manager
-
-### Installation
-
-```bash
-npm install @microblink/blinkid@7.0.1
-```
-
-Or with pnpm:
-
-```bash
-pnpm add @microblink/blinkid@7.0.1
-```
 
 ---
 

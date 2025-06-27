@@ -29,6 +29,7 @@ import {
 import type {
   BlinkIdScanningResult,
   BlinkIdSessionError,
+  LicenseTokenState,
 } from "@microblink/blinkid-wasm";
 
 // this is a workaround for the fact that the types are not exported
@@ -53,11 +54,26 @@ export type WorkerScanningSession = OverrideProperties<
 };
 
 export type BlinkIdWorkerInitSettings = {
+  licenseKey: string;
+  /**
+   * The URL of the Microblink proxy server. This proxy handles requests to Microblink's Baltazar and Ping servers.
+   *
+   * **Requirements:**
+   * - Must be a valid HTTPS URL
+   * - The proxy server must implement the expected Microblink API endpoints
+   * - This feature is only available if explicitly permitted by your license
+   *
+   * **Endpoints:**
+   * - Ping: `{proxyUrl}/ping`
+   * - Baltazar: `{proxyUrl}/api/v2/status/check`
+   *
+   * @example "https://your-proxy.example.com"
+   */
+  microblinkProxyUrl?: string;
   /**
    * The parent directory where the `/resources` directory is hosted.
    * Defaults to `window.location.href`, at the root of the current page.
    */
-  licenseKey: string;
   resourcesLocation?: string;
   userId: string;
   wasmVariant?: WasmVariant;
@@ -77,6 +93,29 @@ export type LoadWasmParams = {
 
 export type ProgressStatusCallback = (progress: DownloadProgress) => void;
 
+/**
+ * Sanitized proxy URLs for different Microblink services
+ */
+type SanitizedProxyUrls = {
+  /** URL for ping service */
+  ping: string;
+  /** URL for Baltazar service */
+  baltazar: string;
+};
+
+/**
+ * Error thrown when proxy URL validation fails
+ */
+class ProxyUrlValidationError extends Error {
+  constructor(
+    message: string,
+    public readonly url: string,
+  ) {
+    super(`Proxy URL validation failed for "${url}": ${message}`);
+    this.name = "ProxyUrlValidationError";
+  }
+}
+
 class BlinkIdWorker {
   // core objects
   #wasmModule?: BlinkIdWasmModule;
@@ -85,6 +124,9 @@ class BlinkIdWorker {
   progressStatusCallback?: ProgressStatusCallback;
   #showDemoOverlay = true;
   #showProductionOverlay = true;
+
+  /** Sanitized proxy URLs for Microblink services */
+  #proxyUrls?: SanitizedProxyUrls;
 
   /**
    * This method loads the Wasm module.
@@ -279,17 +321,30 @@ class BlinkIdWorker {
       throw new Error("Wasm module not loaded");
     }
 
-    // initialize with license key
+    // Initialize with license key
     const licenceUnlockResult = this.#wasmModule.initializeWithLicenseKey(
       settings.licenseKey,
       settings.userId,
       false,
     );
 
-    // check if we need to obtain a server permission
+    // Handle proxy URL configuration
+    if (settings.microblinkProxyUrl) {
+      this.#configureProxyUrls(
+        settings.microblinkProxyUrl,
+        licenceUnlockResult,
+      );
+    }
+
+    // Check if we need to obtain a server permission
     if (licenceUnlockResult.unlockResult === "requires-server-permission") {
+      // Use proxy URL if configured, otherwise use default
+      const baltazarUrl = this.#proxyUrls?.baltazar;
+
       const serverPermissionResponse =
-        await obtainNewServerPermission(licenceUnlockResult);
+        baltazarUrl && licenceUnlockResult.allowBaltazarProxy
+          ? await obtainNewServerPermission(licenceUnlockResult, baltazarUrl)
+          : await obtainNewServerPermission(licenceUnlockResult);
 
       const serverPermissionResult = this.#wasmModule.submitServerPermission(
         JSON.stringify(serverPermissionResponse),
@@ -379,6 +434,147 @@ class BlinkIdWorker {
 
   ping() {
     return 1;
+  }
+
+  /**
+   * Configures proxy URLs based on the provided settings and license permissions.
+   *
+   * @private
+   */
+  #configureProxyUrls(
+    proxyUrl: string,
+    licenceUnlockResult: {
+      allowPingProxy: boolean;
+      allowBaltazarProxy: boolean;
+      hasPing: boolean;
+      unlockResult: LicenseTokenState;
+    },
+  ): void {
+    if (!proxyUrl) {
+      console.debug(
+        "No proxy URL configured, using default Microblink servers",
+      );
+      return;
+    }
+
+    // Validate license permissions
+    this.#validateProxyPermissions(licenceUnlockResult, proxyUrl);
+
+    // Validate and sanitize the proxy URL
+    try {
+      this.#proxyUrls = this.#sanitizeProxyUrls(proxyUrl);
+
+      if (licenceUnlockResult.allowPingProxy) {
+        // Configure the WASM module with the sanitized URLs
+        this.#wasmModule!.setPingProxyUrl(this.#proxyUrls.ping);
+      }
+
+      console.debug("Proxy URLs configured successfully:", {
+        ping: this.#proxyUrls.ping,
+        baltazar: this.#proxyUrls.baltazar,
+      });
+    } catch (error) {
+      // Enhance error message with actionable advice
+      const enhancedError =
+        error instanceof ProxyUrlValidationError
+          ? new Error(
+              `${error.message}\n\nTroubleshooting:\n- Ensure the URL is accessible\n- Check HTTPS requirements\n- Verify proxy server implementation`,
+            )
+          : error;
+
+      throw enhancedError;
+    }
+  }
+
+  /**
+   * Validates that the license allows proxy usage.
+   *
+   * @private
+   */
+  #validateProxyPermissions(
+    licenceUnlockResult: {
+      allowPingProxy: boolean;
+      allowBaltazarProxy: boolean;
+      hasPing: boolean;
+      unlockResult: LicenseTokenState;
+    },
+    proxyUrl: string,
+  ): void {
+    if (
+      !licenceUnlockResult.allowPingProxy &&
+      !licenceUnlockResult.allowBaltazarProxy
+    ) {
+      throw new Error(
+        `Proxy URL "${proxyUrl}" was provided, but your license does not permit proxy usage.\n` +
+          `License permissions: pingProxy=${licenceUnlockResult.allowPingProxy}, ` +
+          `baltazarProxy=${licenceUnlockResult.allowBaltazarProxy}\n` +
+          `Check your license.`,
+      );
+    } else if (
+      !licenceUnlockResult.hasPing &&
+      licenceUnlockResult.unlockResult !== "requires-server-permission"
+    ) {
+      throw new Error(
+        `Microblink proxy URL is set but cannot be used because ping and online license check are disabled in your license.\n` +
+          `Check your license.`,
+      );
+    }
+  }
+
+  /**
+   * Validates and sanitizes proxy URLs for different Microblink services.
+   *
+   * @private
+   */
+  #sanitizeProxyUrls(baseUrl: string): SanitizedProxyUrls {
+    // Validate base URL format
+    let parsedUrl: URL;
+    try {
+      parsedUrl = new URL(baseUrl);
+    } catch (error) {
+      throw new ProxyUrlValidationError(
+        `Failed to create URL instance for provided Microblink proxy URL "${baseUrl}". Expected format: https://your-proxy.com or https://your-proxy.com/`,
+        baseUrl,
+      );
+    }
+
+    // Security validation: Ensure HTTPS in production
+    if (parsedUrl.protocol !== "https:") {
+      throw new ProxyUrlValidationError(
+        `Proxy URL validation failed for "${baseUrl}": HTTPS protocol must be used. Expected format: https://your-proxy.com or https://your-proxy.com/`,
+        baseUrl,
+      );
+    }
+
+    // Create sanitized URLs for each service
+    const baseUrlStr = parsedUrl.origin;
+
+    const baltazarUrl = this.#buildServiceUrl(
+      baseUrlStr,
+      "/api/v2/status/check",
+    );
+
+    return {
+      ping: baseUrlStr,
+      baltazar: baltazarUrl,
+    };
+  }
+
+  /**
+   * Builds a service URL by combining base URL with service path.
+   *
+   * @private
+   */
+  #buildServiceUrl(baseUrl: string, servicePath: string): string {
+    try {
+      const url = new URL(servicePath, baseUrl);
+      return url.toString();
+    } catch (error) {
+      throw new ProxyUrlValidationError(
+        `Failed to build service URL for path "${servicePath}"`,
+        baseUrl,
+      );
+    }
   }
 }
 

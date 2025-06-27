@@ -82,4 +82,6 @@ export type DocumentType =
   | "vehicle-registration"
   | "esaad-card"
   | "registration-certificate"
-  | "medical-marijuana-id";
+  | "medical-marijuana-id"
+  | "non-card-tribal-id"
+  | "diplomatic-id";

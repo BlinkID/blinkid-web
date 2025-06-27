@@ -144,46 +144,73 @@ export const HelpButton: ParentComponent<{ isProcessing: boolean }> = (
   props,
 ) => {
   const { t } = useLocalization();
-
   const { store, updateStore } = useBlinkIdUiStore();
+
   const [tooltipOpen, setTooltipOpen] = createSignal(false);
+  const [wasAutoShown, setWasAutoShown] = createSignal(false);
 
-  let timeoutId: number | undefined;
+  let showTooltipTimeoutId: number | undefined;
+  let hideTooltipTimeoutId: number | undefined;
 
-  onCleanup(() => {
-    if (timeoutId !== undefined) {
-      window.clearTimeout(timeoutId);
+  const clearTimeouts = () => {
+    if (showTooltipTimeoutId !== undefined) {
+      window.clearTimeout(showTooltipTimeoutId);
+      showTooltipTimeoutId = undefined;
     }
-  });
+    if (hideTooltipTimeoutId !== undefined) {
+      window.clearTimeout(hideTooltipTimeoutId);
+      hideTooltipTimeoutId = undefined;
+    }
+  };
 
+  const scheduleAutoHide = () => {
+    const displayDuration = store.blinkIdUxManager.getHelpTooltipHideDelay();
+    if (displayDuration && displayDuration > 0) {
+      hideTooltipTimeoutId = window.setTimeout(() => {
+        setTooltipOpen(false);
+      }, displayDuration);
+    }
+  };
+
+  const showTooltipAutomatically = () => {
+    const timeout = store.blinkIdUxManager.getHelpTooltipShowDelay();
+    if (timeout && timeout > 0) {
+      showTooltipTimeoutId = window.setTimeout(() => {
+        setTooltipOpen(true);
+        setWasAutoShown(true);
+        scheduleAutoHide();
+      }, timeout);
+    }
+  };
+
+  // Cleanup on component unmount
+  onCleanup(clearTimeouts);
+
+  // Handle processing state changes
   createEffect(() => {
-    if (timeoutId !== undefined) {
-      window.clearTimeout(timeoutId);
-      timeoutId = undefined;
+    if (!props.isProcessing) {
+      setTooltipOpen(false);
+      setWasAutoShown(false);
+      clearTimeouts();
+      return;
     }
 
-    if (props.isProcessing && !tooltipOpen()) {
-      const { showHelpTooltipTimeout } = store;
-
-      if (showHelpTooltipTimeout && showHelpTooltipTimeout > 0) {
-        timeoutId = window.setTimeout(() => {
-          setTooltipOpen(true);
-        }, showHelpTooltipTimeout);
-      }
+    // Show tooltip only if it hasn't been shown before
+    if (!tooltipOpen() && !wasAutoShown()) {
+      showTooltipAutomatically();
     }
   });
 
   return (
     <Tooltip.Root
-      positioning={{
-        placement: "top-end",
-      }}
+      positioning={{ placement: "top-end" }}
       open={tooltipOpen()}
       openDelay={300}
       closeDelay={300}
       onOpenChange={(details) => setTooltipOpen(details.open)}
     >
       <Tooltip.Trigger
+        part="help-button-part"
         aria-label={t.help_aria_label}
         class={styles.helpButton}
         onClick={() => updateStore({ showHelpModal: true })}
@@ -191,9 +218,8 @@ export const HelpButton: ParentComponent<{ isProcessing: boolean }> = (
         <QuestionIcon />
       </Tooltip.Trigger>
 
-      {/* Tooltip */}
       <Tooltip.Positioner>
-        <Tooltip.Content class={styles.tooltip}>
+        <Tooltip.Content part="help-button-tooltip-part" class={styles.tooltip}>
           <Tooltip.Arrow class={styles.arrow}>
             <Tooltip.ArrowTip />
           </Tooltip.Arrow>

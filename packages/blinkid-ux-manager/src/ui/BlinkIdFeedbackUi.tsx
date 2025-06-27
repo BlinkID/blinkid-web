@@ -160,7 +160,9 @@ export const BlinkIdFeedbackUi: Component<{
                   </div>
                 </Show>
 
-                <HelpButton isProcessing={isProcessing()} />
+                <Show when={store.showHelpButton}>
+                  <HelpButton isProcessing={isProcessing()} />
+                </Show>
               </>
             );
           }}

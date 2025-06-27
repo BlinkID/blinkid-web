@@ -122,15 +122,6 @@ export const UiFeedbackOverlay: Component<{
                   <SuccessFeedback />
                 </Match>
 
-                {/* Success – reused between multiple states */}
-                <Match
-                  when={
-                    props.uiState.reticleType === "done" || showSuccessOnly()
-                  }
-                >
-                  <SuccessFeedback />
-                </Match>
-
                 {/* flip card */}
                 <Match
                   when={

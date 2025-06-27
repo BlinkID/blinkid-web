@@ -15,6 +15,8 @@ export type LicenseUnlockResult = Readonly<{
   licenseError: string;
   showDemoOverlay: boolean;
   showProductionOverlay: boolean;
+  allowBaltazarProxy: boolean;
+  allowPingProxy: boolean;
 }>;
 
 export type LicenseTokenState =

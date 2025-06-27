@@ -19,8 +19,18 @@ export type FeedbackUiOptions = {
    * @defaultValue false
    */
   preserveSdkInstance?: boolean;
+  /**
+   * If set to `true`, the onboarding guide will be shown.
+   *
+   * @defaultValue true
+   */
   showOnboardingGuide?: boolean;
-  showHelpTooltipTimeout?: number;
+  /**
+   * If set to `true`, the help button will be shown.
+   *
+   * @defaultValue true
+   */
+  showHelpButton?: boolean;
 };
 
 export function createBlinkIdFeedbackUi(
@@ -31,7 +41,7 @@ export function createBlinkIdFeedbackUi(
     // todo - implement this
     preserveSdkInstance,
     showOnboardingGuide = true,
-    showHelpTooltipTimeout = 8000,
+    showHelpButton = true,
   }: FeedbackUiOptions = {},
 ) {
   // Use a ref or closure to handle the circular reference
@@ -52,7 +62,7 @@ export function createBlinkIdFeedbackUi(
         blinkIdUxManager={blinkIdUxManager}
         cameraManagerComponent={cameraManagerComponent}
         showOnboardingGuide={showOnboardingGuide}
-        showHelpTooltipTimeout={showHelpTooltipTimeout}
+        showHelpButton={showHelpButton}
         dismountFeedbackUi={() => dismountFeedbackUiRef.current()}
       >
         <BlinkIdFeedbackUi localization={localizationStrings} />

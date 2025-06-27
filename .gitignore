@@ -75,6 +75,9 @@ Find*.cmake
 # cmake_paths generator https://docs.conan.io/en/1.4/integrations/cmake/cmake_paths_generator.html
 conan_paths.*
 
+# clangd conf
+.clangd
+
 # Environment activation scripts produced by https://docs.conan.io/en/latest/mastering/virtualenv.html#virtualenv-generator
 activate_run.ps1
 activate_run.sh

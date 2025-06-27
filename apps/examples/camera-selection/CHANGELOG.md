@@ -1,5 +1,12 @@
 # example-camera-manager-selection
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/camera-manager@7.2.0
+
 ## 1.1.3
 
 ### Patch Changes
