@@ -111,6 +111,33 @@ export const createConstraints = (
 };
 
 /**
+ * Scores a camera based on its capabilities.
+ * Higher score means better camera.
+ */
+export function scoreCameraCapabilities(camera: Camera): number {
+  let score = 0;
+  if (camera.torchSupported) score += 1;
+  if (camera.singleShotSupported) score += 1;
+  return score;
+}
+
+/**
+ * Filters cameras based on facing mode.
+ */
+export function filterCamerasByFacing(
+  cameras: Camera[],
+  requestedFacing: FacingMode,
+): Camera[] {
+  return cameras.filter((camera) => {
+    if (requestedFacing === "back" || requestedFacing === undefined) {
+      return isBackCameraName(camera.name);
+    } else {
+      return isFrontCameraName(camera.name);
+    }
+  });
+}
+
+/**
  * Finds the ideal camera based on the provided constraints.
  *
  * @param cameras Available {@linkcode Camera}s on the device
@@ -125,139 +152,105 @@ export const findIdealCamera = async (
   resolution: VideoResolutionName = "4k",
   requestedFacing: FacingMode = "back",
 ): Promise<Camera> => {
+  // if there are no cameras, throw an error
   if (cameras.length === 0) {
     throw new Error("No cameras found");
   }
 
-  // early exit for iPhone 12+
-  // Dual wide camera is the best, if it exists and requested facing is back
-
-  if (requestedFacing === "back") {
-    const dualWideCamera = cameras.find((camera) =>
-      backDualWideCameraLocalizations.includes(camera.name),
-    );
-
-    if (dualWideCamera) {
-      // TODO: check if we need to pass the resolution here
-      // make sure to return Camera with active stream
-      await dualWideCamera.startStream(resolution);
-      return dualWideCamera;
-    }
+  // if there's only one camera, we can return it immediately
+  if (cameras.length === 1) {
+    await cameras[0].startStream(resolution);
+    return cameras[0];
   }
 
-  // Other devices
-  // Create a pool of cameras filtered by facing via keywords
-  const cameraPool = cameras.filter((camera) => {
-    // if no facing is requested, we default to back camera
-    if (requestedFacing === "back" || requestedFacing === undefined) {
-      return isBackCameraName(camera.name);
-    } else {
-      return isFrontCameraName(camera.name);
-    }
-  });
+  // Filter cameras by facing mode
+  let cameraPool = filterCamerasByFacing(cameras, requestedFacing);
 
   // if there's only one camera in the pool and it matches the requested facing
   // we can return it immediately
-  if (cameraPool.length === 1 && cameraPool[0].facingMode === requestedFacing) {
+  if (cameraPool.length === 1) {
     await cameraPool[0].startStream(resolution);
     return cameraPool[0];
-  }
-
-  // if we're looking for a front camera, return the last one in the pool if
-  // there are multiple ones
-  if (cameraPool.length > 0 && requestedFacing === "front") {
-    const lastCamera = cameraPool[cameraPool.length - 1];
-    // make sure to return Camera with active stream
-    await lastCamera.startStream(resolution);
-    return lastCamera;
   }
 
   // if there are no cameras in the pool, use all cameras
   if (cameraPool.length === 0) {
     console.debug("No camera found with requested facing, using all cameras");
-    cameraPool.push(...cameras);
+    cameraPool = cameras;
   }
 
-  // otherwise, we need to rank the cameras based on their capabilities
-  // these cameras are either back-facing or undefined facing
+  // early exit for iPhone 12+
+  // Dual wide camera is the best, if it exists and requested facing is back
+  if (requestedFacing === "back") {
+    const dualWideCamera = cameraPool.find((camera) =>
+      backDualWideCameraLocalizations.includes(camera.name),
+    );
 
-  /** Used to rank cameras via test streams */
+    if (dualWideCamera) {
+      await dualWideCamera.startStream(resolution);
+      return dualWideCamera;
+    }
+  }
+
+  // if we're looking for a front camera, return the last one in the pool
+  if (requestedFacing === "front") {
+    const lastCamera = cameraPool[cameraPool.length - 1];
+    await lastCamera.startStream(resolution);
+    return lastCamera;
+  }
+
+  // Score and test each camera
   const cameraScores = new Map<Camera, number>();
-  cameras.forEach((camera) => cameraScores.set(camera, 0));
-
-  // iPhone 8, 8 Plus and X have dual cameras, but not the virtual dual camera
-  // SE devices have only one camera
-  // Use this same branch for Android and desktop
+  let bestCamera: Camera | undefined;
+  let maxScore = -Infinity;
 
   // we iterate in reverse order to prioritize the last camera
   // this is usually the best camera on Android
   for (let i = cameraPool.length - 1; i >= 0; i--) {
     const camera = cameraPool[i];
 
-    // this will correct the facing in the Camera instance in case of a mismatch
-    await camera.startStream(resolution);
+    try {
+      // Start stream to detect capabilities
+      await camera.startStream(resolution);
 
-    // console.debug(JSON.stringify(camera, null, 2));
+      // Score the camera now that we have its capabilities
+      const score = scoreCameraCapabilities(camera);
+      cameraScores.set(camera, score);
 
-    // the stream is active from this point, we hand off an active stream when returning the `Camera` instance
-
-    if (!camera.facingMode) {
-      // desktop camera?
-      // we can't determine facing mode, so we just return the last camera
-      console.debug("No facing mode, returning last camera");
-      return camera;
-    }
-
-    // mismatched facing mode, move on to the next camera
-    if (camera.facingMode && camera.facingMode !== requestedFacing) {
-      console.debug("Mismatched facing mode, moving on to the next camera");
-      camera.stopStream();
-      continue;
-    }
-
-    // camera facing matches
-
-    // we now check for single-shot and torch support
-    // if it supports both, we know it's the best camera
-
-    if (camera.torchSupported && camera.singleShotSupported) {
-      console.debug("Camera supports torch and single shot, returning");
-      return camera;
-    }
-
-    // if it supports only one, we give it a score and pick the
-    // best one once we've iterated all cameras
-    if (camera.torchSupported) {
-      cameraScores.set(camera, cameraScores.get(camera)! + 1);
-    }
-
-    if (camera.singleShotSupported) {
-      cameraScores.set(camera, cameraScores.get(camera)! + 1);
-    }
-
-    // if it's the last camera in the pool, we need to pick one
-    if (i === 0) {
-      console.debug("Last camera in the pool, picking the best one");
-      // return the camera from the pool with the highest score from the Map
-      let maxKey: Camera | undefined;
-      let maxValue = -Infinity;
-
-      // TODO: check if we handle ties correctly
-      cameraScores.forEach((score, camera) => {
-        if (score > maxValue) {
-          maxValue = score;
-          maxKey = camera;
+      // Update best camera if this one has a higher score
+      if (score > maxScore) {
+        // Stop stream on previous best camera if it exists
+        if (bestCamera && bestCamera !== camera) {
+          bestCamera.stopStream();
         }
-      });
+        maxScore = score;
+        bestCamera = camera;
+      } else {
+        // Not the best camera, stop its stream
+        camera.stopStream();
+      }
 
-      return maxKey!;
+      // Perfect match - has both torch and single shot support
+      if (score === 2) {
+        console.debug("Found camera with all capabilities, returning early");
+        return camera;
+      }
+    } catch (error) {
+      console.warn(`Failed to test camera ${camera.name}:`, error);
+      // Stop stream if it was started
+      camera.stopStream();
     }
-
-    // otherwise we move on to the next camera
-    camera.stopStream();
   }
 
-  throw new Error("No camera found, should not happen");
+  // Return the best camera we found
+  if (bestCamera) {
+    return bestCamera;
+  }
+
+  // If we haven't found any working camera, try one last time with the first camera
+  const firstCamera = cameraPool[0];
+  await firstCamera.startStream(resolution);
+  return firstCamera;
 };
 
 /**

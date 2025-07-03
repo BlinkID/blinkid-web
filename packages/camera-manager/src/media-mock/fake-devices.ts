@@ -5,6 +5,7 @@
 import { MockiPhone15 } from "./fakeDevices/iPhone15";
 import { MockiPhoneSE } from "./fakeDevices/iPhoneSE";
 import { MockSamsungS21FE } from "./fakeDevices/SamsungS21FE";
+import { desktopSingleFrontFacing } from "./fakeDevices/DesktopSingleFrontFacing";
 
 /**
  * `deviceCapabilities` and `streamCapabilities` seem to be the same on iOS Safari
@@ -22,7 +23,8 @@ export type FakeDevice = {
 };
 
 export const fakeDevices: Record<string, FakeDevice> = {
-  "Samsung S21FE": MockSamsungS21FE,
   "iPhone 15": MockiPhone15,
   "iPhone SE": MockiPhoneSE,
+  "Samsung S21FE": MockSamsungS21FE,
+  "Desktop Single Front Facing": desktopSingleFrontFacing,
 } as const;

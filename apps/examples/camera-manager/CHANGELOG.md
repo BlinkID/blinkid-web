@@ -1,5 +1,12 @@
 # example-camera-manager
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/camera-manager@7.2.1
+
 ## 1.1.4
 
 ### Patch Changes

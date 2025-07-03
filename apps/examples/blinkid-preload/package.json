@@ -2,7 +2,7 @@
   "name": "example-blinkid-preload",
   "description": "Example BlinkID preload application",
   "private": true,
-  "version": "1.1.7",
+  "version": "1.1.8",
   "scripts": {
     "build": "vite build",
     "build:js-dev": "vite build --mode development",

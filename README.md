@@ -1,12 +1,8 @@
 # BlinkID Web
 
-# @microblink/blinkid [![npm](https://img.shields.io/npm/v/@microblink/blinkid.svg)](https://www.npmjs.com/package/@microblink/blinkid)
-
-
 ## Getting Started
 
 Please follow the documentation at [docs.microblink.com](https://docs.microblink.com/blinkid/v7/quickstart/)!
-
 
 ## Questions & Issues
 

@@ -1,5 +1,11 @@
 # @microblink/blinkid-worker
 
+## 7.3.1
+
+### Patch Changes
+
+- Fixed an issue where BlinkIdModule.worker.mjs was incorrectly requested over the network.
+
 ## 7.3.0
 
 ### Minor Changes

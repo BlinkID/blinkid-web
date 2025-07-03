@@ -155,17 +155,10 @@ class BlinkIdWorker {
     );
 
     const workerUrl = buildResourcePath(variantUrl, `${MODULE_NAME}.js`);
-    const pThreadWorkerUrl = buildResourcePath(
-      variantUrl,
-      `${MODULE_NAME}.worker.mjs`,
-    );
-
     const wasmUrl = buildResourcePath(variantUrl, `${MODULE_NAME}.wasm`);
     const dataUrl = buildResourcePath(variantUrl, `${MODULE_NAME}.data`);
 
     const crossOriginWorkerUrl = await getCrossOriginWorkerURL(workerUrl);
-    const crossOriginPThreadWorkerUrl =
-      await getCrossOriginWorkerURL(pThreadWorkerUrl);
 
     const imported = (await import(
       /* @vite-ignore */ crossOriginWorkerUrl
@@ -266,17 +259,7 @@ class BlinkIdWorker {
      */
     this.#wasmModule = await createModule({
       locateFile: (path) => {
-        let filePath: string;
-
-        // Since `locateFile` is synchronous, we can't use
-        // `getCrossOriginWorkerURL` here. Instead, we make an exception for the
-        // pthread worker, as we know its name in advance
-        if (path.includes(".worker.mjs")) {
-          filePath = crossOriginPThreadWorkerUrl;
-        } else {
-          filePath = `${variantUrl}/${wasmVariant}/${path}`;
-        }
-        return filePath;
+        return `${variantUrl}/${wasmVariant}/${path}`;
       },
       // pthreads build breaks without this:
       // "Failed to execute 'createObjectURL' on 'URL': Overload resolution failed."

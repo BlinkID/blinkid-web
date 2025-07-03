@@ -1,5 +1,11 @@
 # @microblink/camera-manager
 
+## 7.2.1
+
+### Patch Changes
+
+- Fixed an issue where the camera failed to start on certain Windows desktop devices.
+
 ## 7.2.0
 
 ### Minor Changes

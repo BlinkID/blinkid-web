@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# v7.3.1
+
+## Hotfix Release
+
+- Fixed an issue where the camera failed to start on certain Windows desktop devices.
+- Fixed an issue where BlinkIdModule.worker.mjs was incorrectly requested over the network.
+
+### Fixes
+
+- Fixed an issue where the camera failed to start on certain Windows desktop devices.
+- Fixed an issue where BlinkIdModule.worker.mjs was incorrectly requested over the network.
+
 # v7.3.0
 
 ## What's New
