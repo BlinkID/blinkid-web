@@ -1,0 +1,45 @@
+{
+  "name": "example-blinkid-photo-upload",
+  "description": "An example of BlinkID SDK with photo upload",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "vite build",
+    "build:js-dev": "vite build --mode development",
+    "clean": "rimraf dist public .turbo types tsconfig.tsbuildinfo",
+    "dev": "vite --host",
+    "lint": "concurrently pnpm:lint:types pnpm:lint:eslint",
+    "lint:eslint": "eslint ./src --max-warnings 0",
+    "lint:types": "tsc --emitDeclarationOnly false --noEmit",
+    "preview": "vite preview",
+    "watch": "vite build --watch --mode development"
+  },
+  "type": "module",
+  "dependencies": {
+    "@microblink/blinkid-core": "workspace:^",
+    "solid-js": "^1.9.5"
+  },
+  "devDependencies": {
+    "@microblink/tsconfig": "workspace:*",
+    "@microblink/utils": "workspace:*",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "10.0.1",
+    "eslint-define-config": "^1.24.1",
+    "eslint-plugin-solid": "0.14.5",
+    "mkcert-cli": "^1.5.0",
+    "prettier": "^3.5.1",
+    "rimraf": "^6.0.1",
+    "sass": "^1.85.0",
+    "serve": "^14.2.4",
+    "tsc-files": "^1.1.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.1",
+    "vite-plugin-mkcert": "^1.17.6",
+    "vite-plugin-qrcode": "^0.2.4",
+    "vite-plugin-solid": "^2.11.6",
+    "zx": "^8.5.2"
+  },
+  "license": "MIT"
+}
