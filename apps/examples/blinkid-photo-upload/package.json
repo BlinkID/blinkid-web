@@ -2,7 +2,7 @@
   "name": "example-blinkid-photo-upload",
   "description": "An example of BlinkID SDK with photo upload",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "vite build",
     "build:js-dev": "vite build --mode development",

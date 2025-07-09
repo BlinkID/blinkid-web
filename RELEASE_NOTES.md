@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+# v7.3.2
+
+## What's New
+
+- Added utilities for extracting images from `BlinkIdScanningResult`:
+  - `extractSideInputImage`
+  - `extractBarcodeImage`
+  - `extractSideDocumentImage`
+  - `extractFaceImage`
+  - `extractSignatureImage`
+
+### Bug Fixes
+
+- Fixed issues where EMBind was configured with invalid property mappings.
+
+
 # v7.3.1
 
 ## Hotfix Release

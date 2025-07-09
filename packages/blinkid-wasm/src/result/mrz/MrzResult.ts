@@ -2,6 +2,9 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
+import { DateResult } from "../../utils";
+
+
 /** Types of documents that can contain MRZ */
 export type MrzDocumentType =
   | "unknown"
@@ -56,10 +59,10 @@ export type MrzResult = {
   verified: boolean;
 
   /** The date of birth from MRZ */
-  dateOfBirth: Date;
+  dateOfBirth: DateResult<string>;
 
   /** The date of expiry from MRZ */
-  dateOfExpiry: Date;
+  dateOfExpiry: DateResult<string>;
 
   /** The type of the document */
   documentType: MrzDocumentType;

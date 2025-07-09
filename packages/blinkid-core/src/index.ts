@@ -11,6 +11,7 @@ export * from "./createProxyWorker";
 export * from "./defaultSessionSettings";
 export * from "./getCrossOriginWorkerURL";
 export * from "./getUserId";
+export * from "./utils";
 
 export type * from "@microblink/blinkid-wasm";
 export type * from "@microblink/blinkid-worker";

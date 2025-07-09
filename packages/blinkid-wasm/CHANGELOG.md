@@ -1,8 +1,28 @@
 # @microblink/blinkid-wasm
 
+## 7.3.2
+
+### Patch Changes
+
+#### Bug Fixes
+
+- Resolved issues where EMBind mapped properties with invalid names.
+  - `BarcodeResult.rawBytes` has been renamed to `rawData` to match the TypeScript declaration.
+  - `MrzResult` now correctly populates the `opt1` and `opt2` fields.
+  - Corrected casing in `MrzResult`: `primaryId` and `secondaryId` are no longer incorrectly mapped as `primaryID` and `secondaryID`.
+  - Fixed an issue where the `lowerLeft` property in `BlinkIdProcessResult` had a trailing space in its name.
+  - Fixed and clarified the type specification for `MrzResult.dateOfBirth` and `MrzResult.dateOfExpiry`: although the runtime values already matched the `DateResult<string>` type, the declaration was previously set to `Date`.
+
+- Removed unused property declarations from `BlinkIdScanningResult`:
+  - `inputImagesScanningSide`
+  - `barcodeInputImageScanningSide`
+  - `documentImagesScanningSide`
+  - `faceImageScanningSide`
+  - `signatureImageScanningSide`
+
 ## 7.3.1
 
-### Minor Changes
+### Patch Changes
 
 - Bumped version
 

@@ -7,7 +7,6 @@ import {
   DocumentClassInfo,
   RecognitionMode,
   SingleSideScanningResult,
-  ScanningSide,
   StringResult,
   DataMatchResult,
 } from "../result";
@@ -115,17 +114,6 @@ export type BlinkIdScanningResult = {
   driverLicenseDetailedInfo?: DriverLicenceDetailedInfo<StringResult>;
   /** The dependents info */
   dependentsInfo?: DependentInfo[];
-
-  /** The scanning sides corresponding to input image indices */
-  inputImagesScanningSide?: ScanningSide[];
-  /** The scanning side corresponding to barcode input image index */
-  barcodeInputImageScanningSide?: ScanningSide;
-  /** The scanning sides corresponding to document image indices */
-  documentImagesScanningSide?: ScanningSide[];
-  /** The scanning side corresponding to face image index */
-  faceImageScanningSide?: ScanningSide;
-  /** The scanning side corresponding to signature image index */
-  signatureImageScanningSide?: ScanningSide;
 
   /** The results of scanning each side of the document */
   subResults: SingleSideScanningResult[];
