@@ -2126,12 +2126,12 @@ in the tables in [SupportedDocuments.md](SupportedDocuments.md) file in this rep
 <tr><td>Date of expiry</td><td>Mandatory</td></tr>
 <tr><td>Date of issue</td><td>Mandatory</td></tr>
 <tr><td>Document number</td><td>Mandatory</td></tr>
-<tr><td>First name</td><td>Mandatory</td></tr>
 <tr><td>Issuing authority</td><td>Mandatory</td></tr>
 <tr><td>Last name</td><td>Mandatory</td></tr>
 <tr><td>MRZ</td><td>Mandatory</td></tr>
 <tr><td>Nationality</td><td>Mandatory</td></tr>
 <tr><td>Sex</td><td>Mandatory</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
 <tr><td>Place of birth</td><td>Optional</td></tr>
 
 <tr><th colspan=2>CANADA Social Security Card - Front</th></tr>
@@ -2343,13 +2343,63 @@ in the tables in [SupportedDocuments.md](SupportedDocuments.md) file in this rep
 <tr><td>Date of issue</td><td>Mandatory</td></tr>
 <tr><td>Document number</td><td>Mandatory</td></tr>
 <tr><td>Endorsements</td><td>Mandatory</td></tr>
-<tr><td>First name</td><td>Mandatory</td></tr>
 <tr><td>Last name</td><td>Mandatory</td></tr>
 <tr><td>Restrictions</td><td>Mandatory</td></tr>
 <tr><td>Sex</td><td>Mandatory</td></tr>
 <tr><td>Vehicle class</td><td>Mandatory</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
 
 <tr><th colspan=2>CANADA NEWFOUNDLAND AND LABRADOR Driver's License - Back</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Barcode data</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA NEWFOUNDLAND AND LABRADOR Identity Card - Front</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Address</td><td>Mandatory</td></tr>
+<tr><td>Date of birth</td><td>Mandatory</td></tr>
+<tr><td>Date of expiry</td><td>Mandatory</td></tr>
+<tr><td>Date of issue</td><td>Mandatory</td></tr>
+<tr><td>Document number</td><td>Mandatory</td></tr>
+<tr><td>Last name</td><td>Mandatory</td></tr>
+<tr><td>Sex</td><td>Mandatory</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA NEWFOUNDLAND AND LABRADOR Identity Card - Back</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Barcode data</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA NORTHWEST TERRITORIES Driver's License - Front</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Address</td><td>Mandatory</td></tr>
+<tr><td>Date of birth</td><td>Mandatory</td></tr>
+<tr><td>Date of expiry</td><td>Mandatory</td></tr>
+<tr><td>Date of issue</td><td>Mandatory</td></tr>
+<tr><td>Document number</td><td>Mandatory</td></tr>
+<tr><td>Endorsements</td><td>Mandatory</td></tr>
+<tr><td>Last name</td><td>Mandatory</td></tr>
+<tr><td>Personal ID number</td><td>Mandatory</td></tr>
+<tr><td>Restrictions</td><td>Mandatory</td></tr>
+<tr><td>Sex</td><td>Mandatory</td></tr>
+<tr><td>Vehicle class</td><td>Mandatory</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA NORTHWEST TERRITORIES Driver's License - Back</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Barcode data</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA NORTHWEST TERRITORIES Identity Card - Front</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Address</td><td>Mandatory</td></tr>
+<tr><td>Date of birth</td><td>Mandatory</td></tr>
+<tr><td>Date of expiry</td><td>Mandatory</td></tr>
+<tr><td>Date of issue</td><td>Mandatory</td></tr>
+<tr><td>Document number</td><td>Mandatory</td></tr>
+<tr><td>Last name</td><td>Mandatory</td></tr>
+<tr><td>Personal ID number</td><td>Mandatory</td></tr>
+<tr><td>Sex</td><td>Mandatory</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA NORTHWEST TERRITORIES Identity Card - Back</th></tr>
 <tr><th>Field</th><th>Presence</th></tr>
 <tr><td>Barcode data</td><td>Optional</td></tr>
 
@@ -2361,10 +2411,10 @@ in the tables in [SupportedDocuments.md](SupportedDocuments.md) file in this rep
 <tr><td>Date of issue</td><td>Mandatory</td></tr>
 <tr><td>Document number</td><td>Mandatory</td></tr>
 <tr><td>Endorsements</td><td>Mandatory</td></tr>
-<tr><td>First name</td><td>Mandatory</td></tr>
 <tr><td>Last name</td><td>Mandatory</td></tr>
 <tr><td>Restrictions</td><td>Mandatory</td></tr>
 <tr><td>Vehicle class</td><td>Mandatory</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
 <tr><td>Sex</td><td>Optional</td></tr>
 
 <tr><th colspan=2>CANADA NOVA SCOTIA Driver's License - Back</th></tr>
@@ -2378,8 +2428,8 @@ in the tables in [SupportedDocuments.md](SupportedDocuments.md) file in this rep
 <tr><td>Date of expiry</td><td>Mandatory</td></tr>
 <tr><td>Date of issue</td><td>Mandatory</td></tr>
 <tr><td>Document number</td><td>Mandatory</td></tr>
-<tr><td>First name</td><td>Mandatory</td></tr>
 <tr><td>Last name</td><td>Mandatory</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
 <tr><td>Sex</td><td>Optional</td></tr>
 
 <tr><th colspan=2>CANADA NOVA SCOTIA Identity Card - Back</th></tr>
@@ -2463,11 +2513,26 @@ in the tables in [SupportedDocuments.md](SupportedDocuments.md) file in this rep
 <tr><td>Endorsements</td><td>Mandatory</td></tr>
 <tr><td>Last name</td><td>Mandatory</td></tr>
 <tr><td>Restrictions</td><td>Mandatory</td></tr>
-<tr><td>Sex</td><td>Mandatory</td></tr>
 <tr><td>Vehicle class</td><td>Mandatory</td></tr>
 <tr><td>First name</td><td>Optional</td></tr>
+<tr><td>Sex</td><td>Optional</td></tr>
 
 <tr><th colspan=2>CANADA PRINCE EDWARD ISLAND Driver's License - Back</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Barcode data</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA PRINCE EDWARD ISLAND Identity Card - Front</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Address</td><td>Mandatory</td></tr>
+<tr><td>Date of birth</td><td>Mandatory</td></tr>
+<tr><td>Date of expiry</td><td>Mandatory</td></tr>
+<tr><td>Date of issue</td><td>Mandatory</td></tr>
+<tr><td>Document number</td><td>Mandatory</td></tr>
+<tr><td>Last name</td><td>Mandatory</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
+<tr><td>Sex</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA PRINCE EDWARD ISLAND Identity Card - Back</th></tr>
 <tr><th>Field</th><th>Presence</th></tr>
 <tr><td>Barcode data</td><td>Optional</td></tr>
 
@@ -2531,14 +2596,29 @@ in the tables in [SupportedDocuments.md](SupportedDocuments.md) file in this rep
 <tr><td>Date of expiry</td><td>Mandatory</td></tr>
 <tr><td>Date of issue</td><td>Mandatory</td></tr>
 <tr><td>Document number</td><td>Mandatory</td></tr>
-<tr><td>First name</td><td>Mandatory</td></tr>
 <tr><td>Last name</td><td>Mandatory</td></tr>
 <tr><td>Sex</td><td>Mandatory</td></tr>
 <tr><td>Vehicle class</td><td>Mandatory</td></tr>
 <tr><td>Endorsements</td><td>Optional</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
 <tr><td>Restrictions</td><td>Optional</td></tr>
 
 <tr><th colspan=2>CANADA YUKON Driver's License - Back</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Barcode data</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA YUKON Identity Card - Front</th></tr>
+<tr><th>Field</th><th>Presence</th></tr>
+<tr><td>Address</td><td>Mandatory</td></tr>
+<tr><td>Date of birth</td><td>Mandatory</td></tr>
+<tr><td>Date of expiry</td><td>Mandatory</td></tr>
+<tr><td>Date of issue</td><td>Mandatory</td></tr>
+<tr><td>Document number</td><td>Mandatory</td></tr>
+<tr><td>Last name</td><td>Mandatory</td></tr>
+<tr><td>Sex</td><td>Mandatory</td></tr>
+<tr><td>First name</td><td>Optional</td></tr>
+
+<tr><th colspan=2>CANADA YUKON Identity Card - Back</th></tr>
 <tr><th>Field</th><th>Presence</th></tr>
 <tr><td>Barcode data</td><td>Optional</td></tr>
 

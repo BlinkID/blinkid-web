@@ -14,8 +14,14 @@ import { CameraManager } from "../core/CameraManager";
 import { cameraManagerStore } from "../core/cameraManagerStore";
 import { DismountCallback } from "./createCameraManagerUi";
 
+/**
+ * The CameraUiStoreContext.
+ */
 const CameraUiStoreContext = createContext<CameraUiStore>();
 
+/**
+ * Creates a camera manager solid store.
+ */
 function createCameraManagerSolidStore() {
   return createWithSignal(cameraManagerStore);
 }
@@ -28,10 +34,16 @@ function createCameraManagerSolidStore() {
 export type CameraUiStore = {
   /** Function which will dismount the component */
   dismountCameraUi: () => void;
+
+  /** The camera manager. */
   cameraManager: CameraManager;
+
   /** This is the camera manager zustand store converted to SolidJS' signal store via `solid-zustand` */
   cameraManagerSolidStore: ReturnType<typeof createCameraManagerSolidStore>;
+
+  /** The mountable HTML element. */
   mountTarget: MountableElement;
+
   /** Whether to show the mirror camera button */
   showMirrorCameraButton: boolean;
   /** Whether to show the torch button */
@@ -44,6 +56,9 @@ export type CameraUiStore = {
   addOnDismountCallback: (fn: DismountCallback) => () => void;
 };
 
+/**
+ * The CameraUiStoreProvider component.
+ */
 export const CameraUiStoreProvider: ParentComponent<{
   dismountCameraUi: () => void;
   cameraManager: CameraManager;
@@ -87,6 +102,9 @@ export const CameraUiStoreProvider: ParentComponent<{
   );
 };
 
+/**
+ * The useCameraUiStore hook.
+ */
 export function useCameraUiStore() {
   const ctx = useContext(CameraUiStoreContext);
   if (!ctx) {

@@ -9,7 +9,14 @@
   https://www.w3.org/TR/mediacapture-streams/
  */
 
+/**
+ * The focus mode.
+ */
 type FocusMode = "none" | "manual" | "single-shot" | "continuous";
+
+/**
+ * The exposure mode.
+ */
 type ExposureMode = "continuous" | "manual";
 
 /**
@@ -17,7 +24,13 @@ type ExposureMode = "continuous" | "manual";
  */
 type SteppedRange = Partial<{ min: number; max: number; step: number }>;
 
+/**
+ * The global interface.
+ */
 declare global {
+  /**
+   * The media track capabilities.
+   */
   interface MediaTrackCapabilities {
     torch?: MediaTrackSettings["torch"];
     focusMode?: FocusMode[];
@@ -33,6 +46,9 @@ declare global {
     powerEfficient?: boolean[];
   }
 
+  /**
+   * The media track settings.
+   */
   interface MediaTrackSettings {
     torch?: boolean;
     focusMode?: FocusMode;
@@ -56,6 +72,9 @@ declare global {
     focusMode?: FocusMode[];
   }
 
+  /**
+   * The media track supported constraints.
+   */
   interface MediaTrackSupportedConstraints {
     torch?: boolean;
     volume?: boolean;
@@ -64,6 +83,9 @@ declare global {
     focusMode?: FocusMode[];
   }
 
+  /**
+   * The window interface.
+   */
   interface Window {
     __mbCameraManagerCssCode?: string;
   }

@@ -4,7 +4,11 @@
 
 import { StringResult } from "../result";
 
-/** Smart date result structure. */
+/**
+ * Smart date result structure.
+ *
+ * @template S - The type of the string result.
+ */
 export type DateResult<S extends string | StringResult> = {
   /** Day in month [1-31] */
   day?: number;

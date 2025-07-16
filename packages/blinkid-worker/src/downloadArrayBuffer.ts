@@ -55,6 +55,9 @@ export async function downloadArrayBuffer(
   return allChunks.buffer;
 }
 
+/**
+ * The download progress.
+ */
 export type DownloadProgress = {
   loaded: number;
   contentLength: number;

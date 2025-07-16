@@ -4,11 +4,25 @@
 
 // emscripten-types.ts
 
-// WebAssembly types for compatibility
+/**
+ * The WebAssembly module, for compatibility.
+ *
+ * @ignore
+ */
 export interface WebAssemblyModule {}
 
+/**
+ * The environment type.
+ *
+ * @ignore
+ */
 export type EnvironmentType = "WEB" | "NODE" | "SHELL" | "WORKER";
 
+/**
+ * Options for a C call.
+ *
+ * @ignore
+ */
 export interface CCallOpts {
   async?: boolean | undefined;
 }
@@ -19,10 +33,10 @@ export interface CCallOpts {
  * JavaScript engine. The memory used by the object must be cleaned up manually
  * by calling the delete() method.
  *
- * {@link}
- * https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html#memory-management
+ * @see https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html#memory-management for more details.
+ *
+ * @ignore
  */
-
 export type EmbindObject<T extends {}> = T & {
   delete: () => void;
   isDeleted: () => boolean;
@@ -30,12 +44,24 @@ export type EmbindObject<T extends {}> = T & {
   isAliasOf: (other: any) => boolean;
 };
 
+/**
+ * Removes the internals of an Embind object.
+ *
+ * @param T - The type of the object to remove the internals from.
+ * @returns The object with the internals removed.
+ *
+ * @ignore
+ */
 export type RemoveEmbindInternals<T> = Omit<
   T,
   "delete" | "isDeleted" | "deleteLater" | "isAliasOf"
 >;
 
-// Main EmscriptenModule interface
+/**
+ * The main EmscriptenModule interface.
+ *
+ * @ignore
+ */
 export interface EmscriptenModule {
   print(str: string): void;
   printErr(str: string): void;
@@ -128,6 +154,8 @@ export interface EmscriptenModule {
  * application's types.
  *
  * @param moduleOverrides Default properties for the initialized module.
+ *
+ * @ignore
  */
 export type EmscriptenModuleFactory<
   T extends EmscriptenModule = EmscriptenModule,

@@ -7,8 +7,14 @@ import { createStore as createZustandStore } from "zustand/vanilla";
 import { Camera, FacingMode } from "./Camera";
 import { CameraError } from "./cameraUtils";
 
+/**
+ * The playback state of the camera manager.
+ */
 export type PlaybackState = "idle" | "playback" | "capturing";
 
+/**
+ * The camera manager store.
+ */
 export type CameraManagerStore = {
   /**
    * The video element that will display the camera stream.
@@ -32,7 +38,7 @@ export type CameraManagerStore = {
   selectedCamera?: Camera;
 
   /**
-   * Capturing / playing / idle
+   * Capturing / playing / idle.
    */
   playbackState: PlaybackState;
 
@@ -57,7 +63,11 @@ export type CameraManagerStore = {
   errorState?: Error | CameraError;
 };
 
-// We can use optional properties to select what to reset
+/**
+ * The initial state of the camera manager store.
+ *
+ * We can use optional properties to select what to reset.
+ */
 const initialState: CameraManagerStore = {
   cameras: [],
   facingFilter: undefined,
@@ -80,7 +90,7 @@ const initialState: CameraManagerStore = {
  *
  * Prefer using subscriptions if you require observable state.
  *
- * {@link https://github.com/pmndrs/zustand}
+ * @see https://github.com/pmndrs/zustand for more details.
  */
 export const cameraManagerStore = createZustandStore<CameraManagerStore>()(
   // this is important! Otherwise solid-zustand will start mutating the initial state
@@ -89,6 +99,7 @@ export const cameraManagerStore = createZustandStore<CameraManagerStore>()(
 
 /**
  * Resets the store to its initial state.
+ *
  * Stops all camera streams as a side effect.
  */
 export const resetCameraManagerStore = () => {

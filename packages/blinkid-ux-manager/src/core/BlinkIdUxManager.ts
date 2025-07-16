@@ -23,20 +23,33 @@ import { sleep } from "./utils";
 import { DocumentClassFilter } from "./DocumentClassFilter";
 
 /**
- * Manages the UX of the BlinkID SDK.
+ * The BlinkIdUxManager class. This is the main class that manages the UX of
+ * the BlinkID SDK. It is responsible for handling the UI state, the timeout,
+ * the help tooltip, and the document class filter.
  */
 export class BlinkIdUxManager {
+  /** The camera manager. */
   declare cameraManager: CameraManager;
+  /** The scanning session. */
   declare scanningSession: RemoteScanningSession;
+  /** Whether the demo overlay should be shown. */
   declare showDemoOverlay: boolean;
+  /** Whether the production overlay should be shown. */
   declare showProductionOverlay: boolean;
+  /** The current UI state. */
   declare uiState: BlinkIdUiState;
+  /** The raw UI state key. */
   declare rawUiStateKey: BlinkIdUiStateKey;
+  /** The feedback stabilizer. */
   declare feedbackStabilizer: FeedbackStabilizer<typeof blinkIdUiStateMap>;
+  /** The session settings. */
   declare sessionSettings: BlinkIdSessionSettings;
 
+  /** The success process result. */
   #successProcessResult: ProcessResultWithBuffer | undefined;
+  /** Whether the thread is busy. */
   #threadBusy = false;
+  /** The scanning session timeout ID. */
   #timeoutId?: number;
   /** Timeout duration in ms for the scanning session. If null, timeout won't be triggered ever. */
   #timeoutDuration: number | null = 10000; // 10s
@@ -45,17 +58,29 @@ export class BlinkIdUxManager {
   /** Time in ms before the help tooltip is hidden. If null, tooltip won't be auto hidden. */
   #helpTooltipHideDelay: number | null = 5000; // 5s
 
+  /** The callbacks for when the UI state changes. */
   #onUiStateChangedCallbacks = new Set<(uiState: BlinkIdUiState) => void>();
+  /** The callbacks for when a scan result is available. */
   #onResultCallbacks = new Set<(result: BlinkIdScanningResult) => void>();
+  /** The callbacks for when a frame is processed. */
   #onFrameProcessCallbacks = new Set<
     (frameResult: ProcessResultWithBuffer) => void
   >();
+  /** The callbacks for when an error occurs during processing. */
   #onErrorCallbacks = new Set<(errorState: BlinkIdProcessingError) => void>();
+  /** The callbacks for when a document is filtered. */
   #onDocumentFilteredCallbacks = new Set<
     (documentClassInfo: DocumentClassInfo) => void
   >();
+  /** The document class filter. */
   #documentClassFilter?: DocumentClassFilter;
 
+  /**
+   * The constructor for the BlinkIdUxManager class.
+   *
+   * @param cameraManager - The camera manager.
+   * @param scanningSession - The scanning session.
+   */
   constructor(
     cameraManager: CameraManager,
     scanningSession: RemoteScanningSession,
@@ -118,14 +143,16 @@ export class BlinkIdUxManager {
   }
 
   /**
-   * Indicates whether the UI should display the demo overlay. Controlled by the license property.
+   * Indicates whether the UI should display the demo overlay. Controlled by the
+   * license property.
    */
   getShowDemoOverlay(): boolean {
     return this.showDemoOverlay;
   }
 
   /**
-   * Indicates whether the UI should display the production overlay. Controlled by the license property.
+   * Indicates whether the UI should display the production overlay. Controlled by
+   * the license property.
    */
   getShowProductionOverlay(): boolean {
     return this.showProductionOverlay;
@@ -133,7 +160,6 @@ export class BlinkIdUxManager {
 
   /**
    * Returns the timeout duration in ms. Null if timeout won't be triggered ever.
-   * @returns The timeout duration in ms.
    */
   getTimeoutDuration(): number | null {
     return this.#timeoutDuration;
@@ -141,7 +167,6 @@ export class BlinkIdUxManager {
 
   /**
    * Returns the time in ms before the help tooltip is shown. Null if tooltip won't be auto shown.
-   * @returns The time in ms before the help tooltip is shown.
    */
   getHelpTooltipShowDelay(): number | null {
     return this.#helpTooltipShowDelay;
@@ -149,7 +174,6 @@ export class BlinkIdUxManager {
 
   /**
    * Returns the time in ms before the help tooltip is hidden. Null if tooltip won't be auto hidden.
-   * @returns The time in ms before the help tooltip is hidden.
    */
   getHelpTooltipHideDelay(): number | null {
     return this.#helpTooltipHideDelay;
@@ -157,8 +181,11 @@ export class BlinkIdUxManager {
 
   /**
    * Adds a callback function to be executed when the UI state changes.
-   * @param callback - Function to be called when UI state changes. Receives the new UI state as parameter.
+   *
+   * @param callback - Function to be called when UI state changes. Receives the
+   * new UI state as parameter.
    * @returns A cleanup function that removes the callback when called.
+   *
    * @example
    * const cleanup = manager.addOnUiStateChangedCallback((newState) => {
    *   console.log('UI state changed to:', newState);
@@ -175,8 +202,10 @@ export class BlinkIdUxManager {
 
   /**
    * Registers a callback function to be called when a scan result is available.
+   *
    * @param callback - A function that will be called with the scan result.
-   * @returns A cleanup function that, when called, will remove the registered callback.
+   * @returns A cleanup function that, when called, will remove the registered
+   * callback.
    *
    * @example
    *
@@ -196,8 +225,11 @@ export class BlinkIdUxManager {
 
   /**
    * Registers a callback function to filter document classes.
-   * @param callback - A function that will be called with the document class info.
-   * @returns A cleanup function that, when called, will remove the registered callback.
+   *
+   * @param callback - A function that will be called with the document class
+   * info.
+   * @returns A cleanup function that, when called, will remove the registered
+   * callback.
    *
    * @example
    * const cleanup = manager.addDocumentClassFilter((docClassInfo) => {
@@ -216,8 +248,11 @@ export class BlinkIdUxManager {
 
   /**
    * Registers a callback function to be called when a frame is processed.
-   * @param callback - A function that will be called with the frame analysis result.
-   * @returns A cleanup function that, when called, will remove the registered callback.
+   *
+   * @param callback - A function that will be called with the frame analysis
+   * result.
+   * @returns A cleanup function that, when called, will remove the registered
+   * callback.
    *
    * @example
    * const cleanup = manager.addOnFrameProcessCallback((frameResult) => {
@@ -237,9 +272,12 @@ export class BlinkIdUxManager {
   }
 
   /**
-   * Registers a callback function to be called when an error occurs during processing.
+   * Registers a callback function to be called when an error occurs during
+   * processing.
+   *
    * @param callback - A function that will be called with the error state.
-   * @returns A cleanup function that, when called, will remove the registered callback.
+   * @returns A cleanup function that, when called, will remove the registered
+   * callback.
    *
    * @example
    * const cleanup = manager.addOnErrorCallback((error) => {
@@ -256,6 +294,11 @@ export class BlinkIdUxManager {
     };
   }
 
+  /**
+   * Invokes the onError callbacks.
+   *
+   * @param errorState - The error state.
+   */
   #invokeOnErrorCallbacks = (errorState: BlinkIdProcessingError) => {
     for (const callback of this.#onErrorCallbacks) {
       try {
@@ -266,6 +309,22 @@ export class BlinkIdUxManager {
     }
   };
 
+  /**
+   * Registers a callback function to be called when a document is filtered.
+   *
+   * @param callback - A function that will be called with the document class
+   * info.
+   * @returns A cleanup function that, when called, will remove the registered
+   * callback.
+   *
+   * @example
+   * const cleanup = manager.addOnDocumentFilteredCallback((docClassInfo) => {
+   *   console.log('Document filtered:', docClassInfo);
+   * });
+   *
+   * // Later, to remove the callback:
+   * cleanup();
+   */
   addOnDocumentFilteredCallback(
     callback: (documentClassInfo: DocumentClassInfo) => void,
   ) {
@@ -275,6 +334,11 @@ export class BlinkIdUxManager {
     };
   }
 
+  /**
+   * Invokes the onDocumentFiltered callbacks.
+   *
+   * @param documentClassInfo - The document class info.
+   */
   #invokeOnDocumentFilteredCallbacks = (
     documentClassInfo: DocumentClassInfo,
   ) => {
@@ -287,6 +351,11 @@ export class BlinkIdUxManager {
     }
   };
 
+  /**
+   * Invokes the onResult callbacks.
+   *
+   * @param result - The scan result.
+   */
   #invokeOnResultCallbacks = (result: BlinkIdScanningResult) => {
     for (const callback of this.#onResultCallbacks) {
       try {
@@ -297,6 +366,11 @@ export class BlinkIdUxManager {
     }
   };
 
+  /**
+   * Invokes the onFrameProcess callbacks.
+   *
+   * @param frameResult - The frame result.
+   */
   #invokeOnFrameProcessCallbacks = (frameResult: ProcessResultWithBuffer) => {
     for (const callback of this.#onFrameProcessCallbacks) {
       try {
@@ -307,6 +381,11 @@ export class BlinkIdUxManager {
     }
   };
 
+  /**
+   * Invokes the onUiStateChanged callbacks.
+   *
+   * @param uiState - The UI state.
+   */
   #invokeOnUiStateChangedCallbacks = (uiState: BlinkIdUiState) => {
     for (const callback of this.#onUiStateChangedCallbacks) {
       try {
@@ -317,6 +396,13 @@ export class BlinkIdUxManager {
     }
   };
 
+  /**
+   * The frame capture callback. This is the main function that is called when a
+   * new frame is captured. It is responsible for processing the frame and
+   * updating the UI state.
+   *
+   * @param imageData - The image data.
+   */
   #frameCaptureCallback = async (imageData: ImageData) => {
     if (this.#threadBusy) {
       return;
@@ -376,11 +462,15 @@ export class BlinkIdUxManager {
   };
 
   /**
-   * Sets the duration after which the scanning session will timeout. The timeout can occur in various scenarios
-   * and may be restarted by different scanning events.
+   * Sets the duration after which the scanning session will timeout. The
+   * timeout can occur in various scenarios and may be restarted by different
+   * scanning events.
    *
-   * @param duration The timeout duration in milliseconds. If null, timeout won't be triggered ever.
-   * @param setHelpTooltipShowDelay If true, also sets the help tooltip show delay to half of the provided duration. If timeout duration is null, help tooltip show delay will be set to null. Defaults to true.
+   * @param duration The timeout duration in milliseconds. If null, timeout won't
+   * be triggered ever.
+   * @param setHelpTooltipShowDelay If true, also sets the help tooltip show
+   * delay to half of the provided duration. If timeout duration is null, help
+   * tooltip show delay will be set to null. Defaults to true.
    * @throws {Error} Throws an error if duration is less than or equal to 0 when not null.
    */
   setTimeoutDuration(duration: number | null, setHelpTooltipShowDelay = true) {
@@ -398,8 +488,11 @@ export class BlinkIdUxManager {
   /**
    * Sets the duration in milliseconds before the help tooltip is shown.
    * A value of null means the help tooltip will not be auto shown.
-   * @param duration The duration in milliseconds before the help tooltip is shown. If null, tooltip won't be auto shown.
-   * @throws {Error} Throws an error if duration is less than or equal to 0 when not null.
+   *
+   * @param duration The duration in milliseconds before the help tooltip is
+   * shown. If null, tooltip won't be auto shown.
+   * @throws {Error} Throws an error if duration is less than or equal to 0 when
+   * not null.
    */
   setHelpTooltipShowDelay(duration: number | null) {
     if (duration !== null && duration <= 0) {
@@ -412,8 +505,11 @@ export class BlinkIdUxManager {
   /**
    * Sets the duration in milliseconds before the help tooltip is hidden.
    * A value of null means the help tooltip will not be auto hidden.
-   * @param duration The duration in milliseconds before the help tooltip is hidden. If null, tooltip won't be auto hidden.
-   * @throws {Error} Throws an error if duration is less than or equal to 0 when not null.
+   *
+   * @param duration The duration in milliseconds before the help tooltip is
+   * hidden. If null, tooltip won't be auto hidden.
+   * @throws {Error} Throws an error if duration is less than or equal to 0 when
+   * not null.
    */
   setHelpTooltipHideDelay(duration: number | null) {
     if (duration !== null && duration <= 0) {
@@ -423,6 +519,11 @@ export class BlinkIdUxManager {
     this.#helpTooltipHideDelay = duration;
   }
 
+  /**
+   * Sets the timeout for the scanning session.
+   *
+   * @param uiState - The UI state.
+   */
   #setTimeout = (uiState: BlinkIdUiState) => {
     if (this.#timeoutDuration === null) {
       console.debug("⏳🟢 timeout duration is null, not starting timeout");
@@ -446,6 +547,13 @@ export class BlinkIdUxManager {
     }, this.#timeoutDuration);
   };
 
+  /**
+   * Handles the UI state changes. This is the main function that is called
+   * when a new frame is processed. It is responsible for updating the UI state,
+   * handling the timeout, and handling the first side captured states.
+   *
+   * @param processResult - The process result.
+   */
   #handleUiStateChanges = (processResult: ProcessResultWithBuffer) => {
     const nextUiStateKey = getUiStateKey(
       processResult,
@@ -472,7 +580,14 @@ export class BlinkIdUxManager {
     void this.#handleUiStateChange(newUiState);
   };
 
-  // Side-effects are handled here
+  /**
+   * Handles the UI state change. This is the main function that is called
+   * when a new UI state is set. It is responsible for handling the timeout,
+   * handling the first side captured states, and handling the UNSUPPORTED_DOCUMENT
+   * state.
+   *
+   * @param uiState - The UI state.
+   */
   #handleUiStateChange = async (uiState: BlinkIdUiState) => {
     if (this.#timeoutDuration !== null) {
       this.#setTimeout(uiState);
@@ -509,10 +624,22 @@ export class BlinkIdUxManager {
     }
   };
 
+  /**
+   * Extracts the document class info from the process result.
+   *
+   * @param processResult - The process result.
+   * @returns The document class info.
+   */
   #extractDocumentClassInfo(processResult: ProcessResultWithBuffer) {
     return processResult.inputImageAnalysisResult.documentClassInfo;
   }
 
+  /**
+   * Checks if the document class is classified.
+   *
+   * @param documentClassInfo - The document class info.
+   * @returns Whether the document class is classified.
+   */
   #isDocumentClassified(documentClassInfo: DocumentClassInfo): boolean {
     return (
       documentClassInfo?.country !== undefined &&
@@ -521,7 +648,7 @@ export class BlinkIdUxManager {
   }
 
   /**
-   * Clears any active timeout.
+   * Clears the scanning session timeout.
    */
   clearScanTimeout = () => {
     // if timeout id is not set, we don't want to clear it
@@ -534,9 +661,9 @@ export class BlinkIdUxManager {
   };
 
   /**
-   * Resets the manager and clears all callbacks.
+   * Resets the BlinkIdUxManager.
    *
-   * Does not reset the camera manager or the BlinkID core instance.
+   * Does not reset the camera manager or the scanning session.
    */
   reset() {
     this.clearScanTimeout();

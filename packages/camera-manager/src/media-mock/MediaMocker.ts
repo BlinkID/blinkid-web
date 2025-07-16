@@ -6,14 +6,20 @@ import { FacingMode } from "../core/Camera";
 import { createInputDeviceInfo } from "./createInputDeviceInfo";
 import { defineProperty } from "./defineProperty";
 import { ExtendedCameraInfo, fakeDevices } from "./fake-devices";
-import { getFPSFromConstraints, getResolutionFromConstraints } from "./utils";
+import { getResolutionFromConstraints } from "./utils";
 
+/**
+ * Options for the MediaMocker.
+ */
 export type MediaMockerOptions = Partial<{
   device: keyof typeof fakeDevices;
   facing: FacingMode;
   reverseCameraOrder: boolean;
 }>;
 
+/**
+ * The MediaMocker class.
+ */
 class MediaMocker {
   fakeDevice: keyof typeof fakeDevices = "iPhone 15";
   facing: FacingMode = "back";
@@ -24,6 +30,11 @@ class MediaMocker {
   #unmockEnumerateDevices?: () => void;
   #unmockGetUserMedia?: () => void;
 
+  /**
+   * Creates a new MediaMocker.
+   *
+   * @param options - The options for the MediaMocker.
+   */
   constructor(options?: MediaMockerOptions) {
     this.fakeDevice = options?.device ?? this.fakeDevice;
     this.facing = options?.facing ?? this.facing;
@@ -34,19 +45,37 @@ class MediaMocker {
     }
   }
 
+  /**
+   * Reverses the camera order.
+   */
   reverseCameraOrder() {
     this.cameras.reverse();
   }
 
+  /**
+   * Gets the camera devices.
+   *
+   * @returns The camera devices.
+   */
   getCameraDevices() {
     return fakeDevices[this.fakeDevice].cameras;
   }
 
+  /**
+   * Sets the device.
+   *
+   * @param device - The device to set.
+   */
   setDevice(device: keyof typeof fakeDevices) {
     this.fakeDevice = device;
     this.cameras = structuredClone(fakeDevices[this.fakeDevice].cameras);
   }
 
+  /**
+   * Configures the MediaMocker.
+   *
+   * @param options - The options for the MediaMocker.
+   */
   configure(options: MediaMockerOptions) {
     if (options.device) {
       this.fakeDevice = options.device;
@@ -62,6 +91,9 @@ class MediaMocker {
     }
   }
 
+  /**
+   * Mocks the enumerateDevices method.
+   */
   mockEnumerateDevices() {
     const unmockEnumerateDevices = defineProperty(
       navigator.mediaDevices,
@@ -77,17 +109,26 @@ class MediaMocker {
     this.#unmockEnumerateDevices = unmockEnumerateDevices;
   }
 
+  /**
+   * Unmocks the enumerateDevices method.
+   */
   unmockEnumerateDevices() {
     if (this.#unmockEnumerateDevices) {
       this.#unmockEnumerateDevices();
     }
   }
 
+  /**
+   * Mocks the MediaDevices methods.
+   */
   mock() {
     this.mockEnumerateDevices();
     this.mockGetUserMedia();
   }
 
+  /**
+   * Mocks the getUserMedia method.
+   */
   mockGetUserMedia() {
     const unmockGetUserMedia = defineProperty(
       navigator.mediaDevices,
@@ -100,23 +141,36 @@ class MediaMocker {
     this.#unmockGetUserMedia = unmockGetUserMedia;
   }
 
+  /**
+   * Unmocks the getUserMedia method.
+   */
   unmockGetUserMedia() {
     if (this.#unmockGetUserMedia) {
       this.#unmockGetUserMedia();
     }
   }
 
+  /**
+   * Unmocks the MediaDevices methods.
+   */
   unmock() {
     this.unmockEnumerateDevices();
     this.unmockGetUserMedia();
     this.resetStreamConstraints();
   }
 
+  /**
+   * Resets the stream constraints.
+   */
   resetStreamConstraints() {
     this.#activeStreamConstraints = undefined;
   }
 
   /**
+   * Creates a fake stream.
+   *
+   * @param constraints - The constraints for the stream.
+   * @returns The fake stream.
    * @see MediaDevices.getUserMedia
    */
   createFakeStream(constraints: MediaStreamConstraints): Promise<MediaStream> {
@@ -132,6 +186,11 @@ class MediaMocker {
     return Promise.resolve(fakeStream);
   }
 
+  /**
+   * Creates a fake track.
+   *
+   * @returns The fake track.
+   */
   createFakeTrack(): MediaStreamTrack {
     const constraints = this.#activeStreamConstraints;
 
@@ -194,6 +253,11 @@ class MediaMocker {
     return fakeTrack;
   }
 
+  /**
+   * Finds a device matching the constraints.
+   *
+   * @returns The device matching the constraints.
+   */
   findDeviceMatchingConstraints() {
     const constraints = this.#activeStreamConstraints;
 
@@ -247,4 +311,7 @@ class MediaMocker {
   }
 }
 
+/**
+ * The media mocker singleton instance.
+ */
 export const mediaMocker = new MediaMocker();

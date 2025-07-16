@@ -29,12 +29,30 @@ import {
   VideoFrameProcessorInitOptions,
 } from "./VideoFrameProcessor";
 
+/**
+ * A callback that will be triggered on each frame when the playback state is
+ * "capturing".
+ *
+ * @param frame - The frame to capture.
+ * @returns The frame.
+ */
 export type FrameCaptureCallback = (
   frame: ImageData,
 ) => Promisable<ArrayBufferLike | void>;
 
+/**
+ * A camera getter.
+ *
+ * @param cameras - The cameras to get.
+ * @returns The camera.
+ */
 type CameraGetter = (cameras: Camera[]) => Camera | undefined;
 
+/**
+ * A camera preference.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode for facing mode details.
+ */
 export type CameraPreference =
   | {
       // Only a camera is provided.
@@ -57,19 +75,39 @@ export type CameraPreference =
       preferredFacing?: undefined;
     };
 
+/**
+ * Options for starting a camera stream.
+ *
+ * @param autoplay - If true, the camera stream will be started automatically.
+ * @param preferredCamera - The camera to start the stream with.
+ * @param preferredFacing - The facing mode to start the stream with.
+ */
 export type StartCameraStreamOptions = {
   autoplay?: boolean;
 } & CameraPreference;
 
+/**
+ * Options for the CameraManager.
+ *
+ * @param mirrorFrontCameras - If true, front-facing cameras will be mirrored horizontally when started.
+ */
 export type CameraManagerOptions = {
   /** If true, the camera stream will be mirrored horizontally when started. */
   mirrorFrontCameras: boolean;
 };
 
+/**
+ * Default options for the CameraManager.
+ */
 export const defaultCameraManagerOptions: CameraManagerOptions = {
   mirrorFrontCameras: true,
 } as const;
 
+/**
+ * The CameraManager class.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/getCapabilities for more details.
+ */
 export class CameraManager {
   #resumeRequest?: Exclude<PlaybackState, "idle">;
   #resolution: VideoResolutionName = "4k";
@@ -89,6 +127,10 @@ export class CameraManager {
    */
   #userInitiatedAbort = false;
 
+  /**
+   * If true, the user has initiated an abort. This will prevent the
+   * CameraManager from throwing errors when the user interrupts the process.
+   */
   get userInitiatedAbort() {
     return this.#userInitiatedAbort;
   }
@@ -99,6 +141,7 @@ export class CameraManager {
 
   /**
    * Sets the area of the video frame that will be extracted.
+   *
    * @param extractionArea The area of the video frame that will be extracted.
    */
   setExtractionArea(extractionArea: ExtractionArea) {
@@ -111,6 +154,12 @@ export class CameraManager {
    */
   #frameCaptureCallbacks = new Set<FrameCaptureCallback>();
 
+  /**
+   * Creates a new CameraManager instance.
+   *
+   * @param options - The options for the CameraManager.
+   * @param videoFrameProcessorOptions - The options for the VideoFrameProcessor.
+   */
   constructor(
     options: Partial<CameraManagerOptions> = {},
     videoFrameProcessorOptions?: VideoFrameProcessorInitOptions,
@@ -127,7 +176,9 @@ export class CameraManager {
   }
 
   /**
-   * Sets the resolution of the camera stream
+   * Sets the resolution of the camera stream.
+   *
+   * @param resolution - The resolution to set.
    */
   setResolution = async (resolution: VideoResolutionName) => {
     this.#resolution = resolution;
@@ -141,18 +192,28 @@ export class CameraManager {
     }
   };
 
+  /**
+   * The resolution of the camera stream.
+   */
   get resolution() {
     return this.#resolution;
   }
 
   /**
    * True if there is a video playing or capturing
-   * TODO: see if we can simplify this, by observing the video playback state
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaSession/playbackState for more details.
    */
   get isActive() {
+    // TODO: see if we can simplify this, by observing the video playback state
     return store.getState().playbackState !== "idle";
   }
 
+  /**
+   * Sets the facing filter.
+   *
+   * @param facingFilter - The facing filter.
+   */
   setFacingFilter(facingFilter: FacingMode[]) {
     store.setState({
       facingFilter,
@@ -162,6 +223,8 @@ export class CameraManager {
   /**
    * Returns the cameras that are available to the user, filtered by the facing mode.
    * If no facing mode is set, all cameras are returned.
+   *
+   * @returns The cameras that are available to the user, filtered by the facing mode.
    */
   async getCameraDevices() {
     let allCameras = store.getState().cameras;
@@ -186,7 +249,9 @@ export class CameraManager {
   }
 
   /**
-   * Single-time setup for a video element
+   * Single-time setup for a video element.
+   *
+   * @param videoElement - The video element to initialize.
    */
   #initVideoElement(videoElement: HTMLVideoElement) {
     if (!(videoElement instanceof HTMLVideoElement)) {
@@ -283,6 +348,8 @@ export class CameraManager {
 
   /**
    * Initializes the CameraManager with a video element.
+   *
+   * @param videoElement - The video element to initialize.
    */
   initVideoElement(videoElement: HTMLVideoElement) {
     try {
@@ -300,7 +367,7 @@ export class CameraManager {
    * Adds a callback that will be triggered on each frame when the playback state
    * is "capturing".
    *
-   * @param frameCaptureCallback
+   * @param frameCaptureCallback - The callback to add.
    * @returns a cleanup function to remove the callback
    */
   addFrameCaptureCallback(frameCaptureCallback: FrameCaptureCallback) {
@@ -308,6 +375,9 @@ export class CameraManager {
     return () => this.#frameCaptureCallbacks.delete(frameCaptureCallback);
   }
 
+  /**
+   * Cleans up the video element, and stops the stream.
+   */
   releaseVideoElement() {
     this.#eventListenerCleanup?.();
     store.setState({
@@ -316,10 +386,11 @@ export class CameraManager {
     this.stopStream();
   }
 
+  // TODO: might become a private method in the future as an implementation detail of `startStream`
   /**
    * Select a camera device from available ones.
    *
-   * TODO: might become a private method in the future as an implementation detail of `startStream`
+   * @param camera - The camera to select.
    */
   async selectCamera(camera: Camera) {
     // DOES NOT MODIFY playbackState
@@ -381,6 +452,8 @@ export class CameraManager {
 
   /**
    * Refreshes available devices on the system and updates the state.
+   *
+   * @returns resolves when the camera devices are refreshed
    */
   async refreshCameraDevices() {
     // prevent race conditions
@@ -501,6 +574,8 @@ export class CameraManager {
 
   /**
    * Starts playback and frame capturing.
+   *
+   * @returns resolves when frame capture starts
    */
   async #startFrameCapture() {
     const state = store.getState();
@@ -545,6 +620,8 @@ export class CameraManager {
 
   /**
    * Starts capturing frames from the video element.
+   *
+   * @returns resolves when frame capture starts
    */
   startFrameCapture = async () => {
     try {
@@ -558,6 +635,12 @@ export class CameraManager {
     }
   };
 
+  /**
+   * Starts a camera stream.
+   *
+   * @param params - The parameters for the camera stream.
+   * @returns resolves when the camera stream starts
+   */
   async #startCameraStream({
     autoplay = true,
     preferredCamera,
@@ -667,6 +750,9 @@ export class CameraManager {
   /**
    * Starts a best-effort camera stream. Will pick a camera automatically if
    * none is selected.
+   *
+   * @param params - The parameters for the camera stream.
+   * @returns resolves when the camera stream starts
    */
   async startCameraStream(params: StartCameraStreamOptions = {}) {
     try {
@@ -680,6 +766,11 @@ export class CameraManager {
     }
   }
 
+  /**
+   * Checks if the error state is a permission error.
+   *
+   * @returns true if the error state is a permission error
+   */
   #hasPermissionError = () => {
     const errorState = store.getState().errorState;
 
@@ -690,7 +781,7 @@ export class CameraManager {
   };
 
   /**
-   * Pauses capturing frames without pausing playback.
+   * Pauses capturing frames, without stopping playback.
    */
   stopFrameCapture() {
     store.setState({
@@ -736,7 +827,7 @@ export class CameraManager {
   }
 
   /**
-   * The main recognition loop. Do not call this method directly, use #queueFrame instead.
+   * The main recognition loop. Do not call this method directly, use `#queueFrame` instead.
    */
   async #loop() {
     const state = store.getState();
@@ -800,7 +891,7 @@ export class CameraManager {
   }
 
   /**
-   * Queues the next frame to be processed
+   * Queues the next frame to be processed.
    */
   #queueFrame() {
     const state = store.getState();
@@ -849,6 +940,8 @@ export class CameraManager {
 
   /**
    * If true, the video and captured frames will be mirrored horizontally.
+   *
+   * @param mirrorX - If true, the video and captured frames will be mirrored horizontally.
    */
   setCameraMirrorX(mirrorX: boolean) {
     const currentState = store.getState();
@@ -878,17 +971,21 @@ export class CameraManager {
   /**
    * Allows the user to subscribe to state changes inside the Camera Manager.
    * Implemented using Zustand. For usage information, see
-   * {@link https://github.com/pmndrs/zustand#using-subscribe-with-selector}
+   * @see https://github.com/pmndrs/zustand#using-subscribe-with-selector for more details.
+   *
+   * @returns a cleanup function to remove the subscription
    */
   subscribe: typeof store.subscribe = store.subscribe;
 
   /**
    * Gets the current internal state of the CameraManager.
+   *
+   * @returns the current state of the CameraManager
    */
   getState: typeof store.getState = store.getState;
 
   /**
-   * Resets the CameraManager and stop all streams
+   * Resets the CameraManager and stops all streams.
    */
   reset() {
     console.debug("Resetting camera manager");

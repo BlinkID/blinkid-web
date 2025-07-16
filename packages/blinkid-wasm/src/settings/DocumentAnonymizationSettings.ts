@@ -5,7 +5,7 @@
 import { DocumentFilter } from "./DocumentFilter";
 import { FieldType } from "../result";
 
-/** Represents the document number annotation settings. */
+/** Represents the document number anonymization settings. */
 export type DocumentNumberAnonymizationSettings = {
   /**
    * Defines how many digits at the beginning of the document number remain

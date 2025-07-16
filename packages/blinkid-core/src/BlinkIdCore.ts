@@ -13,19 +13,33 @@ import { getUserId } from "./getUserId";
 import { proxy, Remote } from "comlink";
 import { defaultSessionSettings } from "./defaultSessionSettings";
 
-// User ID is optional outside the worker scope
+/**
+ * Configuration options for initializing the BlinkID core.
+ *
+ * This type extends the BlinkIdWorkerInitSettings type by making the userId and useLightweightBuild properties optional.
+ * It allows for partial configuration of the initialization settings.
+ */
 export type BlinkIdInitSettings = SetOptional<
   BlinkIdWorkerInitSettings,
+  // User ID is optional outside the worker scope
   "userId" | "useLightweightBuild"
 >;
 
+/**
+ * Represents the BlinkID core instance.
+ *
+ * This type extends the Remote type from Comlink, which is used to proxy calls to the BlinkID worker.
+ * It simplifies the type to remove unnecessary complexity.
+ */
 export type BlinkIdCore = Simplify<Remote<BlinkIdWorkerProxy>>;
 
 /**
- * Creates a BlinkID worker and initializes it with the provided settings.
+ * Creates and initializes a BlinkID core instance.
  *
- * @param {BlinkIdInitSettings} settings
- * @param {ProgressStatusCallback} progressCallback - Callback function used to track the progress of resource downloads (e.g., WASM and data files). It receives a DownloadProgress object, which contains details like the number of bytes loaded, the total content length, and the percentage of progress.
+ * @param settings - Configuration for BlinkID initialization including license key and resources location
+ * @param progressCallback - Optional callback for tracking resource download progress (WASM, data files)
+ * @returns Promise that resolves with initialized BlinkID core instance
+ * @throws Error if initialization fails
  */
 export async function loadBlinkIdCore(
   settings: BlinkIdInitSettings,

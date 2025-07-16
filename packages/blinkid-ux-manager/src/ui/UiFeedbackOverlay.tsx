@@ -35,6 +35,12 @@ import PassportTop from "./assets/reticles/passport-top.svg?component-solid";
 import SearchIcon from "./assets/reticles/searching.svg?component-solid";
 import ScanIcon from "./assets/reticles/spin.svg?component-solid";
 
+/**
+ * The UiFeedbackOverlay component.
+ *
+ * @param props - The props for the UiFeedbackOverlay component.
+ * @returns The UiFeedbackOverlay component.
+ */
 export const UiFeedbackOverlay: Component<{
   uiState: BlinkIdUiState;
 }> = (props) => {
@@ -46,7 +52,7 @@ export const UiFeedbackOverlay: Component<{
   let timeout: number;
 
   /**
-   * Handles showing the success feedback before other states defined in {@link firstSideCapturedStates}
+   * Handles showing the success feedback before other states defined in `firstSideCapturedStates`
    */
   createEffect(() => {
     if (firstSideCapturedStates.includes(props.uiState.key)) {
@@ -152,6 +158,12 @@ export const UiFeedbackOverlay: Component<{
   );
 };
 
+/**
+ * The SuccessFeedback component. This is the component that displays the
+ * feedback for the success state.
+ *
+ * @returns The SuccessFeedback component.
+ */
 const SuccessFeedback: Component = () => {
   return (
     <Motion
@@ -168,6 +180,12 @@ const SuccessFeedback: Component = () => {
   );
 };
 
+/**
+ * The FlipCardFeedback component. This is the component that displays the
+ * feedback for the flip card state.
+ *
+ * @returns The FlipCardFeedback component.
+ */
 const FlipCardFeedback: Component = () => {
   const cardSideStyles = `backface-hidden drop-shadow-[0_0_15px_rgba(0,0,0,0.1)]`;
 
@@ -203,6 +221,13 @@ const FlipCardFeedback: Component = () => {
   );
 };
 
+/**
+ * The PassportAnimation component. This is the component that displays the
+ * feedback for the passport animation state.
+ *
+ * @param props - The props for the PassportAnimation component.
+ * @returns The PassportAnimation component.
+ */
 const PassportAnimation: Component<{
   direction: "top" | "right" | "left";
   duration: number;
@@ -269,6 +294,13 @@ const PassportAnimation: Component<{
   );
 };
 
+/**
+ * The ReticleContainer component. This is the component that displays the
+ * reticle container.
+ *
+ * @param props - The props for the ReticleContainer component.
+ * @returns The ReticleContainer component.
+ */
 const ReticleContainer: ParentComponent<{
   type: BlinkIdUiState["reticleType"];
 }> = (props) => {
@@ -291,6 +323,12 @@ const ReticleContainer: ParentComponent<{
   );
 };
 
+/**
+ * The SearchReticle component. This is the component that displays the
+ * feedback for the search state.
+ *
+ * @returns The SearchReticle component.
+ */
 const SearchReticle: Component = () => (
   <ReticleContainer type="searching">
     <Motion
@@ -309,12 +347,24 @@ const SearchReticle: Component = () => (
   </ReticleContainer>
 );
 
+/**
+ * The ErrorReticle component. This is the component that displays the
+ * feedback for the error state.
+ *
+ * @returns The ErrorReticle component.
+ */
 const ErrorReticle: Component = () => (
   <ReticleContainer type="error">
     <FullIcon class="size-12" />
   </ReticleContainer>
 );
 
+/**
+ * The ScanningReticle component. This is the component that displays the
+ * feedback for the scanning state.
+ *
+ * @returns The ScanningReticle component.
+ */
 const ScanningReticle: Component = () => (
   <ReticleContainer type="processing">
     <Motion
@@ -333,8 +383,11 @@ const ScanningReticle: Component = () => (
 );
 
 /**
- * This component displays feedback messages to the user.
- * Shown below the reticle.
+ * The UiFeedbackMessage component. This is the component that displays the
+ * feedback message to the user. It is shown below the reticle.
+ *
+ * @param props - The props for the UiFeedbackMessage component.
+ * @returns The UiFeedbackMessage component.
  */
 const UiFeedbackMessage: Component<{
   uiState: BlinkIdUiState;

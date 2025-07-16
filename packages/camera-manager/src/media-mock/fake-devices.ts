@@ -17,11 +17,17 @@ export type ExtendedCameraInfo = {
   mediaTrackSettings: ReturnType<MediaStreamTrack["getSettings"]>;
 };
 
+/**
+ * A fake device.
+ */
 export type FakeDevice = {
   name: string;
   cameras: ExtendedCameraInfo[];
 };
 
+/**
+ * The fake devices.
+ */
 export const fakeDevices: Record<string, FakeDevice> = {
   "iPhone 15": MockiPhone15,
   "iPhone SE": MockiPhoneSE,

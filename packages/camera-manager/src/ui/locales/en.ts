@@ -2,6 +2,9 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
+/**
+ * The default English localization strings.
+ */
 export default {
   selected_camera: "Selected camera",
   loading_cameras: "Loading cameras...",

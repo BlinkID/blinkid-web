@@ -1,9 +1,11 @@
 {
   "name": "@microblink/utils",
   "private": true,
-  "version": "7.1.0",
+  "version": "7.1.1",
   "scripts": {
-    "build-types": "tsc"
+    "build-types": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "main": "utils.mjs",
   "module": "utils.mjs",
@@ -11,6 +13,7 @@
   "devDependencies": {
     "resolve-package-path": "^4.0.3",
     "typescript": "^5.8.3",
-    "zx": "^8.5.2"
+    "zx": "^8.5.2",
+    "vitest": "^3.0.8"
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@microblink/camera-manager",
   "description": "Manages cameras and stream, provides both a headless component and a UI component",
-  "version": "7.2.1",
+  "version": "7.2.2",
   "author": "Microblink",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",
@@ -11,6 +11,7 @@
     "build:publish": "pnpm build && pnpm type-rollup",
     "build:types": "tsc",
     "clean": "rimraf .turbo types dist publish public/resources/* *.tgz",
+    "docs:api": "typedoc",
     "lint": "concurrently pnpm:lint:types pnpm:lint:eslint",
     "lint:eslint": "eslint ./src --max-warnings 0",
     "lint:types": "tsc --emitDeclarationOnly false --noEmit",
@@ -79,6 +80,8 @@
     "rimraf": "^6.0.1",
     "sass": "^1.85.0",
     "tsx": "^4.19.2",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.0",
     "typescript": "^5.8.3",
     "unocss": "^65.5.0",
     "unplugin-icons": "^22.0.0",
@@ -87,7 +90,7 @@
     "vite-plugin-externalize-dependencies": "1.0.1",
     "vite-plugin-solid": "^2.11.6",
     "vite-plugin-solid-svg": "0.8.1",
-    "vitest": "3.0.8",
+    "vitest": "^3.0.8",
     "write-package": "^7.1.0",
     "zx": "^8.5.2"
   },

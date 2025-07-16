@@ -20,9 +20,15 @@ export type BlinkIdScanningSession = EmbindObject<{
    * Processes the input camera frame
    *
    * @param image The frame to process
+   * @returns The `BlinkIdProcessResult` if successful, `BlinkIdSessionError` if
+   *   failed
    */
   process: (image: ImageData) => BlinkIdProcessResult | BlinkIdSessionError;
 
-  /** Returns the {@link BlinkIdScanningResult} */
+  /**
+   * Returns the result of the scanning session.
+   *
+   * @returns The `BlinkIdScanningResult`
+   */
   getResult: () => BlinkIdScanningResult;
 }>;

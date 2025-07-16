@@ -1,0 +1,7 @@
+{
+  "extends": "../../typedoc.base.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "docs",
+  "tsconfig": "./tsconfig.json",
+  "gitRemote": "https://github.com/BlinkID/blinkid-web/tree/main/packages/feedback-stabilizer"
+}

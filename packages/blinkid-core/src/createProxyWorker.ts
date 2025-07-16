@@ -98,4 +98,10 @@ export const createProxyWorker = async (
   return proxyWorker;
 };
 
+/**
+ * Represents a remote worker instance.
+ *
+ * This type is the return type of the createProxyWorker function, which creates a Comlink-proxied Web Worker.
+ * It simplifies the type to remove unnecessary complexity.
+ */
 export type RemoteWorker = ReturnType<typeof createProxyWorker>;

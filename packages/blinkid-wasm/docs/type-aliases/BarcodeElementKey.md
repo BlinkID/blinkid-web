@@ -1,0 +1,14 @@
+[**@microblink/blinkid-wasm**](../README.md)
+
+***
+
+[@microblink/blinkid-wasm](../README.md) / BarcodeElementKey
+
+# Type Alias: BarcodeElementKey
+
+> **BarcodeElementKey** = `"document-type"` \| `"standard-version-number"` \| `"customer-family-name"` \| `"customer-first-name"` \| `"customer-full-name"` \| `"date-of-birth"` \| `"sex"` \| `"eye-color"` \| `"address-street"` \| `"address-city"` \| `"address-jurisdiction-code"` \| `"address-postal-code"` \| `"full-address"` \| `"height"` \| `"height-in"` \| `"height-cm"` \| `"customer-middle-name"` \| `"hair-color"` \| `"name-suffix"` \| `"aka-full-name"` \| `"aka-family-name"` \| `"aka-given-name"` \| `"aka-suffix-name"` \| `"weight-range"` \| `"weight-pounds"` \| `"weight-kilograms"` \| `"customer-id-number"` \| `"family-name-truncation"` \| `"first-name-truncation"` \| `"middle-name-truncation"` \| `"place-of-birth"` \| `"address-street-2"` \| `"race-ethnicity"` \| `"name-prefix"` \| `"country-identification"` \| `"residence-street-address"` \| `"residence-street-address-2"` \| `"residence-city"` \| `"residence-jurisdiction-code"` \| `"residence-postal-code"` \| `"residence-full-address"` \| `"under-18"` \| `"under-19"` \| `"under-21"` \| `"social-security-number"` \| `"aka-social-security-number"` \| `"aka-middle-name"` \| `"aka-prefix-name"` \| `"organ-donor"` \| `"veteran"` \| `"aka-date-of-birth"` \| `"issuer-identification-number"` \| `"document-expiration-date"` \| `"jurisdiction-version-number"` \| `"jurisdiction-vehicle-class"` \| `"jurisdiction-restriction-codes"` \| `"jurisdiction-endorsement-codes"` \| `"document-issue-date"` \| `"federal-commercial-vehicle-codes"` \| `"issuing-jurisdiction"` \| `"standard-vehicle-classification"` \| `"issuing-jurisdiction-name"` \| `"standard-endorsement-code"` \| `"standard-restriction-code"` \| `"jurisdiction-vehicle-classification-description"` \| `"jurisdiction-endorsement-code-description"` \| `"jurisdiction-restriction-code-description"` \| `"inventory-control-number"` \| `"card-revision-date"` \| `"document-discriminator"` \| `"limited-duration-document"` \| `"audit-information"` \| `"compliance-type"` \| `"issue-timestamp"` \| `"permit-expiration-date"` \| `"permit-identifier"` \| `"permit-issue-date"` \| `"number-of-duplicates"` \| `"hazmat-expiration-date"` \| `"medical-indicator"` \| `"non-resident"` \| `"unique-customer-id"` \| `"data-discriminator"` \| `"document-expiration-month"` \| `"document-nonexpiring"` \| `"security-version"`
+
+Defined in: [result/barcode/BarcodeElement.ts:9](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/barcode/BarcodeElement.ts)
+
+BarcodeElementKey defines additional fields present in the barcode.
+Currently, this is only used for AAMVACompliant documents.

@@ -2,10 +2,7 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
-
-/**
- * Represents the error statuses returned from the `BlinkIDScanningSession`.
- */
+/** Represents the error statuses returned from the `BlinkIDScanningSession`. */
 export type BlinkIdSessionErrorType = "document-scanned" | "result-retrieved";
 
 /**
@@ -13,5 +10,6 @@ export type BlinkIdSessionErrorType = "document-scanned" | "result-retrieved";
  * `BlinkIdScanningSession.reset`.
  */
 export type BlinkIdSessionError = {
+  /** The error type. */
   error: BlinkIdSessionErrorType;
 };

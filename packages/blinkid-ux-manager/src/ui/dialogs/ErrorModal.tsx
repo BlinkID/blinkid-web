@@ -7,12 +7,21 @@ import { type Component } from "solid-js";
 import { useBlinkIdUiStore } from "../BlinkIdUiStoreContext";
 import { useLocalization } from "../LocalizationContext";
 
+/**
+ * The props for the ErrorModal component.
+ */
 interface ErrorModalProps {
   header: string;
   text: string;
   shouldResetScanningSession?: boolean;
 }
 
+/**
+ * The ErrorModal component.
+ *
+ * @param props - The props for the ErrorModal component.
+ * @returns The ErrorModal component.
+ */
 export const ErrorModal: Component<ErrorModalProps> = (props) => {
   const { t } = useLocalization();
 

@@ -11,6 +11,9 @@ import {
   findIdealCamera,
 } from "./cameraUtils";
 
+/**
+ * A mock camera class for testing.
+ */
 class MockCamera extends Camera {
   private _stream: MediaStream | null = null;
 

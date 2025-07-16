@@ -3,13 +3,13 @@
  */
 
 /**
- * BarcodeElementKey defines additional fields present in the barcode. Currently, this is
- * only used for AAMVACompliant documents.
+ * BarcodeElementKey defines additional fields present in the barcode.
+ * Currently, this is only used for AAMVACompliant documents.
  */
 export type BarcodeElementKey =
-//==============================================================/
-//============== 1. DETERMINING BARCODE VERSION ================/
-//==============================================================/
+  //==============================================================/
+  //============== 1. DETERMINING BARCODE VERSION ================/
+  //==============================================================/
 
   /**
    * Mandatory on all driver's licenses. All barcodes which are using 3-track
@@ -892,7 +892,10 @@ export type BarcodeElementKey =
    */
   | "security-version";
 
+/** Represents a key-value pair of a barcode element. */
 export type BarcodeElement = {
+  /** The key of the barcode element. */
   key: BarcodeElementKey;
+  /** The value of the barcode element. */
   value: string;
 };

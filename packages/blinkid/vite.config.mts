@@ -1,9 +1,7 @@
-// file size inspection
-// import Sonda from "sonda/vite";
+import { getPackagePath, linkResources } from "@microblink/utils";
 import { defineConfig } from "vite";
 import { dependencies } from "./package.json";
-import { getPackagePath, linkResources } from "@microblink/utils";
-import { echo, fs } from "zx";
+import { fs, path } from "zx";
 
 export default defineConfig((config) => ({
   build: {
@@ -36,12 +34,15 @@ type Dependency = keyof typeof dependencies;
 async function moveBlinkIdResources() {
   const packageName: Dependency = "@microblink/blinkid-core";
   const pkgPath = getPackagePath(packageName);
-  const distPath = `${pkgPath}/dist/resources`;
+  const distPath = path.join(pkgPath, "dist", "resources");
   const files = fs.readdirSync(distPath);
 
   fs.ensureDirSync(`public/resources`);
 
-  for (const path of files) {
-    await linkResources(`${distPath}/${path}`, `public/resources/${path}`);
+  for (const filePath of files) {
+    await linkResources(
+      path.join(distPath, filePath),
+      path.join("public/resources", filePath),
+    );
   }
 }

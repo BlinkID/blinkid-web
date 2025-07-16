@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+# v7.4.0
+
+## What's New
+
+### New Documents Support
+
+- Canada, Newfoundland And Labrador - Identity Card
+- Canada, Northwest Territories - Driver's License
+- Canada, Northwest Territories - Identity Card
+- Canada, Prince Edward Island - Identity Card
+- Canada, Yukon - Identity Card
+
+### New Document Versions for Supported Documents
+
+- Canada, Yukon - Driver's License
+
+### Bug Fixes
+
+- Fixed build error on Windows devices in monorepo setup
+- Fixed build error with Node.js v24 in monorepo setup
+
+### Other
+
+- Added API documentation specification
+
 # v7.3.2
 
 ## What's New

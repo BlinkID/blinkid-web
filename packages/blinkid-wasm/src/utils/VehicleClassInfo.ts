@@ -5,17 +5,21 @@
 import { DateResult } from "./DateResult";
 import { StringResult } from "../result";
 
-/** Represents the information about the vehicle class */
+/**
+ * Represents the information about the vehicle class.
+ *
+ * @template S - The type of the string result.
+ */
 export type VehicleClassInfo<S extends string | StringResult> = {
-  /** The type of vehicle the driver license owner has privilege to drive */
+  /** The type of vehicle the driver license owner has privilege to drive. */
   vehicleClass?: S;
 
-  /** The type of driver licence */
+  /** The type of driver licence. */
   licenceType?: S;
 
-  /** The date since licence is effective */
+  /** The date since licence is effective. */
   effectiveDate?: DateResult<S>;
 
-  /** The date of expiry of licence */
+  /** The date of expiry of licence. */
   expiryDate?: DateResult<S>;
 };

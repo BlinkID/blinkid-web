@@ -4,11 +4,26 @@
 
 const type = "application/javascript";
 
+/**
+ * Options for the getCrossOriginWorkerURL function.
+ *
+ * @param skipSameOrigin - If true, the function will return the original URL if it is same-origin.
+ * @param useBlob - If true, the function will return a blob URL.
+ */
 type Options = {
+  /** If true, the function will return the original URL if it is same-origin. */
   skipSameOrigin?: boolean;
+  /** If true, the function will return a blob URL if not same-origin. */
   useBlob?: boolean;
 };
 
+/**
+ * Gets a cross-origin worker URL as a data URL or blob URL. If the URL is same-origin, it will return the original URL.
+ *
+ * @param originalWorkerUrl - The original worker URL.
+ * @param _options - The options for the worker.
+ * @returns A promise that resolves with the cross-origin worker URL.
+ */
 export const getCrossOriginWorkerURL = (
   originalWorkerUrl: string,
   _options: Options = {},
@@ -65,7 +80,6 @@ export const getCrossOriginWorkerURL = (
           } else {
             finalURL = `data:${type},` + encodeURIComponent(codeString);
           }
-
           resolve(finalURL);
         })
         .catch(() => {

@@ -15,12 +15,25 @@ import { isBackCameraName, isFrontCameraName } from "./cameraNames";
 import { backDualWideCameraLocalizations } from "./iosCameraNames";
 import { asError } from "./utils";
 
+/**
+ * A camera error code.
+ */
 // eslint-disable-next-line @typescript-eslint/ban-types
-type CameraErrorCode = "PERMISSION_DENIED" | (string & {});
+export type CameraErrorCode = "PERMISSION_DENIED" | (string & {});
 
+/**
+ * A camera error.
+ */
 export class CameraError extends Error {
   code: CameraErrorCode;
 
+  /**
+   * Creates a new camera error.
+   *
+   * @param message - The error message.
+   * @param code - The error code.
+   * @param cause - The cause of the error.
+   */
   constructor(message: string, code: CameraErrorCode, cause?: Error) {
     super(message);
     this.code = code;
@@ -30,6 +43,8 @@ export class CameraError extends Error {
 
 /**
  * Trigger camera permission dialog.
+ *
+ * @returns resolves when the camera permission is granted
  */
 export const askForCameraPermission = async () => {
   try {
@@ -53,7 +68,11 @@ export const askForCameraPermission = async () => {
 
 /**
  * Returns available camera devices on the user's device.
- * @returns An array of {@linkcode InputDeviceInfo} objects representing the available camera devices.
+ *
+ * @returns An array of `InputDeviceInfo` objects representing the available camera devices.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/InputDeviceInfo for more details.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices for more details.
  */
 export const obtainVideoInputDevices = async () => {
   if (!isSecureContext) {
@@ -75,6 +94,11 @@ export const obtainVideoInputDevices = async () => {
   return cameraDevices as InputDeviceInfo[];
 };
 
+/**
+ * Closes all tracks on a media stream.
+ *
+ * @param stream - The media stream to close.
+ */
 export const closeStreamTracks = (stream: MediaStream) => {
   const tracks = stream.getTracks();
   for (const track of tracks) {
@@ -82,6 +106,13 @@ export const closeStreamTracks = (stream: MediaStream) => {
   }
 };
 
+/**
+ * Creates a media stream constraints object.
+ *
+ * @param resolution - The resolution to create constraints for.
+ * @param facing - The facing mode to create constraints for.
+ * @param id - The device ID to create constraints for.
+ */
 export const createConstraints = (
   resolution: VideoResolutionName,
   facing?: FacingMode,
@@ -113,6 +144,9 @@ export const createConstraints = (
 /**
  * Scores a camera based on its capabilities.
  * Higher score means better camera.
+ *
+ * @param camera - The camera to score.
+ * @returns The score of the camera.
  */
 export function scoreCameraCapabilities(camera: Camera): number {
   let score = 0;
@@ -123,6 +157,10 @@ export function scoreCameraCapabilities(camera: Camera): number {
 
 /**
  * Filters cameras based on facing mode.
+ *
+ * @param cameras - The cameras to filter.
+ * @param requestedFacing - The facing mode to filter by.
+ * @returns The filtered cameras.
  */
 export function filterCamerasByFacing(
   cameras: Camera[],
@@ -140,12 +178,12 @@ export function filterCamerasByFacing(
 /**
  * Finds the ideal camera based on the provided constraints.
  *
- * @param cameras Available {@linkcode Camera}s on the device
- * @param resolution Ideal resolution for the camera stream, will fall back to the closest available resolution.
- * @param requestedFacing Ideal facing mode for the camera stream. If not provided, will default to back camera.
+ * @param cameras - Available `Camera`s on the device.
+ * @param resolution - Ideal resolution for the camera stream, will fall back to the closest available resolution.
+ * @param requestedFacing - Ideal facing mode for the camera stream. If not provided, will default to back camera.
  * If no facing mode is available, will return a best effort match.
  *
- * @returns A {@linkcode Camera} instance that matches the provided constraints, with an active stream.
+ * @returns A `Camera` instance that matches the provided constraints, with an active stream.
  */
 export const findIdealCamera = async (
   cameras: Camera[],
@@ -254,8 +292,10 @@ export const findIdealCamera = async (
 };
 
 /**
- * Creates an array of {@linkcode Camera} instances with stream from native
- * `deviceInfo` objects.
+ * Creates an array of `Camera` instances with stream from native `deviceInfo` objects.
+ *
+ * @param cameras - The input device info to create cameras from.
+ * @returns The created cameras.
  */
 export function createCameras(cameras: InputDeviceInfo[]) {
   const camerasWithStream: Camera[] = [];

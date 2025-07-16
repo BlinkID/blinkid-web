@@ -14,6 +14,9 @@ import {
 import { merge } from "merge-anything";
 import { OverrideProperties } from "type-fest";
 
+/**
+ * The partial scanning settings.
+ */
 export type PartialScanningSettings = Partial<
   OverrideProperties<
     ScanningSettings,
@@ -25,6 +28,9 @@ export type PartialScanningSettings = Partial<
   >
 >;
 
+/**
+ * The partial BlinkID session settings.
+ */
 export type PartialBlinkIdSessionSettings = OverrideProperties<
   Partial<BlinkIdSessionSettings>,
   {
@@ -32,6 +38,12 @@ export type PartialBlinkIdSessionSettings = OverrideProperties<
   }
 >;
 
+/**
+ * Normalizes the document filter.
+ *
+ * @param filter - The document filter.
+ * @returns The normalized document filter.
+ */
 function normalizeDocumentFilter(
   filter: DocumentFilter | undefined,
 ): DocumentFilter {
@@ -42,6 +54,12 @@ function normalizeDocumentFilter(
   };
 }
 
+/**
+ * Normalizes the document rule.
+ *
+ * @param rule - The document rule.
+ * @returns The normalized document rule.
+ */
 export const normalizeDocumentRule = (
   rule: Partial<DocumentRules>,
 ): DocumentRules => {
@@ -51,6 +69,12 @@ export const normalizeDocumentRule = (
   };
 };
 
+/**
+ * Normalizes the document anonymization settings.
+ *
+ * @param settings - The document anonymization settings.
+ * @returns The normalized document anonymization settings.
+ */
 export const normalizeDocumentAnonymizationSettings = (
   settings: DocumentAnonymizationSettings,
 ): DocumentAnonymizationSettings => {
@@ -70,15 +94,14 @@ export const normalizeDocumentAnonymizationSettings = (
 };
 
 /**
- * Creates merged BlinkId session settings from default settings and user
- * options
+ * Creates merged BlinkId session settings from default settings and user options.
  *
- * @param options User-provided session settings
+ * @param options - User-provided session settings.
  * @param defaultSessionSettings - The base session settings to use. These
  * settings will be merged with the provided `options`, where `options` can
  * override specific values.
  *
- * @returns Complete merged settings
+ * @returns Complete merged settings.
  */
 export function buildSessionSettings(
   options: PartialBlinkIdSessionSettings = {},

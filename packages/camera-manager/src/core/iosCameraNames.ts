@@ -2,6 +2,9 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
+/**
+ * Localizations for iOS back dual wide camera.
+ */
 export const backDualWideCameraLocalizations = [
   "Cameră dublă cu obiectiv superangular spate",
   "מצלמה כפולה רחבה אחורית",

@@ -49,6 +49,7 @@ Explore example applications in the GitHub repository for ready-to-run demos:
 - **[blinkid-core-api](https://github.com/BlinkID/blinkid-web/tree/main/apps/examples/blinkid-core-api)**: Low-level usage of the core API.
 - **[blinkid-advanced-setup](https://github.com/BlinkID/blinkid-web/tree/main/apps/examples/blinkid-advanced-setup)**: Custom UI and advanced configuration.
 - **[blinkid-preload](https://github.com/BlinkID/blinkid-web/tree/main/apps/examples/blinkid-preload)**: Preloading resources for faster startup.
+- **[blinkid-photo-pload](https://github.com/BlinkID/blinkid-web/tree/main/apps/examples/blinkid-photo-upload)**: Uploading photos example.
 
 Each example demonstrates different integration patterns and features.
 

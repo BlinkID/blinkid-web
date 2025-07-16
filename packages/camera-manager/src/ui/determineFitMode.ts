@@ -5,7 +5,8 @@
 import { FitMode } from "./CaptureScreen";
 
 /**
- * Determine the fit mode for the video element based on the container and video dimensions.
+ * Determines the fit mode for the video element based on the container and video dimensions.
+ *
  * `cover` is only used when the cropped fraction is less than 10%.
  *
  * When using object-fit: cover, the video is scaled by
@@ -27,11 +28,11 @@ import { FitMode } from "./CaptureScreen";
  * The croppedFraction represents the relative amount (fraction) of the video that is cropped
  * along the overflowing dimension. We choose "cover" only when the croppedFraction is below 10%.
  *
- * @param Cw container width
- * @param Ch container height
- * @param Vw video width
- * @param Vh video height
- * @returns `FitMode` ("cover" or "contain")
+ * @param Cw - The container width.
+ * @param Ch - The container height.
+ * @param Vw - The video width.
+ * @param Vh - The video height.
+ * @returns The fit mode.
  */
 export const determineFitMode = (
   Cw: number,

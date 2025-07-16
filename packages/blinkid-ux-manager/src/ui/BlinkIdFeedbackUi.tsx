@@ -37,15 +37,25 @@ import MicroblinkOverlay from "./assets/microblink.svg?component-solid";
 
 import styles from "./styles.module.scss";
 
-// `blinkIdUxManager` is not reactive
+/**
+ * The BlinkIdFeedbackUi component. This is the main component that renders the
+ * feedback UI for the BlinkID SDK. It is responsible for rendering the feedback
+ * UI, the overlays, and the help button.
+ *
+ * @param props - The props for the BlinkIdFeedbackUi component.
+ * @returns The BlinkIdFeedbackUi component.
+ */
 export const BlinkIdFeedbackUi: Component<{
   localization?: Partial<LocalizationStrings>;
 }> = (props) => {
   const { store, updateStore } = useBlinkIdUiStore();
 
-  // TODO: hacky, fix this
+  // `blinkIdUxManager` is not reactive, so we need to create a new signal for
+  // the UI state. This is a hacky way to make the UI state reactive.
+
+  // TODO: fix this
   // only used to map LOW_QUALITY_FRONT and LOW_QUALITY_BACK to SENSING_FRONT
-  // and SENSING_BACK
+  // and SENSING_BACK.
   const [uiState, setUiState] = createSignal<BlinkIdUiState>(
     store.blinkIdUxManager.uiState,
   );

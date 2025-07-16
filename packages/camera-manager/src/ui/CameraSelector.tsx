@@ -13,11 +13,17 @@ import IconChevronDown from "./assets/general-c-chevron-down.svg?component-solid
 import { useCameraUiStore } from "./CameraUiStoreContext";
 import { useLocalization } from "./LocalizationContext";
 
+/**
+ * A camera option.
+ */
 type CameraOption = {
   value: string;
   label: string;
 };
 
+/**
+ * The CameraSelector component.
+ */
 export const CameraSelector: Component = () => {
   const { cameraManagerSolidStore, cameraManager } = useCameraUiStore();
   const { t } = useLocalization();
@@ -175,6 +181,9 @@ export const CameraSelector: Component = () => {
   );
 };
 
+/**
+ * The fake cameras.
+ */
 const fakeCameras: CameraOption[] = [
   {
     value: "5",

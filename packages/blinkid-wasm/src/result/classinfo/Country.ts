@@ -259,4 +259,3 @@ export type Country =
   | "zambia"
   | "zimbabwe"
   | "schengen-area";
-

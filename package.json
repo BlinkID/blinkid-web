@@ -1,7 +1,7 @@
 {
   "name": "blinkid",
   "description": "",
-  "version": "7.3.2",
+  "version": "7.4.0",
   "author": "",
   "scripts": {
     "build": "turbo build",
@@ -23,7 +23,7 @@
     "lint-staged": "^15.2.10",
     "syncpack": "13.0.3",
     "turbo": "^2.4.4",
-    "vitest": "3.0.8"
+    "vitest": "^3.0.8"
   },
   "license": "ISC",
   "packageManager": "pnpm@10.12.3"

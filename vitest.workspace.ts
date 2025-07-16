@@ -6,7 +6,7 @@ import { defineWorkspace } from "vitest/config";
 
 export default defineWorkspace([
   "packages/*",
-  // TODO: tries to run tests in these packages, but they don't have any
+  // TODO: ignore blinkid package because it doesn't have any tests at the moment
   // https://vitest.dev/guide/workspace.html#defining-a-workspace
   "!packages/blinkid",
 ]);

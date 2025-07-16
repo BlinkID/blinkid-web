@@ -10,7 +10,10 @@ import { ScanningSide } from "../ScanningSide";
  * details.
  */
 export type DetailedCroppedImageResult = {
+  /** The image data. */
   image: ImageData;
+  /** The location of the image. */
   location?: Rectangle;
+  /** The side of the image. */
   side?: ScanningSide;
 };

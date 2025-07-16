@@ -1,12 +1,13 @@
 {
   "name": "@microblink/feedback-stabilizer",
   "private": true,
-  "version": "7.1.1",
+  "version": "7.1.2",
   "scripts": {
     "build": "tsc",
     "build:dev": "tsc",
     "build:publish": "tsc",
     "clean": "rimraf .turbo types dist *.tgz",
+    "docs:api": "typedoc",
     "test": "vitest --run",
     "test:watch": "vitest --watch"
   },
@@ -28,7 +29,9 @@
     "@types/sinonjs__fake-timers": "^8.1.5",
     "rimraf": "^6.0.1",
     "type-fest": "^4.35.0",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.0",
     "typescript": "^5.8.3",
-    "vitest": "3.0.8"
+    "vitest": "^3.0.8"
   }
 }

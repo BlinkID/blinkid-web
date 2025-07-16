@@ -2,8 +2,15 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
+/**
+ * Options for creating a fake `InputDeviceInfo` info object.
+ */
 interface CreateInputDeviceProps extends Partial<InputDeviceInfo> {
+  /**
+   * The label of the device.
+   */
   label: string;
+
   /**
    * The mock capabilities are used to simulate the capabilities of the device.
    * This is not available on Firefox.
@@ -13,6 +20,9 @@ interface CreateInputDeviceProps extends Partial<InputDeviceInfo> {
 
 /**
  * Creates a fake `InputDeviceInfo` info object.
+ *
+ * @param props - The properties for the device.
+ * @returns The fake `InputDeviceInfo` info object.
  */
 export const createInputDeviceInfo = ({
   label,

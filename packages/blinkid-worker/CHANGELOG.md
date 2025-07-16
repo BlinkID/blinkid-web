@@ -1,5 +1,13 @@
 # @microblink/blinkid-worker
 
+## 7.4.0
+
+### Minor Changes
+
+- Improved documentation
+- Updated dependencies
+  - @microblink/blinkid-wasm@7.4.0
+
 ## 7.3.2
 
 ### Patch Changes

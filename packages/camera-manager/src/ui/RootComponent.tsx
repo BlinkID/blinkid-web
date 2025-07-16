@@ -10,6 +10,9 @@ import { CaptureScreen, CaptureScreenPortalled } from "./CaptureScreen";
 
 import { useCameraUiStore } from "./CameraUiStoreContext";
 
+/**
+ * The root component.
+ */
 const RootComponent: Component = () => {
   const { mountTarget } = useCameraUiStore();
 

@@ -10,7 +10,13 @@ import { BlinkIdFeedbackUi } from "./BlinkIdFeedbackUi";
 import { BlinkIdUiStoreProvider } from "./BlinkIdUiStoreContext";
 import { LocalizationStrings } from "./LocalizationContext";
 
+/**
+ * The options for the createBlinkIdFeedbackUi function.
+ */
 export type FeedbackUiOptions = {
+  /**
+   * The localization strings.
+   */
   localizationStrings?: Partial<LocalizationStrings>;
   /**
    * If set to `true`, the BlinkID instance will not be terminated when the
@@ -33,6 +39,15 @@ export type FeedbackUiOptions = {
   showHelpButton?: boolean;
 };
 
+/**
+ * Creates the BlinkID feedback UI.
+ *
+ * @param blinkIdUxManager - The BlinkID Ux Manager.
+ * @param cameraManagerComponent - The Camera Manager Component.
+ * @param options - The options for the createBlinkIdFeedbackUi function.
+ *
+ * @returns The function to unmount the feedback UI.
+ */
 export function createBlinkIdFeedbackUi(
   blinkIdUxManager: BlinkIdUxManager,
   cameraManagerComponent: CameraManagerComponent,

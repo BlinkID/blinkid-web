@@ -5,6 +5,9 @@
 import { BlinkIdUiStateKey } from "../core/blinkid-ui-state";
 import { LocalizationStrings } from "./LocalizationContext";
 
+/**
+ * The feedback messages.
+ */
 export const feedbackMessages: Partial<
   Record<BlinkIdUiStateKey, keyof LocalizationStrings>
 > = {

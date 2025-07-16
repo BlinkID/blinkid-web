@@ -25,8 +25,10 @@ export type DataMatchFieldState = {
   state: DataMatchState;
 };
 
+/** Represents the result of the data match algorithm. */
 export type DataMatchResult = {
   /** Info on whether the data extracted from multiple sides matches */
   statePerField?: DataMatchFieldState[];
+  /** The overall state of the data match. */
   overallState: DataMatchState;
-}
+};

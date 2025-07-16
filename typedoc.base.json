@@ -1,0 +1,31 @@
+{
+  "plugin": ["typedoc-plugin-markdown"],
+  "exclude": ["**/node_modules/**", "**/dist/**", "**/types/**"],
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "readme": "none",
+  "gitRevision": "main",
+  "sourceLinkTemplate": "https://github.com/BlinkID/blinkid-web/blob/main/{path}",
+  "requiredToBeDocumented": [
+    "Enum",
+    "EnumMember",
+    "Variable",
+    "Function",
+    "Class",
+    "Interface",
+    "Property",
+    "Method",
+    "Parameter",
+    "TypeParameter",
+    "Accessor",
+    "TypeAlias",
+    "Reference"
+  ],
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "rewrittenLink": true,
+    "notDocumented": true,
+    "unusedMergeModuleWith": true
+  }
+}

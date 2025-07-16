@@ -8,6 +8,12 @@ import {
   LicenseStatusResponse,
 } from "@microblink/blinkid-wasm";
 
+/**
+ * Constructs the license request.
+ *
+ * @param unlockResult - The license unlock result.
+ * @returns The license request.
+ */
 function constructLicenseRequest(
   unlockResult: LicenseUnlockResult,
 ): LicenseRequest {
@@ -25,10 +31,10 @@ function constructLicenseRequest(
 /**
  * Obtains a new server permission from Microblink's Baltazar service.
  *
- * @param unlockResult - The license unlock result containing license information
+ * @param unlockResult - The license unlock result containing license information.
  * @param baltazarUrl - The Baltazar server URL. Can be a proxy URL if configured.
  *                      Defaults to the official Microblink Baltazar server.
- * @returns Promise resolving to the server permission response
+ * @returns Promise resolving to the server permission response.
  *
  * @example
  * ```typescript

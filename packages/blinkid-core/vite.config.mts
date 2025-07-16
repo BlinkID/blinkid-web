@@ -1,8 +1,12 @@
 import { getPackagePath, linkResources } from "@microblink/utils";
 import { stripIndents } from "common-tags";
 import { defineConfig } from "vite";
-import { fs } from "zx";
+import { fs, path } from "zx";
 import { dependencies } from "./package.json";
+
+let ranOnce = false;
+
+type Dependency = keyof typeof dependencies;
 
 export default defineConfig((config) => ({
   build: {
@@ -31,10 +35,6 @@ export default defineConfig((config) => ({
   ],
 }));
 
-let ranOnce = false;
-
-type Dependency = keyof typeof dependencies;
-
 async function writeResourceDoc() {
   fs.outputFile(
     "public/resources/DO_NOT_MODIFY_THIS_DIRECTORY.md",
@@ -47,25 +47,49 @@ async function writeResourceDoc() {
 async function moveWorker() {
   const packageName: Dependency = "@microblink/blinkid-worker";
   const pkgPath = getPackagePath(packageName);
-  const distPath = `${pkgPath}/dist`;
+  if (!pkgPath) {
+    throw new Error(`Could not find package path for ${packageName}`);
+  }
+  const distPath = path.join(pkgPath, "dist");
+  if (!fs.pathExistsSync(distPath)) {
+    throw new Error(
+      `Dist directory does not exist at ${distPath}. Make sure ${packageName} is built first.`,
+    );
+  }
+
   const files = fs.readdirSync(distPath);
 
-  fs.ensureDirSync(`public/resources`);
+  fs.ensureDirSync("public/resources");
 
-  for (const path of files) {
-    await linkResources(`${distPath}/${path}`, `public/resources/${path}`);
+  for (const filePath of files) {
+    await linkResources(
+      path.join(distPath, filePath),
+      path.join("public/resources", filePath),
+    );
   }
 }
 
 async function moveBlinkIdResources() {
   const packageName: Dependency = "@microblink/blinkid-wasm";
   const pkgPath = getPackagePath(packageName);
-  const distPath = `${pkgPath}/dist`;
+  if (!pkgPath) {
+    throw new Error(`Could not find package path for ${packageName}`);
+  }
+  const distPath = path.join(pkgPath, "dist");
+
+  if (!fs.pathExistsSync(distPath)) {
+    throw new Error(
+      `Dist directory does not exist at ${distPath}. Make sure ${packageName} is built first.`,
+    );
+  }
+
   const files = fs.readdirSync(distPath);
+  fs.ensureDirSync("public/resources");
 
-  fs.ensureDirSync(`public/resources`);
-
-  for (const path of files) {
-    await linkResources(`${distPath}/${path}`, `public/resources/${path}`);
+  for (const filePath of files) {
+    await linkResources(
+      path.join(distPath, filePath),
+      path.join("public/resources", filePath),
+    );
   }
 }

@@ -9,7 +9,6 @@
  * @returns Normalized URL path.
  * @throws Error if the resulting URL is invalid.
  */
-
 export function buildResourcePath(...segments: string[]): string {
   // Filter out null, undefined, or empty segments using Boolean.
   const path = segments

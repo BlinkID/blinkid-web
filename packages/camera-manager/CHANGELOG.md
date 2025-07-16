@@ -1,5 +1,11 @@
 # @microblink/camera-manager
 
+## 7.2.2
+
+### Patch Changes
+
+- Improved documentation
+
 ## 7.2.1
 
 ### Patch Changes

@@ -13,26 +13,67 @@ import { createStore, SetStoreFunction } from "solid-js/store";
 import type { BlinkIdProcessingError } from "../core/BlinkIdProcessingError";
 import type { BlinkIdUxManager } from "../core/BlinkIdUxManager";
 
+/**
+ * The BlinkIdUiStore type.
+ */
 export type BlinkIdUiStore = {
+  /**
+   * The BlinkIdUxManager instance.
+   */
   blinkIdUxManager: BlinkIdUxManager;
+  /**
+   * The CameraManagerComponent instance.
+   */
   cameraManagerComponent: CameraManagerComponent;
-  // TODO: should this be part of `BlinkIdUxManager`?
-  errorState?: BlinkIdProcessingError;
+  /**
+   * The error state.
+   */
+  errorState?: BlinkIdProcessingError; // TODO: should this be part of `BlinkIdUxManager`?
+  /**
+   * Whether the document has been filtered.
+   */
   documentFiltered: boolean;
+  /**
+   * Whether the onboarding guide should be shown.
+   */
   showOnboardingGuide?: boolean;
+  /**
+   * The timeout for the help tooltip.
+   */
   showHelpTooltipTimeout?: number;
+  /**
+   * Whether the help modal should be shown.
+   */
   showHelpModal?: boolean;
+  /**
+   * Whether the help button should be shown.
+   */
   showHelpButton?: boolean;
+  /**
+   * The function to dismount the feedback UI.
+   */
   dismountFeedbackUi: () => void;
 };
 
+/**
+ * The BlinkIdUiStoreContextValue type.
+ */
 type BlinkIdUiStoreContextValue = {
   store: BlinkIdUiStore;
   updateStore: SetStoreFunction<BlinkIdUiStore>;
 };
 
+/**
+ * The BlinkIdUiStoreContext.
+ */
 const BlinkIdUiStoreContext = createContext<BlinkIdUiStoreContextValue>();
 
+/**
+ * The BlinkIdUiStoreProvider component.
+ *
+ * @param props - The props for the BlinkIdUiStoreProvider component.
+ * @returns The BlinkIdUiStoreProvider component.
+ */
 export const BlinkIdUiStoreProvider: ParentComponent<{
   blinkIdUxManager: BlinkIdUxManager;
   cameraManagerComponent: CameraManagerComponent;
@@ -74,6 +115,11 @@ export const BlinkIdUiStoreProvider: ParentComponent<{
   );
 };
 
+/**
+ * The useBlinkIdUiStore function.
+ *
+ * @returns The BlinkIdUiStore.
+ */
 export function useBlinkIdUiStore() {
   const ctx = useContext(BlinkIdUiStoreContext);
   if (!ctx) {

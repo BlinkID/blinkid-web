@@ -21,7 +21,7 @@ export type ScanningSettings = {
    * The level of blur detection in the document image.
    *
    * Defines the severity of blur detected in the document image, as defined in
-   * {@link DetectionLevel}. Values range from `off` (detection NotAvailable) to
+   * `DetectionLevel`. Values range from `off` (detection NotAvailable) to
    * higher levels of blur detection.
    *
    * `low` – less sensitive to blur; if something is detected as blur, it is
@@ -39,17 +39,17 @@ export type ScanningSettings = {
    * A value of `true` means images with detected blur will be excluded from
    * further processing to prevent blurred images from being used
    *
-   * - If {@link blurDetectionLevel} `=` `off` - blurred images will be processed
-   * - If blur is detected {@link InputImageAnalysisResult#processingStatus}. will
-   *   be `image-preprocessing-failed` and blur will be reported in the
-   *   {@link BlinkIdProcessResult}
+   * - If `blurDetectionLevel` is `off` - blurred images will be processed
+   * - If blur is detected `InputImageAnalysisResult#processingStatus` will be
+   *   `image-preprocessing-failed` and blur will be reported in the
+   *   `BlinkIdProcessResult`
    *
    * A value of `false` means images with detected blur will not be excluded
    * from further processing
    *
-   * - If {@link blurDetectionLevel} `!=` `off` - even if blur is detected, the
-   *   image will be processed and blur will be reported in the
-   *   {@link BlinkIdProcessResult}.
+   * - If `blurDetectionLevel` is not `off` - even if blur is detected, the image
+   *   will be processed and blur will be reported in the
+   *   `BlinkIdProcessResult`.
    */
   skipImagesWithBlur: boolean;
 
@@ -57,7 +57,7 @@ export type ScanningSettings = {
    * The level of glare detection in the document image.
    *
    * Defines the severity of glare detected in the document image, as defined in
-   * {@link DetectionLevel}. Values range from `off` (detection NotAvailable) to
+   * `DetectionLevel`. Values range from `off` (detection NotAvailable) to
    * higher levels of glare detection.
    *
    * `low` – less sensitive to glare; if something is detected as glare, it is
@@ -76,17 +76,17 @@ export type ScanningSettings = {
    * A value of `true` means images with detected glare will be excluded from
    * further processing to prevent glared images from being used
    *
-   * - If {@link glareDetectionLevel} `=` `off` - glared images will be processed
-   * - If glare is detected {@link InputImageAnalysisResult#processingStatus} will
-   *   be `image-preprocessing-failed` and glare will be reported in the
-   *   {@link BlinkIdProcessResult}
+   * - If `glareDetectionLevel` is `off` - glared images will be processed
+   * - If glare is detected `InputImageAnalysisResult#processingStatus` will be
+   *   `image-preprocessing-failed` and glare will be reported in the
+   *   `BlinkIdProcessResult`
    *
    * A value of `false` means images with detected glare will not be excluded
    * from further processing
    *
-   * - If {@link glareDetectionLevel} `!=` `off` - even if glare is detected, the
+   * - If `glareDetectionLevel` is not `off` - even if glare is detected, the
    *   image will be processed and glare will be reported in the
-   *   {@link BlinkIdProcessResult}
+   *   `BlinkIdProcessResult`
    */
   skipImagesWithGlare: boolean;
 
@@ -94,7 +94,7 @@ export type ScanningSettings = {
    * The level of allowed detected tilt of the document in the image.
    *
    * Defines the severity of allowed detected tilt of the document in the image,
-   * as defined in {@link DetectionLevel}. Values range from `off` (detection
+   * as defined in `DetectionLevel`. Values range from `off` (detection
    * NotAvailable) to higher levels of allowed tilt.
    *
    * `low` – less sensitive to tilt.
@@ -114,9 +114,9 @@ export type ScanningSettings = {
    * lighting from being used
    *
    * - If inadequate light conditions are detected
-   *   {@link InputImageAnalysisResult#processingStatus} will be
+   *   `InputImageAnalysisResult#processingStatus` will be
    *   `image-preprocessing-failed` and lighting status will be reported in the
-   *   {@link BlinkIdProcessResult}.
+   *   `BlinkIdProcessResult`.
    */
   skipImagesWithInadequateLightingConditions: boolean;
 
@@ -126,12 +126,11 @@ export type ScanningSettings = {
    * A value of `true` means images occluded by hand will be excluded from
    * further processing to prevent occluded images from being used
    *
-   * - If hand occlusion is detected
-   *   {@link InputImageAnalysisResult#processingStatus} will be
-   *   `image-preprocessing-failed` and hand occlusion status will be reported
-   *   in the {@link BlinkIdProcessResult}.
+   * - If hand occlusion is detected `InputImageAnalysisResult#processingStatus`
+   *   will be `image-preprocessing-failed` and hand occlusion status will be
+   *   reported in the `BlinkIdProcessResult`.
    *
-   * This setting is applicable only if `scanCroppedDocumentImage` = false.
+   * This setting is applicable only if `scanCroppedDocumentImage` is false.
    */
   skipImagesOccludedByHand: boolean;
 
@@ -146,8 +145,8 @@ export type ScanningSettings = {
    * extracted data will be aggregated from multiple images instead of being
    * sourced from a single image.
    *
-   * This only applies when {@link InputImageSource} is equal to `video` - for
-   * images from `photo` source, setting will be ignored.
+   * This only applies when `InputImageSource` is equal to `video` - for images
+   * from `photo` source, setting will be ignored.
    */
   combineResultsFromMultipleInputImages: boolean;
 
@@ -177,7 +176,7 @@ export type ScanningSettings = {
    * If a `fields` is set to a field with an incorrect alphabetType, all fields
    * on the document become optional.
    *
-   * If a `fields` is set to a field that doesn’t exist in the internal rules,
+   * If a `fields` is set to a field that doesn't exist in the internal rules,
    * that rule is ignored.
    *
    * When adding multiple `fields`, any field that does not match our rules is
@@ -252,11 +251,10 @@ export type ScanningSettings = {
    * input image and the document.
    *
    * Default value is `0.02f` (also recommended value). The setting is
-   * applicable only when using images from `video` source The setting is not
-   * applicable if {@link scanCroppedDocumentImage} is enabled (it will be
-   * ignored). This setting is implemented to comply with regulations in certain
-   * countries that mandate documents to be stored with adequate margins in the
-   * image.
+   * applicable only when using images from `video` source. The setting is not
+   * applicable if `scanCroppedDocumentImage` is enabled (it will be ignored).
+   * This setting is implemented to comply with regulations in certain countries
+   * that mandate documents to be stored with adequate margins in the image.
    */
   inputImageMargin: number;
 

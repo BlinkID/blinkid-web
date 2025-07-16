@@ -6,11 +6,21 @@ import { BlinkIdScanningSession, BlinkIdSessionSettings } from "./session";
 import { LicenseUnlockResult, ServerPermissionSubmitResult } from "./licencing";
 import type { EmscriptenModule } from "./emscripten";
 
+/**
+ * The BlinkID Wasm module.
+ *
+ * @ignore
+ */
 export interface BlinkIdWasmModule extends BlinkIdBindings, EmscriptenModule {}
 
+/**
+ * The BlinkID bindings.
+ *
+ * @ignore
+ */
 export interface BlinkIdBindings {
   createBlinkIdScanningSession: (
-    sessionSettings: BlinkIdSessionSettings
+    sessionSettings: BlinkIdSessionSettings,
   ) => BlinkIdScanningSession;
   initializeWithLicenseKey: (
     licenceKey: string,

@@ -12,6 +12,7 @@ import {
 } from "../result";
 import { DriverLicenceDetailedInfo, DateResult } from "../utils";
 
+/** Represents the final complete result of the scanning process. */
 export type BlinkIdScanningResult = {
   /** Scanning mode used to scan current document */
   mode?: RecognitionMode;

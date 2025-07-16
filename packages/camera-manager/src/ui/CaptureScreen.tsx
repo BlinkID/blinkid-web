@@ -34,10 +34,19 @@ import { CameraErrorModal } from "./CameraErrorModal";
 
 // TODO: Full screen background
 
+/**
+ * The capture screen shadow root host ID.
+ */
 export const CAPTURE_SCREEN_SHADOW_ROOT_HOST_ID = "capture-screen-host";
 
+/**
+ * The fit mode.
+ */
 export type FitMode = "contain" | "cover";
 
+/**
+ * The CaptureScreen component.
+ */
 export const CaptureScreen: Component = () => {
   const { cameraManager, mountTarget } = useCameraUiStore();
 
@@ -52,6 +61,9 @@ export const CaptureScreen: Component = () => {
 
   const [fitMode, setFitMode] = createSignal<FitMode>("contain");
 
+  /**
+   * Adjusts the video fit.
+   */
   function adjustVideoFit() {
     const video = videoRef();
 
@@ -200,6 +212,9 @@ export const CaptureScreen: Component = () => {
   );
 };
 
+/**
+ * The CaptureScreenPortalled component.
+ */
 export const CaptureScreenPortalled: Component = () => {
   const { t } = useLocalization();
 

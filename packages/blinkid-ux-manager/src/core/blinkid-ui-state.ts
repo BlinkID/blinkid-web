@@ -4,7 +4,6 @@
 
 import {
   DocumentClassInfo,
-  DocumentRotation,
   InputImageAnalysisResult,
   ResultCompleteness,
   ScanningSettings,
@@ -12,6 +11,9 @@ import {
 import { UiState } from "@microblink/feedback-stabilizer";
 import { match, P } from "ts-pattern";
 
+/**
+ * The type of reticle to display.
+ */
 export type BlinkIdReticleType =
   | "searching"
   | "processing"
@@ -22,6 +24,9 @@ export type BlinkIdReticleType =
   | "move_left"
   | "move_right";
 
+/**
+ * The key of the UI state.
+ */
 export type BlinkIdUiStateKey =
   | "FLIP_CARD"
   | "DOCUMENT_CAPTURED"
@@ -53,15 +58,21 @@ export type BlinkIdUiStateKey =
 
 /**
  * Extended UI state for BlinkID.
+ *
+ * @template K - The key of the UI state.
  */
-
 export type BlinkIdUiStateMap = {
   [K in BlinkIdUiStateKey]: UiState & {
+    /** The key of the UI state. */
     key: K;
+    /** The type of the reticle. */
     reticleType: BlinkIdReticleType;
   };
 };
 
+/**
+ * The states that are captured when the first side is captured.
+ */
 export const firstSideCapturedStates: BlinkIdUiStateKey[] = [
   "FLIP_CARD",
   "MOVE_LEFT",
@@ -69,8 +80,14 @@ export const firstSideCapturedStates: BlinkIdUiStateKey[] = [
   "MOVE_TOP",
 ] as const;
 
+/**
+ * The UI state of BlinkID.
+ */
 export type BlinkIdUiState = BlinkIdUiStateMap[keyof BlinkIdUiStateMap];
 
+/**
+ * The UI state map of BlinkID.
+ */
 export const blinkIdUiStateMap: BlinkIdUiStateMap = {
   SENSING_FRONT: {
     key: "SENSING_FRONT",
@@ -217,15 +234,40 @@ export const blinkIdUiStateMap: BlinkIdUiStateMap = {
   },
 } as const;
 
+/**
+ * The partial process result.
+ */
 export type PartialProcessResult = {
+  /** The input image analysis result. */
   inputImageAnalysisResult: Partial<InputImageAnalysisResult>;
+  /** The result completeness. */
   resultCompleteness: Partial<ResultCompleteness>;
 };
 
+/**
+ * Checks if the document is a passport.
+ *
+ * @param docClass - The document class info.
+ * @returns True if the document is a passport, false otherwise.
+ */
 function isPassport(docClass: DocumentClassInfo | undefined) {
   return docClass?.type === "passport";
 }
 
+/**
+ * Determines the appropriate UI state key based on the current frame processing
+ * result and scanning settings.
+ *
+ * This function acts as a state machine, translating the low-level analysis and
+ * completeness results into a high-level UI state that drives the user
+ * interface.
+ *
+ * @param frameProcessResult - The current (possibly partial) result of frame
+ * processing, including image analysis and completeness.
+ * @param settings - Optional scanning settings that may influence state
+ * selection.
+ * @returns The UI state key representing what should be shown to the user.
+ */
 export function getUiStateKey(
   frameProcessResult: PartialProcessResult,
   settings?: Partial<ScanningSettings>,

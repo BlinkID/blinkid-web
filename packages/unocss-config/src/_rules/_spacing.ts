@@ -2,7 +2,7 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
-import { type Rule, PresetUnoTheme } from "unocss";
+import { type Rule, type PresetUnoTheme } from "unocss";
 
 /**
  * 4px baseline grid, 0.25rem = 4px, respects --mb-size multiplier
@@ -50,8 +50,10 @@ const fancyClamp = (min: number, vmin: number, max: number, vmax: number) => {
   return `clamp(${clampMin}, ${clampVal}, ${clampMax})`;
 };
 
-
-const createLerped = (ruleKey: string, cssProperty: string): Rule<PresetUnoTheme> => {
+const createLerped = (
+  ruleKey: string,
+  cssProperty: string,
+): Rule<PresetUnoTheme> => {
   const breakpointKeysMatcher = "[a-z]+";
   const viewportPattern = `(?:\\d+|${breakpointKeysMatcher})`;
 

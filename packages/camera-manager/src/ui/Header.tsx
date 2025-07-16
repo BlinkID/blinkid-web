@@ -16,6 +16,9 @@ import { Tooltip } from "@ark-ui/solid/tooltip";
 import { eventFixer } from "@microblink/shared-components/eventFixer";
 import { SmartEnvironmentProvider } from "@microblink/shared-components/SmartEnvironmentProvider";
 
+/**
+ * The Header component.
+ */
 export const Header: Component = () => {
   const {
     dismountCameraUi,
@@ -126,10 +129,16 @@ export const Header: Component = () => {
   );
 };
 
+/**
+ * The toolbar button props.
+ */
 type ToolbarButtonProps = {
   tooltipLabel: string;
 } & JSX.ButtonHTMLAttributes<HTMLButtonElement>;
 
+/**
+ * The toolbar button component.
+ */
 const ToolbarButton: ParentComponent<ToolbarButtonProps> = (props) => {
   return (
     <Tooltip.Root>

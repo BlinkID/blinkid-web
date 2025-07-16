@@ -1,11 +1,12 @@
 {
   "name": "@microblink/blinkid-wasm",
   "private": true,
-  "version": "7.3.2",
+  "version": "7.4.0",
   "scripts": {
     "build": "tsc",
     "build:publish": "tsc",
     "clean": "rimraf .turbo types",
+    "docs:api": "typedoc",
     "lint": "pnpm lint:types",
     "lint:types": "tsc --emitDeclarationOnly false --noEmit",
     "build:dev": "tsc"
@@ -33,6 +34,8 @@
     "rimraf": "^6.0.1",
     "tsx": "^4.19.2",
     "type-fest": "^4.35.0",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.0",
     "typescript": "^5.8.3",
     "zx": "^8.5.2"
   },

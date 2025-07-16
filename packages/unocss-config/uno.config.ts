@@ -2,16 +2,21 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
-import { defineConfig, presetUno, PresetUnoTheme, transformerDirectives } from "unocss";
-import { addScaleMultiplier, createSpacingRules, sizeObject } from "./src/_rules";
+import {
+  defineConfig,
+  presetUno,
+  transformerDirectives,
+  type PresetUnoTheme,
+} from "unocss";
+import {
+  addScaleMultiplier,
+  createSpacingRules,
+  sizeObject,
+} from "./src/_rules/index.ts";
 
 export default defineConfig({
-  presets: [
-    presetUno(),
-  ],
-  rules: [
-    ...createSpacingRules(),
-  ],
+  presets: [presetUno()],
+  rules: [...createSpacingRules()],
   extendTheme: (theme: PresetUnoTheme) => {
     return {
       ...theme,
@@ -22,13 +27,17 @@ export default defineConfig({
     };
   },
   shortcuts: {
-    'btn-focus': 'focus:outline focus:outline-2px focus:outline-solid focus:outline-accent-400 focus:outline-offset-4px',
-    'btn-disabled': '[&[disabled]]:cursor-not-allowed [&[disabled]]:bg-gray-200 [&[disabled]]:text-gray-500 hover:[&[disabled]]:bg-gray-200 hover:[&[disabled]]:text-gray-500 [&[disabled]]:ring-0',
+    "btn-focus":
+      "focus:outline focus:outline-2px focus:outline-solid focus:outline-accent-400 focus:outline-offset-4px",
+    "btn-disabled":
+      "[&[disabled]]:cursor-not-allowed [&[disabled]]:bg-gray-200 [&[disabled]]:text-gray-500 hover:[&[disabled]]:bg-gray-200 hover:[&[disabled]]:text-gray-500 [&[disabled]]:ring-0",
 
-    'btn': 'px-5 py-1 text-sm text-nowrap rounded-10 border-none transition-colors transition-duration-100 appearance-none h-[2.5rem] btn-disabled btn-focus',
+    btn: "px-5 py-1 text-sm text-nowrap rounded-10 border-none transition-colors transition-duration-100 appearance-none h-[2.5rem] btn-disabled btn-focus",
 
-    'btn-primary': 'btn bg-primary text-white hover:bg-accent-700 active:bg-accent-800',
-    'btn-secondary': 'btn bg-transparent text-primary ring-primary ring-1 hover:bg-accent-25 hover:ring-accent-700 hover:text-accent-700 active:ring-accent-800 active:text-accent-800 active:bg-accent-50',
+    "btn-primary":
+      "btn bg-primary text-white hover:bg-accent-700 active:bg-accent-800",
+    "btn-secondary":
+      "btn bg-transparent text-primary ring-primary ring-1 hover:bg-accent-25 hover:ring-accent-700 hover:text-accent-700 active:ring-accent-800 active:text-accent-800 active:bg-accent-50",
   },
   theme: {
     spacing: sizeObject,
@@ -117,7 +126,7 @@ export default defineConfig({
         "800": "rgb(var(--color-warning-800-rgb-value) / <alpha-value>)",
         "900": "rgb(var(--color-warning-900-rgb-value) / <alpha-value>)",
       },
-      'deep-blue': {
+      "deep-blue": {
         "25": "rgb(var(-color-deep-blue-25-rgb-value) / <alpha-value>)",
         "50": "rgb(var(-color-deep-blue-50-rgb-value) / <alpha-value>)",
         "100": "rgb(var(-color-deep-blue-100-rgb-value) / <alpha-value>)",
@@ -130,7 +139,7 @@ export default defineConfig({
         "800": "rgb(var(-color-deep-blue-800-rgb-value) / <alpha-value>)",
         "900": "rgb(var(-color-deep-blue-900-rgb-value) / <alpha-value>)",
       },
-      'light-blue': {
+      "light-blue": {
         "25": "rgb(var(-color-light-blue-25-rgb-value) / <alpha-value>)",
         "50": "rgb(var(-color-light-blue-50-rgb-value) / <alpha-value>)",
         "100": "rgb(var(-color-light-blue-100-rgb-value) / <alpha-value>)",
@@ -156,7 +165,7 @@ export default defineConfig({
         "900": "rgb(var(--color-gray-900-rgb-value) / <alpha-value>)",
         "950": "rgb(var(--color-gray-950-rgb-value) / <alpha-value>)",
       },
-      'blue-gray': {
+      "blue-gray": {
         "50": "rgb(var(--color-dark-50-rgb-value) / <alpha-value>)",
         "100": "rgb(var(--color-dark-100-rgb-value) / <alpha-value>)",
         "200": "rgb(var(--color-dark-200-rgb-value) / <alpha-value>)",
@@ -171,7 +180,5 @@ export default defineConfig({
       },
     },
   },
-  transformers: [
-    transformerDirectives(),
-  ],
+  transformers: [transformerDirectives()],
 });

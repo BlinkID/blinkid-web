@@ -4,6 +4,14 @@
 
 import { BlinkIdSessionSettings } from "@microblink/blinkid-wasm";
 
+/**
+ * Default session settings for BlinkID core.
+ *
+ * This is the default session settings for BlinkID core.
+ * It is used to initialize the BlinkID core instance, unless overridden by the user.
+ *
+ * @see BlinkIdSessionSettings for more details.
+ */
 export const defaultSessionSettings: BlinkIdSessionSettings = {
   inputImageSource: "video",
   scanningMode: "automatic",

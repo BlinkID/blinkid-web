@@ -6,6 +6,7 @@ import { Country } from "./Country";
 import { DocumentType } from "./DocumentType";
 import { Region } from "./Region";
 
+/** Represents the document class information. */
 export type DocumentClassInfo = {
   /** The document country. */
   country?: Country;

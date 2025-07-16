@@ -5,7 +5,11 @@
 import { VehicleClassInfo } from "./VehicleClassInfo";
 import { StringResult } from "../result";
 
-/** Represents detailed information from a driver's license */
+/**
+ * Represents detailed information from a driver's license.
+ *
+ * @template S - The type of the string result.
+ */
 export type DriverLicenceDetailedInfo<S extends string | StringResult> = {
   /**
    * The restrictions to driving privileges for the United States driver license

@@ -2,6 +2,9 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
+/**
+ * The English localization strings.
+ */
 export default {
   scan_the_front_side: "Scan the front side of the document",
   scan_data_page: "Scan the data page of the document",

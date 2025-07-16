@@ -4,6 +4,13 @@
 
 import { BlinkIdScanningResult, ScanningSide } from "@microblink/blinkid-wasm";
 
+/**
+ * Extracts the input image for a given side from the scanning result.
+ *
+ * @param blinkIdScanningResult - The scanning result.
+ * @param side - The side to extract the input image for.
+ * @returns The input image for the given side.
+ */
 export function extractSideInputImage(
   blinkIdScanningResult: BlinkIdScanningResult,
   side: ScanningSide,
@@ -12,6 +19,12 @@ export function extractSideInputImage(
   return blinkIdScanningResult.subResults[sideIndex]?.inputImage ?? null;
 }
 
+/**
+ * Extracts the barcode input image from the scanning result.
+ *
+ * @param blinkIdScanningResult - The scanning result.
+ * @returns The barcode input image.
+ */
 export function extractBarcodeImage(
   blinkIdScanningResult: BlinkIdScanningResult,
 ): ImageData | null {
@@ -22,6 +35,13 @@ export function extractBarcodeImage(
   );
 }
 
+/**
+ * Extracts the document image for a given side from the scanning result.
+ *
+ * @param blinkIdScanningResult - The scanning result.
+ * @param side - The side to extract the document image for.
+ * @returns The document image for the given side.
+ */
 export function extractSideDocumentImage(
   blinkIdScanningResult: BlinkIdScanningResult,
   side: ScanningSide,
@@ -30,6 +50,12 @@ export function extractSideDocumentImage(
   return blinkIdScanningResult.subResults[sideIndex]?.documentImage ?? null;
 }
 
+/**
+ * Extracts the face image from the scanning result.
+ *
+ * @param blinkIdScanningResult - The scanning result.
+ * @returns The face image.
+ */
 export function extractFaceImage(
   blinkIdScanningResult: BlinkIdScanningResult,
 ): ImageData | null {
@@ -39,6 +65,12 @@ export function extractFaceImage(
   );
 }
 
+/**
+ * Extracts the signature image from the scanning result.
+ *
+ * @param blinkIdScanningResult - The scanning result.
+ * @returns The signature image.
+ */
 export function extractSignatureImage(
   blinkIdScanningResult: BlinkIdScanningResult,
 ): ImageData | null {

@@ -7,7 +7,10 @@ import { nanoid } from "nanoid";
 const key = "blinkid-userid";
 
 /**
- * Gets the user id from local storage, or generates a new one
+ * Gets the user id from local storage, or generates a new one.
+ *
+ * This is a workaround for the lack of a user id in the worker scope.
+ *
  * @returns a unique user id
  */
 export function getUserId() {

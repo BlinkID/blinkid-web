@@ -24,6 +24,11 @@ import { Dynamic } from "solid-js/web";
 import styles from "./styles.module.scss";
 import { LocalizationStrings, useLocalization } from "../LocalizationContext";
 
+/**
+ * The HelpModal component.
+ *
+ * @returns The HelpModal component.
+ */
 export const HelpModal: Component = () => {
   const { t } = useLocalization();
 
@@ -140,6 +145,12 @@ export const HelpModal: Component = () => {
   );
 };
 
+/**
+ * The HelpButton component.
+ *
+ * @param props - The props for the HelpButton component.
+ * @returns The HelpButton component.
+ */
 export const HelpButton: ParentComponent<{ isProcessing: boolean }> = (
   props,
 ) => {

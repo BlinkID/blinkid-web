@@ -8,6 +8,9 @@ import { useCameraUiStore } from "./CameraUiStoreContext";
 import { cameraUiRefSignalStore } from "./zustandRefStore";
 import { useLocalization } from "./LocalizationContext";
 
+/**
+ * The CameraErrorModal component.
+ */
 const CameraErrorModal: Component = () => {
   const { t } = useLocalization();
 

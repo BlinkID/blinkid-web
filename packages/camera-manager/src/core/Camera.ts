@@ -9,6 +9,9 @@ export type FacingMode = "front" | "back" | undefined;
 
 /**
  * Available video resolutions for the camera stream.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/width for width details.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/height for height details.
  */
 export const videoResolutions = {
   "720p": { width: 1280, height: 720 },
@@ -16,17 +19,41 @@ export const videoResolutions = {
   "4k": { width: 3840, height: 2160 },
 } as const satisfies Record<string, Resolution>;
 
+/**
+ * Represents a video resolution.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/width for width details.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/height for height details.
+ */
 export type Resolution = {
   width: number;
   height: number;
 };
 
+/**
+ * Represents a video resolution name.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/width for width details.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/height for height details.
+ */
 export type VideoResolutionName = keyof typeof videoResolutions;
 
+/**
+ * Returns the longer side of a resolution.
+ *
+ * @param resolution - The resolution to get the longer side of.
+ * @returns The longer side of the resolution.
+ */
 export function returnLongerSide(resolution: Resolution): number {
   return Math.max(resolution.width, resolution.height);
 }
 
+/**
+ * Normalizes a resolution to the longer side.
+ *
+ * @param resolution - The resolution to normalize.
+ * @returns The normalized resolution.
+ */
 export function getNormalizedResolution(resolution: Resolution): Resolution {
   const normalized = {
     width: Math.max(resolution.width, resolution.height),
@@ -46,6 +73,12 @@ export function getNormalizedResolution(resolution: Resolution): Resolution {
   return normalized;
 }
 
+/**
+ * Matches the closest resolution to the given resolution.
+ *
+ * @param resolution - The resolution to match.
+ * @returns The closest resolution.
+ */
 export function matchClosestResolution(
   resolution: Resolution,
 ): VideoResolutionName {
@@ -59,6 +92,12 @@ export function matchClosestResolution(
   }
 }
 
+/**
+ * Finds the closest resolution key to the given resolution.
+ *
+ * @param videoTrackResolution - The resolution to find the closest key for.
+ * @returns The closest resolution key.
+ */
 export function findResolutionKey(
   videoTrackResolution: Resolution,
 ): VideoResolutionName {
@@ -91,9 +130,15 @@ export function findResolutionKey(
 
 /**
  * Represents a camera device and its active stream.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/getCapabilities for more details.
  */
 export class Camera {
+  /**
+   * The device info.
+   */
   deviceInfo: InputDeviceInfo;
+
   /**
    * Stream capabilities as reported by the stream.
    *
@@ -130,6 +175,11 @@ export class Camera {
    */
   #deviceCapabilities?: ReturnType<InputDeviceInfo["getCapabilities"]>;
 
+  /**
+   * Creates a new Camera instance.
+   *
+   * @param deviceInfo - The device info.
+   */
   constructor(deviceInfo: InputDeviceInfo) {
     if (deviceInfo.kind !== "videoinput") {
       throw new Error("Device is not a video input device");
@@ -181,6 +231,12 @@ export class Camera {
     return proxy;
   }
 
+  /**
+   * Starts a stream with the specified resolution.
+   *
+   * @param resolution - The resolution to start the stream with.
+   * @returns The stream.
+   */
   async startStream(resolution: VideoResolutionName): Promise<MediaStream> {
     if (this.activeStream) {
       return this.activeStream;
@@ -213,6 +269,9 @@ export class Camera {
   /**
    * Acquires a camera stream with the specified resolution.
    * If acquisition fails, it tries a lower resolution as fallback.
+   *
+   * @param resolution - The resolution to acquire the stream with.
+   * @returns The stream.
    */
   private async acquireStreamWithFallback(
     resolution: VideoResolutionName,
@@ -252,6 +311,8 @@ export class Camera {
 
   /**
    * Populates the camera instance with capabilities from the stream.
+   *
+   * @param stream - The stream to populate the capabilities from.
    */
   private populateCapabilities(stream: MediaStream) {
     this.streamCapabilities = stream.getVideoTracks()[0].getCapabilities();
@@ -316,6 +377,11 @@ export class Camera {
     }
   }
 
+  /**
+   * Toggles the torch on the camera.
+   *
+   * @returns The torch status.
+   */
   async toggleTorch() {
     const videoTrack = this.getVideoTrack();
 
@@ -347,6 +413,9 @@ export class Camera {
     return this.torchEnabled;
   }
 
+  /**
+   * Stops the stream on the camera.
+   */
   stopStream() {
     if (this.activeStream) {
       console.debug(`Stopping active stream on ${this.name}`);
@@ -357,6 +426,11 @@ export class Camera {
     }
   }
 
+  /**
+   * Gets the video track on the camera.
+   *
+   * @returns The video track.
+   */
   getVideoTrack() {
     if (!this.activeStream) {
       console.warn(`No active stream on Camera instance: ${this.name}.`);

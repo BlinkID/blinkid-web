@@ -32,29 +32,67 @@ import type {
   LicenseTokenState,
 } from "@microblink/blinkid-wasm";
 
-// this is a workaround for the fact that the types are not exported
+/**
+ * This is a workaround for the fact that the types are not exported.
+ */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface _BlinkIdScanningResult extends BlinkIdScanningResult {}
+
+/**
+ * This is a workaround for the fact that the types are not exported.
+ */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface _BlinkIdSessionError extends BlinkIdSessionError {}
 
+/**
+ * The process result with buffer.
+ */
 export type ProcessResultWithBuffer = BlinkIdProcessResult & {
   arrayBuffer: ArrayBuffer;
 };
 
+/**
+ * The worker scanning session.
+ */
 export type WorkerScanningSession = OverrideProperties<
   BlinkIdScanningSession,
   {
     process: (image: ImageData) => ProcessResultWithBuffer;
   }
 > & {
+  /**
+   * Gets the settings.
+   *
+   * @returns The settings.
+   */
   getSettings: () => BlinkIdSessionSettings;
+  /**
+   * Shows the demo overlay.
+   *
+   * @returns Whether the demo overlay is shown.
+   */
   showDemoOverlay: () => boolean;
+  /**
+   * Shows the production overlay.
+   *
+   * @returns Whether the production overlay is shown.
+   */
   showProductionOverlay: () => boolean;
 };
 
+/**
+ * Initialization settings for the BlinkID worker.
+ *
+ * These settings control how the BlinkID worker is initialized and configured,
+ * including resource locations, memory allocation, and build variants.
+ */
 export type BlinkIdWorkerInitSettings = {
+  /**
+   * The license key required to unlock and use the BlinkID SDK.
+   * This must be a valid license key obtained from Microblink.
+   */
   licenseKey: string;
+
   /**
    * The URL of the Microblink proxy server. This proxy handles requests to Microblink's Baltazar and Ping servers.
    *
@@ -70,20 +108,41 @@ export type BlinkIdWorkerInitSettings = {
    * @example "https://your-proxy.example.com"
    */
   microblinkProxyUrl?: string;
+
   /**
    * The parent directory where the `/resources` directory is hosted.
    * Defaults to `window.location.href`, at the root of the current page.
    */
   resourcesLocation?: string;
+
+  /**
+   * A unique identifier for the user/session.
+   * Used for analytics and tracking purposes.
+   */
   userId: string;
+
+  /**
+   * The WebAssembly module variant to use.
+   * Different variants may offer different performance/size tradeoffs.
+   */
   wasmVariant?: WasmVariant;
+
   /**
    * The initial memory allocation for the Wasm module, in megabytes.
+   * Larger values may improve performance but increase memory usage.
    */
   initialMemory?: number;
+
+  /**
+   * Whether to use the lightweight build of the SDK.
+   * Lightweight builds have reduced size but may have limited functionality.
+   */
   useLightweightBuild: boolean;
 };
 
+/**
+ * The load Wasm params.
+ */
 export type LoadWasmParams = {
   resourceUrl: string;
   variant?: WasmVariant;
@@ -91,15 +150,22 @@ export type LoadWasmParams = {
   initialMemory?: number;
 };
 
+/**
+ * The progress status callback.
+ */
 export type ProgressStatusCallback = (progress: DownloadProgress) => void;
 
 /**
- * Sanitized proxy URLs for different Microblink services
+ * Sanitized proxy URLs for different Microblink services.
  */
 type SanitizedProxyUrls = {
-  /** URL for ping service */
+  /**
+   * URL for ping service.
+   */
   ping: string;
-  /** URL for Baltazar service */
+  /**
+   * URL for Baltazar service.
+   */
   baltazar: string;
 };
 
@@ -116,16 +182,36 @@ class ProxyUrlValidationError extends Error {
   }
 }
 
+/**
+ * The BlinkID worker.
+ */
 class BlinkIdWorker {
-  // core objects
+  /**
+   * The Wasm module.
+   */
   #wasmModule?: BlinkIdWasmModule;
-  // must be initialized when calling initBlinkId
+  /**
+   * The default session settings.
+   *
+   * Must be initialized when calling initBlinkId.
+   */
   #defaultSessionSettings!: BlinkIdSessionSettings;
+  /**
+   * The progress status callback.
+   */
   progressStatusCallback?: ProgressStatusCallback;
+  /**
+   * Whether the demo overlay is shown.
+   */
   #showDemoOverlay = true;
+  /**
+   * Whether the production overlay is shown.
+   */
   #showProductionOverlay = true;
 
-  /** Sanitized proxy URLs for Microblink services */
+  /**
+   * Sanitized proxy URLs for Microblink services.
+   */
   #proxyUrls?: SanitizedProxyUrls;
 
   /**
@@ -342,6 +428,12 @@ class BlinkIdWorker {
     this.#showProductionOverlay = licenceUnlockResult.showProductionOverlay;
   }
 
+  /**
+   * This method creates a BlinkID scanning session.
+   *
+   * @param options - The options for the session.
+   * @returns The session.
+   */
   createBlinkIdScanningSession(options?: PartialBlinkIdSessionSettings) {
     if (!this.#wasmModule) {
       throw new Error("Wasm module not loaded");
@@ -359,6 +451,13 @@ class BlinkIdWorker {
     return proxySession;
   }
 
+  /**
+   * This method creates a proxy session.
+   *
+   * @param session - The session.
+   * @param sessionSettings - The session settings.
+   * @returns The proxy session.
+   */
   createProxySession(
     session: BlinkIdScanningSession,
     sessionSettings: BlinkIdSessionSettings,
@@ -415,14 +514,17 @@ class BlinkIdWorker {
     self.close();
   }
 
+  /**
+   * If the ping is enabled, this method will return 1.
+   *
+   * @returns 1 if the ping is enabled, 0 otherwise.
+   */
   ping() {
     return 1;
   }
 
   /**
    * Configures proxy URLs based on the provided settings and license permissions.
-   *
-   * @private
    */
   #configureProxyUrls(
     proxyUrl: string,
@@ -471,8 +573,6 @@ class BlinkIdWorker {
 
   /**
    * Validates that the license allows proxy usage.
-   *
-   * @private
    */
   #validateProxyPermissions(
     licenceUnlockResult: {
@@ -506,8 +606,6 @@ class BlinkIdWorker {
 
   /**
    * Validates and sanitizes proxy URLs for different Microblink services.
-   *
-   * @private
    */
   #sanitizeProxyUrls(baseUrl: string): SanitizedProxyUrls {
     // Validate base URL format
@@ -545,8 +643,6 @@ class BlinkIdWorker {
 
   /**
    * Builds a service URL by combining base URL with service path.
-   *
-   * @private
    */
   #buildServiceUrl(baseUrl: string, servicePath: string): string {
     try {
@@ -561,8 +657,17 @@ class BlinkIdWorker {
   }
 }
 
+/**
+ * The BlinkID worker.
+ */
 const blinkIdWorker = new BlinkIdWorker();
 
+/**
+ * The BlinkID worker proxy.
+ */
 expose(blinkIdWorker);
 
+/**
+ * The BlinkID worker proxy.
+ */
 export type BlinkIdWorkerProxy = Omit<BlinkIdWorker, typeof finalizer>;

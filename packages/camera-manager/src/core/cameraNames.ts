@@ -3,7 +3,7 @@
  */
 
 /**
- * Generic keywords for back camera
+ * Generic keywords for back camera.
  */
 export const backCameraKeywords = [
   // English
@@ -79,7 +79,7 @@ export const backCameraKeywords = [
 ] as const satisfies string[];
 
 /**
- * Generic keywords for front camera
+ * Generic keywords for front camera.
  */
 export const frontCameraKeywords = [
   // English
@@ -151,7 +151,7 @@ export const frontCameraKeywords = [
 ] as const satisfies string[];
 
 /**
- * Localizations for iOS back camera
+ * Localizations for iOS back camera.
  */
 export const backCameraLocalizations = [
   "후면 카메라",
@@ -202,7 +202,7 @@ export const backCameraLocalizations = [
 ] as const satisfies string[];
 
 /**
- * Localizations for iOS back dual wide camera
+ * Localizations for iOS back dual wide camera.
  */
 export const backDualWideCameraLocalizations = [
   "Cameră dublă cu obiectiv superangular spate",
@@ -245,14 +245,30 @@ export const backDualWideCameraLocalizations = [
 ] as const satisfies string[];
 
 /**
- * Check if a string contains any of the keywords
+ * Check if a string contains any of the keywords.
+ *
+ * @param string - The string to check.
+ * @param keywords - The keywords to check.
+ * @returns true if the string contains any of the keywords.
  */
 export const containsKeyword = (string: string, keywords: string[]) => {
   return keywords.some((keyword) => string.toLowerCase().includes(keyword));
 };
 
+/**
+ * Checks if a string is a back camera name.
+ *
+ * @param string - The string to check.
+ * @returns true if the string is a back camera name.
+ */
 export const isBackCameraName = (string: string) =>
   containsKeyword(string, backCameraKeywords);
 
+/**
+ * Checks if a string is a front camera name.
+ *
+ * @param string - The string to check.
+ * @returns true if the string is a front camera name.
+ */
 export const isFrontCameraName = (string: string) =>
   containsKeyword(string, frontCameraKeywords);

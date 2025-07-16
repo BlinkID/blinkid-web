@@ -12,15 +12,25 @@ import {
   threads,
 } from "wasm-feature-detect";
 
+/**
+ * Checks if the browser is Safari.
+ *
+ * @returns True if the browser is Safari, false otherwise.
+ */
 export function isSafari() {
   const userAgent = navigator.userAgent.toLowerCase();
   return userAgent.includes("safari") && !userAgent.includes("chrome");
 }
 
 /**
+ * Checks if the browser supports WASM threads.
+ *
+ * @returns True if the browser supports WASM threads, false otherwise.
+ *
  * Safari 16 shipped with WASM threads support, but it didn't ship with nested
- * workers support, so an extra check is needed
- * https://github.com/GoogleChromeLabs/squoosh/pull/1325/files#diff-904900db64cd3f48b0e765dbbdc6a218a7ea74a199671bde82a8944a904db86f
+ * workers support, so an extra check is needed.
+ *
+ * @see https://github.com/GoogleChromeLabs/squoosh/pull/1325/files#diff-904900db64cd3f48b0e765dbbdc6a218a7ea74a199671bde82a8944a904db86f
  */
 export default async function checkThreadsSupport(): Promise<boolean> {
   const supportsWasmThreads = await threads();
@@ -39,8 +49,16 @@ export default async function checkThreadsSupport(): Promise<boolean> {
   return "Worker" in self;
 }
 
+/**
+ * The WASM variant.
+ */
 export type WasmVariant = "basic" | "advanced" | "advanced-threads";
 
+/**
+ * Detects the WASM features.
+ *
+ * @returns The WASM variant.
+ */
 export async function detectWasmFeatures(): Promise<WasmVariant> {
   const basicSet = [
     mutableGlobals(),

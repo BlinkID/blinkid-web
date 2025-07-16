@@ -1,5 +1,12 @@
 # example-blinkid-photo-upload
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/blinkid-core@7.4.0
+
 ## 1.0.1
 
 ### Patch Changes

@@ -4,7 +4,8 @@
 
 /**
  * Checks if the current environment is iOS.
- * @returns {boolean} True if running on iOS device, false otherwise.
+ *
+ * @returns True if running on iOS device, false otherwise.
  */
 export function isIOS(): boolean {
   const userAgent = self.navigator.userAgent.toLowerCase();
@@ -13,7 +14,8 @@ export function isIOS(): boolean {
 
 /**
  * Checks if the current environment is Safari browser.
- * @returns {boolean} True if running on Safari, false otherwise.
+ *
+ * @returns True if running on Safari, false otherwise.
  */
 export function isSafari(): boolean {
   const userAgent = self.navigator.userAgent.toLowerCase();

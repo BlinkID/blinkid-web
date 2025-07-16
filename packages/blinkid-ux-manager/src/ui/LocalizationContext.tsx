@@ -12,8 +12,14 @@ import { SetStoreFunction, createStore } from "solid-js/store";
 
 import enLocaleStrings from "./locales/en";
 
+/**
+ * The locale record type.
+ */
 export type LocaleRecord = typeof enLocaleStrings;
 
+/**
+ * The localization strings type.
+ */
 export type LocalizationStrings = {
   // This allows for autocomplete for defaults, but also overriding
   // https://twitter.com/mattpocockuk/status/1709281782325977101
@@ -21,11 +27,17 @@ export type LocalizationStrings = {
   [K in keyof LocaleRecord]: LocaleRecord[K] | (string & {});
 };
 
+/**
+ * The localization context.
+ */
 const LocalizationContext = createContext<{
   t: LocalizationStrings;
   updateLocalization: SetStoreFunction<LocalizationStrings>;
 }>();
 
+/**
+ * The localization provider.
+ */
 export const LocalizationProvider: ParentComponent<{
   userStrings?: Partial<LocalizationStrings>;
 }> = (props) => {
@@ -56,6 +68,11 @@ export const LocalizationProvider: ParentComponent<{
   );
 };
 
+/**
+ * The use localization hook.
+ *
+ * @returns The localization strings.
+ */
 export function useLocalization() {
   const ctx = useContext(LocalizationContext);
   if (!ctx) {

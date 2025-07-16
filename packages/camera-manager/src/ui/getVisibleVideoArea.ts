@@ -5,8 +5,14 @@
 import { ExtractionArea } from "../core/VideoFrameProcessor";
 
 /**
- * Compute the visible portion of the video (in the video’s natural coordinate space)
+ * Computes the visible portion of the video (in the video's natural coordinate space)
  * when rendered with object-fit: cover.
+ *
+ * @param containerWidth - The width of the container.
+ * @param containerHeight - The height of the container.
+ * @param videoWidth - The width of the video.
+ * @param videoHeight - The height of the video.
+ * @returns The visible portion of the video.
  */
 export function getVisibleVideoArea(
   containerWidth: number,

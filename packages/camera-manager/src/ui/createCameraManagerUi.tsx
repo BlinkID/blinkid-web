@@ -14,19 +14,27 @@ import {
 import { RootComponent } from "./RootComponent";
 import { cameraUiRefStore } from "./zustandRefStore";
 
+/**
+ * The default mount point ID.
+ */
 export const MOUNT_POINT_ID = "camera-manager-mount-point";
 
 // this triggers extraction of CSS from the UnoCSS plugin
 import { Owner } from "solid-js";
 import "virtual:uno.css";
 
+/**
+ * The camera manager component.
+ */
 export type CameraManagerComponent = {
+  /** The camera manager. */
   cameraManager: CameraManager;
   /** Updates the localization strings */
   updateLocalization: SetStoreFunction<CameraUiLocalizationStrings>;
   /** Dismounts the component from the DOM and unloads the SDK */
   dismount: () => void;
-  /** Sets a callback to be called when the component is unmounted.
+  /**
+   * Sets a callback to be called when the component is unmounted.
    * Returns a cleanup function that removes the callback when called.
    */
   addOnDismountCallback: (fn: DismountCallback) => () => void;
@@ -40,14 +48,25 @@ export type CameraManagerComponent = {
   overlayLayerNode: HTMLDivElement;
 
   /**
-   * https://docs.solidjs.com/reference/reactive-utilities/get-owner
+   * The owner of the component.
+   *
+   * @see https://docs.solidjs.com/reference/reactive-utilities/get-owner
    */
   owner: Owner;
 };
 
+/**
+ * A dismount callback.
+ */
 export type DismountCallback = () => void;
 
+/**
+ * The camera manager UI options.
+ */
 export type CameraManagerUiOptions = {
+  /**
+   * The localization strings.
+   */
   localizationStrings?: Partial<CameraUiLocalizationStrings>;
   /**
    * If set to `true`, the mirror camera button will be shown.
@@ -71,6 +90,11 @@ export type CameraManagerUiOptions = {
 
 /**
  * Creates a new Camera Manager UI component.
+ *
+ * @param cameraManager - The camera manager.
+ * @param target - The target element to mount the component to.
+ * @param options - The options for the camera manager UI.
+ * @returns The camera manager UI component.
  */
 export function createCameraManagerUi(
   cameraManager: CameraManager,
@@ -81,7 +105,8 @@ export function createCameraManagerUi(
     showTorchButton = true,
     showCloseButton = true,
   }: CameraManagerUiOptions = {},
-) {
+): Promise<CameraManagerComponent> {
+  // The mountable HTML element.
   let mountTarget: HTMLElement;
   const dismountCallbacks = new Set<DismountCallback>();
 
@@ -95,13 +120,19 @@ export function createCameraManagerUi(
     updateLocalizationRef = setter;
   };
 
+  /**
+   * Cleans up the camera manager.
+   */
   const cleanupCameraManager = () => {
     cameraManager.reset();
   };
 
+  // A reference to the dismount function.
   let dismountRef: () => void;
 
-  // This function will unmount the component and remove the mount point from the DOM
+  /**
+   * Dismounts the camera manager UI.
+   */
   const dismountCameraManagerUi = () => {
     try {
       console.debug("🧱 Dismounting camera manager UI");
@@ -132,16 +163,15 @@ export function createCameraManagerUi(
     }
   };
 
-  /* We create a dummy element that will be the target of the `dismount()`
-   * function if no target is provided. If we simply provide `document.body`,
-   * `dismount()` will clear the entire document body:
+  /**
+   * We create a dummy element that will be the target of the `dismount()` function if no target is provided.
+   * If we simply provide `document.body`, `dismount()` will clear the entire document body:
    *
    * https://www.solidjs.com/docs/latest/api#render
    *
    * This is a DX optimization so that users don't need to provide their own
    * dummy mount points if they are using a portalled component anyway
    */
-
   const newMountTarget = document.createElement("div");
   newMountTarget.id = MOUNT_POINT_ID;
   mountTarget = newMountTarget;
@@ -167,6 +197,9 @@ export function createCameraManagerUi(
     };
   };
 
+  /**
+   * Renders the camera manager UI.
+   */
   dismountRef = render(
     () => (
       <LocalizationProvider

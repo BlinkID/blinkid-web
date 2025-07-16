@@ -1,5 +1,11 @@
 # @microblink/blinkid-wasm
 
+## 7.4.0
+
+### Minor Changes
+
+- Improved documentation
+
 ## 7.3.2
 
 ### Patch Changes
@@ -7,6 +13,7 @@
 #### Bug Fixes
 
 - Resolved issues where EMBind mapped properties with invalid names.
+
   - `BarcodeResult.rawBytes` has been renamed to `rawData` to match the TypeScript declaration.
   - `MrzResult` now correctly populates the `opt1` and `opt2` fields.
   - Corrected casing in `MrzResult`: `primaryId` and `secondaryId` are no longer incorrectly mapped as `primaryID` and `secondaryID`.

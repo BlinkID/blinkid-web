@@ -5,66 +5,143 @@
 import { getKeyWithHighestValue } from "./utils";
 import { StringKeyOf } from "type-fest";
 
-/* TODO: fix type inference */
-
+/**
+ * Represents a UI state configuration with timing and weight parameters.
+ * Used to define how different UI states should behave in the stabilization process.
+ */
 export type UiState = {
+  /** Unique identifier for the UI state */
   key: string;
+
+  /** Minimum duration (in milliseconds) this state should be displayed */
   minDuration: number;
+
   /**
    * If true, the event will be emitted once the previous event is done.
-   * It's not going through the averaging process
+   * It bypasses the averaging process and is handled separately.
    */
   singleEmit?: boolean;
+
+  /**
+   * Initial weight for this state when it enters the stabilization queue.
+   * Higher values give the state more influence in the averaging process.
+   */
   initialWeight?: number;
 };
 
+/**
+ * Represents a UI state event in the stabilization queue.
+ * These events are processed to determine which UI state should be displayed.
+ */
 export type UiStateEvent = {
+  /** Identifier matching a UI state key */
   key: string;
+
+  /** High-resolution timestamp when the event occurred */
   timeStamp: DOMHighResTimeStamp;
+
+  /** Current weight of this event in the stabilization process */
   currentWeight: number;
+
   /**
-   * If true, the event will be emitted once the previous event is done.
-   * It's not going through the averaging process
+   * If true, this event will be emitted once the previous event completes.
+   * It bypasses the normal stabilization process.
    */
   singleEmit?: boolean;
 };
 
+/**
+ * Maps state keys to their corresponding UI state configurations.
+ */
 export type UiStateMap = Record<string, UiState>;
 
+/**
+ * FeedbackStabilizer provides UI state management with temporal smoothing.
+ * 
+ * It helps prevent UI "flickering" by:
+ * - Maintaining a time-windowed history of UI state changes
+ * - Applying weighted averaging to determine the most appropriate state
+ * - Supporting immediate state changes through single-emit events
+ * - Enforcing minimum display durations for states
+ * 
+ * @typeParam SdkSpecificStateMap - Type extending UiStateMap for SDK-specific states
+ */
 export class FeedbackStabilizer<SdkSpecificStateMap extends UiStateMap> {
+  /** The initial key. */
   private initialKey: StringKeyOf<SdkSpecificStateMap>;
+  /** The UI state map. */
   private uiStateMap: SdkSpecificStateMap;
+  /** Time window (in ms) for considering UI state events. */
   private timeWindow = 3000;
+  /** The decay rate. */
+  /** Rate at which event weights decay over time */
   private decayRate = 0.95;
+  /** Queue of regular UI state events within the time window */
   private eventQueue: UiStateEvent[] = [];
-  /** this is a special queue as min duration of the event can be longer than the `timeWindow` */
+  /** Special queue for single-emit events that bypass normal stabilization */
   private singleEventQueue: UiStateEvent[] = [];
-  // used for tracking current state
+  /** Currently displayed state key */
   private currentKey: StringKeyOf<SdkSpecificStateMap>;
+  /** Timestamp when current state started displaying */
   private currentStateStartTime = performance.now();
+  /** Accumulated scores for each state in current calculation */
   private summedScores: Record<string, number> = {};
+  /** History of scores for each state */
   private scoreBoard: Record<string, number[]> = {};
 
+  /**
+   * Gets the currently active UI state configuration.
+   * 
+   * @returns The currently active UI state configuration.
+   */
   get currentState() {
     return this.uiStateMap[this.currentKey];
   }
 
+  /**
+   * Gets a copy of the current event queue for debugging.
+   * 
+   * @returns A copy of the current event queue.
+   */
   getEventQueue() {
     return structuredClone(this.eventQueue);
   }
 
+  /**
+   * Gets the current summed scores for each state.
+   * 
+   * @returns The current summed scores for each state.
+   */
   getScores() {
     return structuredClone(this.summedScores);
   }
 
+  /**
+   * Gets the score history for each state.
+   * 
+   * @returns The score history for each state.
+   */
   getScoreBoard() {
     return structuredClone(this.scoreBoard);
   }
 
+  /**
+   * Updates the time window used for state stabilization
+   * 
+   * @param timeWindow - New time window in milliseconds
+   */
   setTimeWindow(timeWindow: number) {
     this.timeWindow = timeWindow;
   }
 
+  /**
+   * Creates a new FeedbackStabilizer instance.
+   * 
+   * @param uiStateMap - Map of all possible UI states and their configurations
+   * @param initialKey - Key of the initial UI state to display
+   * @param timeWindow - Optional custom time window (in ms) for state averaging
+   * @param decayRate - Optional custom decay rate for event weights
+   */
   constructor(
     uiStateMap: SdkSpecificStateMap,
     initialKey: StringKeyOf<SdkSpecificStateMap>,
@@ -85,6 +162,11 @@ export class FeedbackStabilizer<SdkSpecificStateMap extends UiStateMap> {
     }
   }
 
+  /**
+   * Resets the stabilizer to its initial state.
+   * 
+   * @returns The initial state.
+   */
   reset() {
     this.currentKey = this.initialKey;
     this.eventQueue = [];
@@ -92,6 +174,11 @@ export class FeedbackStabilizer<SdkSpecificStateMap extends UiStateMap> {
     this.summedScores = {};
   }
 
+  /**
+   * Checks if enough time has passed to show a new UI state
+   * 
+   * @returns true if the current state's minimum duration has elapsed
+   */
   canShowNewUiState = () => {
     return (
       performance.now() - this.currentStateStartTime >=
@@ -100,7 +187,15 @@ export class FeedbackStabilizer<SdkSpecificStateMap extends UiStateMap> {
   };
 
   /**
-   * Returns a weighted UI state based on the history
+   * Processes a new UI state event and determines the state to display.
+   *
+   * This method:
+   * 1. Handles single-emit events that bypass normal stabilization
+   * 2. Maintains a time-windowed queue of regular events
+   * 3. Applies temporal averaging with decay to determine the winning state
+   *
+   * @param incomingUiStateKey - Key of the new UI state event
+   * @returns The UI state that should be displayed.
    */
   getNewUiState(
     incomingUiStateKey: StringKeyOf<SdkSpecificStateMap>,

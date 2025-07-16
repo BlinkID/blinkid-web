@@ -1,6 +1,7 @@
 {
   // Change this to match your project
   "include": ["**/*.mjs"],
+  "exclude": ["**/*.test.*", "**/__tests__/*"],
   "compilerOptions": {
     "esModuleInterop": true,
     // Tells TypeScript to read JS files, as

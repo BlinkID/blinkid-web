@@ -5,6 +5,9 @@
 export type CanvasRenderingMode = "2d" | "webgl2";
 export type ImageSource = HTMLVideoElement | HTMLCanvasElement | ImageBitmap;
 
+/**
+ * Options for the VideoFrameProcessor.
+ */
 export type VideoFrameProcessorInitOptions = {
   canvasRenderingMode?: CanvasRenderingMode;
   fallbackWebGlTo2d?: boolean;
@@ -32,6 +35,9 @@ export function isBufferDetached(buffer: ArrayBuffer): boolean {
   }
 }
 
+/**
+ * The extraction area.
+ */
 export type ExtractionArea = {
   x: number;
   y: number;
@@ -54,6 +60,11 @@ export class VideoFrameProcessor {
   #canvasRenderingMode: CanvasRenderingMode;
   #requiredPackAlignment = 4;
 
+  /**
+   * Creates a new VideoFrameProcessor.
+   *
+   * @param options - The options for the VideoFrameProcessor.
+   */
   constructor(options: VideoFrameProcessorInitOptions = {}) {
     const { canvasRenderingMode = "webgl2", fallbackWebGlTo2d = true } =
       options;
@@ -86,7 +97,7 @@ export class VideoFrameProcessor {
   }
 
   /**
-   * Initializes the 2D canvas context
+   * Initializes the 2D canvas context.
    */
   #initialize2dContext(): void {
     const ctx = this.#canvas.getContext("2d", {
@@ -98,7 +109,7 @@ export class VideoFrameProcessor {
   }
 
   /**
-   * Initializes the WebGL2 context and resources
+   * Initializes the WebGL2 context and resources.
    */
   #initializeWebGl2Context(): void {
     // Create and configure WebGL2 context
@@ -144,9 +155,12 @@ export class VideoFrameProcessor {
   }
 
   /**
-   * Returns ownership of an ArrayBuffer to the processor for reuse
-   * This should only be called with ArrayBuffers that were originally from this processor
-   * Typically used after transferring the buffer to/from a worker
+   * Returns ownership of an ArrayBuffer to the processor for reuse.
+   *
+   * This should only be called with ArrayBuffers that were originally from this processor.
+   * Typically used after transferring the buffer to/from a worker.
+   *
+   * @param arrayBuffer - The array buffer to reattach.
    */
   reattachArrayBuffer(arrayBuffer: ArrayBufferLike): void {
     // Might be a view, so get the underlying buffer
@@ -169,7 +183,9 @@ export class VideoFrameProcessor {
   }
 
   /**
-   * Used to check if the processor owns the buffer
+   * Used to check if the processor owns the buffer.
+   *
+   * @returns true if the processor owns the buffer, false otherwise.
    */
   isBufferDetached(): boolean {
     if (!this.#buffer) {
@@ -179,7 +195,11 @@ export class VideoFrameProcessor {
   }
 
   /**
-   * Extracts image data from a source element
+   * Extracts image data from a source element.
+   *
+   * @param source - The source element to extract image data from.
+   * @param area - The extraction area.
+   * @returns The image data.
    */
   getImageData(source: ImageSource, area?: ExtractionArea): ImageData {
     return this.#canvasRenderingMode === "2d"
@@ -191,6 +211,7 @@ export class VideoFrameProcessor {
    * Used to get the current ImageData object with the current buffer. Useful
    * when you need to get the same `ImageData` object multiple times after the
    * original `ImageData` buffer has been detached
+   *
    * @returns ImageData object with the current buffer
    */
   getCurrentImageData(): ImageData {
@@ -201,7 +222,11 @@ export class VideoFrameProcessor {
   }
 
   /**
-   * Extract image data using 2D canvas
+   * Extract image data using 2D canvas.
+   *
+   * @param source - The source element to extract image data from.
+   * @param area - The extraction area.
+   * @returns The image data.
    */
   #getImageData2d(source: ImageSource, area?: ExtractionArea): ImageData {
     if (!this.#context2d)
@@ -226,7 +251,11 @@ export class VideoFrameProcessor {
   }
 
   /**
-   * Extract image data using WebGL2
+   * Extract image data using WebGL2.
+   *
+   * @param source - The source element to extract image data from.
+   * @param area - The extraction area.
+   * @returns The image data.
    */
   #getImageDataWebGl2(source: ImageSource, area?: ExtractionArea): ImageData {
     if (
@@ -297,9 +326,12 @@ export class VideoFrameProcessor {
   }
 
   /**
-   * Update canvas dimensions if needed
+   * Update canvas dimensions if needed.
    *
-   * This canvas is the orientation-aware
+   * This canvas is the orientation-aware.
+   *
+   * @param width - The width of the canvas.
+   * @param height - The height of the canvas.
    */
   #updateCanvasSize(width: number, height: number): void {
     if (this.#cachedWidth !== width || this.#cachedHeight !== height) {
@@ -316,7 +348,7 @@ export class VideoFrameProcessor {
   }
 
   /**
-   * Clean up resources
+   * Clean up resources.
    */
   dispose(): void {
     if (this.#contextWebGl2) {
@@ -334,13 +366,14 @@ export class VideoFrameProcessor {
     this.#buffer = null;
   }
 }
+
 /**
  * Converts a view to a buffer, since both match the type signature of
  * `ArrayBufferLike`.
+ *
  * @param buffer - The buffer or view to convert
  * @returns The actual underlying buffer
  */
-
 export const getBuffer = (buffer: ArrayBufferLike) => {
   // check if it's a view
   if (ArrayBuffer.isView(buffer)) {

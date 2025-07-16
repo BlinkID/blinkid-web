@@ -2,22 +2,37 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
-/** Represents the status of the document detection process. */
+/**
+ * Represents the status of the document detection process.
+ * 
+ * This type represents all possible states that can occur during document detection:
+ * 
+ * - `failed`
+ *   - Detection has failed
+ * 
+ * - `success`
+ *   - Document has been successfully detected
+ * 
+ * - `camera-too-far`
+ *   - Camera is positioned too far from the document
+ * 
+ * - `camera-too-close`
+ *   - Camera is positioned too close to the document
+ * 
+ * - `camera-angle-too-steep`
+ *   - Camera angle relative to the document is too steep
+ * 
+ * - `document-too-close-to-camera-edge`
+ *   - Document is positioned too close to the edge of camera view
+ * 
+ * - `document-partially-visible`
+ *   - Only part of the document is visible in camera view
+ */
 export type DetectionStatus =
-  /** Detection has failed. */
   | "failed"
-  /** Document has been detected. */
   | "success"
-  /** Document has been detected but the camera is too far from the document. */
   | "camera-too-far"
-  /** Document has been detected but the camera is too close to the document. */
   | "camera-too-close"
-  /** Document has been detected but the camera’s angle is too steep. */
   | "camera-angle-too-steep"
-  /**
-   * Document has been detected but the document is too close to the camera
-   * edge.
-   */
   | "document-too-close-to-camera-edge"
-  /** Only part of the document is visible. */
   | "document-partially-visible";

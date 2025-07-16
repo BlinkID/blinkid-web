@@ -12,6 +12,11 @@ import styles from "./styles.module.scss";
 import { DialogTitle } from "@ark-ui/solid";
 import { useLocalization } from "../LocalizationContext";
 
+/**
+ * The OnboardingGuideModal component.
+ *
+ * @returns The OnboardingGuideModal component.
+ */
 export const OnboardingGuideModal: Component = () => {
   const { t } = useLocalization();
 

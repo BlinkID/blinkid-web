@@ -1,3 +1,4 @@
 types
 public/resources/**
+
 !dist

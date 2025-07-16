@@ -7,8 +7,14 @@ import { SetStoreFunction, createStore } from "solid-js/store";
 
 import enLocaleStrings from "./locales/en";
 
+/**
+ * The camera UI locale record.
+ */
 export type CameraUiLocaleRecord = typeof enLocaleStrings;
 
+/**
+ * The camera UI localization strings.
+ */
 export type CameraUiLocalizationStrings = {
   // This allows for autocomplete for defaults, but also overriding
   // https://twitter.com/mattpocockuk/status/1709281782325977101
@@ -16,11 +22,17 @@ export type CameraUiLocalizationStrings = {
   [K in keyof CameraUiLocaleRecord]: CameraUiLocaleRecord[K] | (string & {});
 };
 
+/**
+ * The localization context.
+ */
 const LocalizationContext = createContext<{
   t: CameraUiLocalizationStrings;
   updateLocalization: SetStoreFunction<CameraUiLocalizationStrings>;
 }>();
 
+/**
+ * The localization provider.
+ */
 export const LocalizationProvider: ParentComponent<{
   userStrings?: Partial<CameraUiLocalizationStrings>;
   // A hacky way to lift the `updateLocalizationStore` function out of the Context
@@ -55,6 +67,9 @@ export const LocalizationProvider: ParentComponent<{
   );
 };
 
+/**
+ * The use localization hook.
+ */
 export function useLocalization() {
   const ctx = useContext(LocalizationContext);
   if (!ctx) {
