@@ -1,6 +1,6 @@
 [**@microblink/blinkid-ux-manager**](../README.md)
 
----
+***
 
 [@microblink/blinkid-ux-manager](../README.md) / DocumentClassFilter
 
@@ -8,17 +8,14 @@
 
 > **DocumentClassFilter** = (`documentClassInfo`) => `boolean`
 
-Defined in: [blinkid-ux-manager/src/core/DocumentClassFilter.ts:21](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-ux-manager/src/core/DocumentClassFilter.ts)
-
 A type representing a filter function for document classification.
 
 This function is used to determine whether a document class is supported or
 not. It takes a `DocumentClassInfo` object as input and returns a boolean
 value:
-
 - `true`: The document class is supported.
 - `false`: The document class is not supported, and the document will be
-  marked as "unsupported-document".
+marked as "unsupported-document".
 
 ## Parameters
 

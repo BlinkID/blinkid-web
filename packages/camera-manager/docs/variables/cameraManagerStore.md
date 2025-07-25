@@ -1,14 +1,12 @@
 [**@microblink/camera-manager**](../README.md)
 
----
+***
 
 [@microblink/camera-manager](../README.md) / cameraManagerStore
 
 # Variable: cameraManagerStore
 
 > `const` **cameraManagerStore**: `Write`\<`StoreApi`\<[`CameraManagerStore`](../type-aliases/CameraManagerStore.md)\>, `StoreSubscribeWithSelector`\<[`CameraManagerStore`](../type-aliases/CameraManagerStore.md)\>\>
-
-Defined in: [packages/camera-manager/src/core/cameraManagerStore.ts:95](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/cameraManagerStore.ts)
 
 ⚠️ DANGER AHEAD ⚠️
 

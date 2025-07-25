@@ -8,8 +8,6 @@
 
 > **DateResult**\<`S`\> = `object`
 
-Defined in: [utils/DateResult.ts:12](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/utils/DateResult.ts)
-
 Smart date result structure.
 
 ## Type Parameters
@@ -26,8 +24,6 @@ The type of the string result.
 
 > `optional` **day**: `number`
 
-Defined in: [utils/DateResult.ts:14](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/utils/DateResult.ts)
-
 Day in month [1-31]
 
 ***
@@ -35,8 +31,6 @@ Day in month [1-31]
 ### filledByDomainKnowledge
 
 > **filledByDomainKnowledge**: `boolean`
-
-Defined in: [utils/DateResult.ts:22](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/utils/DateResult.ts)
 
 Indicates whether this date is filled by internal domain knowledge
 
@@ -46,8 +40,6 @@ Indicates whether this date is filled by internal domain knowledge
 
 > `optional` **month**: `number`
 
-Defined in: [utils/DateResult.ts:16](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/utils/DateResult.ts)
-
 Month in year [1-12]
 
 ***
@@ -55,8 +47,6 @@ Month in year [1-12]
 ### originalString?
 
 > `optional` **originalString**: `S`
-
-Defined in: [utils/DateResult.ts:20](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/utils/DateResult.ts)
 
 Original date string from the document
 
@@ -66,8 +56,6 @@ Original date string from the document
 
 > `optional` **successfullyParsed**: `boolean`
 
-Defined in: [utils/DateResult.ts:24](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/utils/DateResult.ts)
-
 Indicates whether date was parsed successfully
 
 ***
@@ -75,7 +63,5 @@ Indicates whether date was parsed successfully
 ### year?
 
 > `optional` **year**: `number`
-
-Defined in: [utils/DateResult.ts:18](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/utils/DateResult.ts)
 
 Four digit year

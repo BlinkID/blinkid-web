@@ -1,14 +1,12 @@
 [**@microblink/blinkid-core**](../README.md)
 
----
+***
 
 [@microblink/blinkid-core](../README.md) / createProxyWorker
 
 # Function: createProxyWorker()
 
-> **createProxyWorker**(`resourcesLocation`): `Promise`\<`Remote`\<`BlinkIdWorkerProxy`\>\>
-
-Defined in: [packages/blinkid-core/src/createProxyWorker.ts:75](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-core/src/createProxyWorker.ts)
+> **createProxyWorker**(`resourcesLocation`): `Promise`\<`Remote`\<[`BlinkIdWorkerProxy`](../type-aliases/BlinkIdWorkerProxy.md)\>\>
 
 Creates a Comlink-proxied Web Worker
 
@@ -23,6 +21,6 @@ is `window.location.href`
 
 ## Returns
 
-`Promise`\<`Remote`\<`BlinkIdWorkerProxy`\>\>
+`Promise`\<`Remote`\<[`BlinkIdWorkerProxy`](../type-aliases/BlinkIdWorkerProxy.md)\>\>
 
 a Comlink-proxied instance of the Web Worker

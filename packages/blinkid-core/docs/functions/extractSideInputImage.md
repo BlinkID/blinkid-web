@@ -1,6 +1,6 @@
 [**@microblink/blinkid-core**](../README.md)
 
----
+***
 
 [@microblink/blinkid-core](../README.md) / extractSideInputImage
 
@@ -8,21 +8,19 @@
 
 > **extractSideInputImage**(`blinkIdScanningResult`, `side`): `null` \| `ImageData`
 
-Defined in: [packages/blinkid-core/src/utils.ts:14](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-core/src/utils.ts)
-
 Extracts the input image for a given side from the scanning result.
 
 ## Parameters
 
 ### blinkIdScanningResult
 
-`BlinkIdScanningResult`
+[`BlinkIdScanningResult`](../type-aliases/BlinkIdScanningResult.md)
 
 The scanning result.
 
 ### side
 
-`ScanningSide`
+[`ScanningSide`](../type-aliases/ScanningSide.md)
 
 The side to extract the input image for.
 

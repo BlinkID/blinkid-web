@@ -3,6 +3,6 @@ module.exports = {
   "*.{ts,mts,tsx}": [
     () => "tsc --skipLibCheck --emitDeclarationOnly false --noEmit",
   ],
-  "*.{js,cjs,mjs,jsx,ts,mts,tsx,css,md}": ["prettier --write"],
+  "src/**/*.{js,cjs,mjs,jsx,ts,mts,tsx,css,md}": ["prettier --write"],
   "*.{js,ts}": "vitest related --run",
 };

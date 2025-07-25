@@ -1,14 +1,12 @@
 [**@microblink/blinkid-core**](../README.md)
 
----
+***
 
 [@microblink/blinkid-core](../README.md) / BlinkIdInitSettings
 
 # Type Alias: BlinkIdInitSettings
 
-> **BlinkIdInitSettings** = `SetOptional`\<`BlinkIdWorkerInitSettings`, `"userId"` \| `"useLightweightBuild"`\>
-
-Defined in: [packages/blinkid-core/src/BlinkIdCore.ts:22](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-core/src/BlinkIdCore.ts)
+> **BlinkIdInitSettings** = `SetOptional`\<[`BlinkIdWorkerInitSettings`](BlinkIdWorkerInitSettings.md), `"userId"` \| `"useLightweightBuild"`\>
 
 Configuration options for initializing the BlinkID core.
 

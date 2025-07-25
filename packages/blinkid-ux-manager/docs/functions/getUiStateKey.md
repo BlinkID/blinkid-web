@@ -1,14 +1,12 @@
 [**@microblink/blinkid-ux-manager**](../README.md)
 
----
+***
 
 [@microblink/blinkid-ux-manager](../README.md) / getUiStateKey
 
 # Function: getUiStateKey()
 
 > **getUiStateKey**(`frameProcessResult`, `settings?`): [`BlinkIdUiStateKey`](../type-aliases/BlinkIdUiStateKey.md)
-
-Defined in: [blinkid-ux-manager/src/core/blinkid-ui-state.ts:271](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-ux-manager/src/core/blinkid-ui-state.ts)
 
 Determines the appropriate UI state key based on the current frame processing
 result and scanning settings.

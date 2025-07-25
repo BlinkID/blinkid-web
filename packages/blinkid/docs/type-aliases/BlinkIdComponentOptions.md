@@ -1,14 +1,12 @@
 [**@microblink/blinkid**](../README.md)
 
----
+***
 
 [@microblink/blinkid](../README.md) / BlinkIdComponentOptions
 
 # Type Alias: BlinkIdComponentOptions
 
-> **BlinkIdComponentOptions** = `Simplify`\<`object` & `BlinkIdInitSettings` & `Partial`\<`Omit`\<`BlinkIdSessionSettings`, `"inputImageSource"`\>\>\>
-
-Defined in: [packages/blinkid/src/createBlinkIdUi.ts:31](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid/src/createBlinkIdUi.ts)
+> **BlinkIdComponentOptions** = `Simplify`\<`object` & [`BlinkIdInitSettings`](BlinkIdInitSettings.md) & `Partial`\<`Omit`\<[`BlinkIdSessionSettings`](BlinkIdSessionSettings.md), `"inputImageSource"`\>\>\>
 
 Configuration options for creating a BlinkID component.
 

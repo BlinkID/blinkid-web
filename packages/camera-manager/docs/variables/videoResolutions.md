@@ -1,14 +1,12 @@
 [**@microblink/camera-manager**](../README.md)
 
----
+***
 
 [@microblink/camera-manager](../README.md) / videoResolutions
 
 # Variable: videoResolutions
 
 > `const` **videoResolutions**: `object`
-
-Defined in: [packages/camera-manager/src/core/Camera.ts:16](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/Camera.ts)
 
 Available video resolutions for the camera stream.
 
@@ -52,5 +50,5 @@ Available video resolutions for the camera stream.
 
 ## See
 
-- https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/width for width details.
-- https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/height for height details.
+ - https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/width for width details.
+ - https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/height for height details.

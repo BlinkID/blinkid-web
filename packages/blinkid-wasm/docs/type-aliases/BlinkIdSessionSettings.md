@@ -8,8 +8,6 @@
 
 > **BlinkIdSessionSettings** = `object`
 
-Defined in: [session/BlinkIdSessionSettings.ts:28](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/session/BlinkIdSessionSettings.ts)
-
 Represents the configuration settings for a scanning session.
 
 This structure holds the settings related to the resources initialization,
@@ -32,8 +30,6 @@ The settings control various aspects of the scanning process including:
 
 > **inputImageSource**: [`InputImageSource`](InputImageSource.md)
 
-Defined in: [session/BlinkIdSessionSettings.ts:42](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/session/BlinkIdSessionSettings.ts)
-
 The type of image source for the scanning session.
 
 Defines whether the images are sourced from a video stream or a single
@@ -53,8 +49,6 @@ real-time scanning through a camera feed.
 ### scanningMode
 
 > **scanningMode**: [`ScanningMode`](ScanningMode.md)
-
-Defined in: [session/BlinkIdSessionSettings.ts:58](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/session/BlinkIdSessionSettings.ts)
 
 The scanning mode to be used during the scanning session.
 
@@ -76,8 +70,6 @@ based on the detected document type.
 ### scanningSettings
 
 > **scanningSettings**: [`ScanningSettings`](ScanningSettings.md)
-
-Defined in: [session/BlinkIdSessionSettings.ts:72](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/session/BlinkIdSessionSettings.ts)
 
 The specific scanning settings for the scanning session.
 

@@ -8,8 +8,6 @@
 
 > **MrzResult** = `object`
 
-Defined in: [result/mrz/MrzResult.ts:21](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 Result of Machine Readable Zone extraction
 
 ## Properties
@@ -17,8 +15,6 @@ Result of Machine Readable Zone extraction
 ### dateOfBirth
 
 > **dateOfBirth**: [`DateResult`](DateResult.md)\<`string`\>
-
-Defined in: [result/mrz/MrzResult.ts:62](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The date of birth from MRZ
 
@@ -28,8 +24,6 @@ The date of birth from MRZ
 
 > **dateOfExpiry**: [`DateResult`](DateResult.md)\<`string`\>
 
-Defined in: [result/mrz/MrzResult.ts:65](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The date of expiry from MRZ
 
 ***
@@ -37,8 +31,6 @@ The date of expiry from MRZ
 ### documentCode
 
 > **documentCode**: `string`
-
-Defined in: [result/mrz/MrzResult.ts:26](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The document code from MRZ
 
@@ -48,8 +40,6 @@ The document code from MRZ
 
 > **documentNumber**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:32](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The document number from MRZ
 
 ***
@@ -57,8 +47,6 @@ The document number from MRZ
 ### documentType
 
 > **documentType**: [`MrzDocumentType`](MrzDocumentType.md)
-
-Defined in: [result/mrz/MrzResult.ts:68](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The type of the document
 
@@ -68,8 +56,6 @@ The type of the document
 
 > **gender**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:41](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The gender/sex from MRZ
 
 ***
@@ -77,8 +63,6 @@ The gender/sex from MRZ
 ### issuer
 
 > **issuer**: `string`
-
-Defined in: [result/mrz/MrzResult.ts:29](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The document issuer from MRZ
 
@@ -88,8 +72,6 @@ The document issuer from MRZ
 
 > **issuerName**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:53](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The full name of the issuing authority
 
 ***
@@ -97,8 +79,6 @@ The full name of the issuing authority
 ### nationality
 
 > **nationality**: `string`
-
-Defined in: [result/mrz/MrzResult.ts:44](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The nationality code from MRZ
 
@@ -108,8 +88,6 @@ The nationality code from MRZ
 
 > **nationalityName**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:56](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The full nationality name
 
 ***
@@ -117,8 +95,6 @@ The full nationality name
 ### opt1
 
 > **opt1**: `string`
-
-Defined in: [result/mrz/MrzResult.ts:35](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The first optional data field from MRZ
 
@@ -128,8 +104,6 @@ The first optional data field from MRZ
 
 > **opt2**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:38](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The second optional data field from MRZ
 
 ***
@@ -137,8 +111,6 @@ The second optional data field from MRZ
 ### primaryId
 
 > **primaryId**: `string`
-
-Defined in: [result/mrz/MrzResult.ts:47](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The primary identifier from MRZ
 
@@ -148,8 +120,6 @@ The primary identifier from MRZ
 
 > **rawMrzString**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:23](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The entire Machine Readable Zone text
 
 ***
@@ -157,8 +127,6 @@ The entire Machine Readable Zone text
 ### sanitizedDocumentCode
 
 > **sanitizedDocumentCode**: `string`
-
-Defined in: [result/mrz/MrzResult.ts:83](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The document code without padding characters
 
@@ -168,8 +136,6 @@ The document code without padding characters
 
 > **sanitizedDocumentNumber**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:86](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The document number without padding characters
 
 ***
@@ -177,8 +143,6 @@ The document number without padding characters
 ### sanitizedIssuer
 
 > **sanitizedIssuer**: `string`
-
-Defined in: [result/mrz/MrzResult.ts:80](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The issuer code without padding characters
 
@@ -188,8 +152,6 @@ The issuer code without padding characters
 
 > **sanitizedNationality**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:77](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The nationality code without padding characters
 
 ***
@@ -197,8 +159,6 @@ The nationality code without padding characters
 ### sanitizedOpt1
 
 > **sanitizedOpt1**: `string`
-
-Defined in: [result/mrz/MrzResult.ts:71](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 The opt1 field without padding characters
 
@@ -208,8 +168,6 @@ The opt1 field without padding characters
 
 > **sanitizedOpt2**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:74](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The opt2 field without padding characters
 
 ***
@@ -218,8 +176,6 @@ The opt2 field without padding characters
 
 > **secondaryId**: `string`
 
-Defined in: [result/mrz/MrzResult.ts:50](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
-
 The secondary identifier from MRZ
 
 ***
@@ -227,7 +183,5 @@ The secondary identifier from MRZ
 ### verified
 
 > **verified**: `boolean`
-
-Defined in: [result/mrz/MrzResult.ts:59](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/mrz/MrzResult.ts)
 
 Whether all check digits are valid

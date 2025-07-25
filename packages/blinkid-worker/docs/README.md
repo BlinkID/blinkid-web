@@ -1,6 +1,6 @@
 **@microblink/blinkid-worker**
 
----
+***
 
 # @microblink/blinkid-worker
 

@@ -1,14 +1,12 @@
 [**@microblink/camera-manager**](../README.md)
 
----
+***
 
 [@microblink/camera-manager](../README.md) / createCameraManagerUi
 
 # Function: createCameraManagerUi()
 
 > **createCameraManagerUi**(`cameraManager`, `target?`, `options?`): `Promise`\<[`CameraManagerComponent`](../type-aliases/CameraManagerComponent.md)\>
-
-Defined in: [packages/camera-manager/src/ui/createCameraManagerUi.tsx:99](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/ui/createCameraManagerUi.tsx)
 
 Creates a new Camera Manager UI component.
 

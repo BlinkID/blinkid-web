@@ -1,12 +1,13 @@
 **@microblink/blinkid-ux-manager**
 
----
+***
 
 # @microblink/blinkid-ux-manager
 
 ## Classes
 
 - [BlinkIdUxManager](classes/BlinkIdUxManager.md)
+- [FeedbackStabilizer](classes/FeedbackStabilizer.md)
 
 ## Type Aliases
 
@@ -20,6 +21,9 @@
 - [LocaleRecord](type-aliases/LocaleRecord.md)
 - [LocalizationStrings](type-aliases/LocalizationStrings.md)
 - [PartialProcessResult](type-aliases/PartialProcessResult.md)
+- [UiState](type-aliases/UiState.md)
+- [UiStateEvent](type-aliases/UiStateEvent.md)
+- [UiStateMap](type-aliases/UiStateMap.md)
 
 ## Variables
 

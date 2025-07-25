@@ -1,6 +1,6 @@
 [**@microblink/blinkid**](../README.md)
 
----
+***
 
 [@microblink/blinkid](../README.md) / BlinkIdComponent
 
@@ -8,77 +8,61 @@
 
 > **BlinkIdComponent** = `object`
 
-Defined in: [packages/blinkid/src/createBlinkIdUi.ts:64](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid/src/createBlinkIdUi.ts)
-
 Represents the BlinkID component with all SDK instances and UI elements.
 
 ## Properties
 
 ### addOnErrorCallback
 
-> **addOnErrorCallback**: `InstanceType`\<_typeof_ `BlinkIdUxManager`\>\[`"addOnErrorCallback"`\]
-
-Defined in: [packages/blinkid/src/createBlinkIdUi.ts:86](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid/src/createBlinkIdUi.ts)
+> **addOnErrorCallback**: `InstanceType`\<*typeof* [`BlinkIdUxManager`](../classes/BlinkIdUxManager.md)\>\[`"addOnErrorCallback"`\]
 
 Adds a callback function to be called when an error occurs.
 
----
+***
 
 ### addOnResultCallback
 
-> **addOnResultCallback**: `InstanceType`\<_typeof_ `BlinkIdUxManager`\>\[`"addOnResultCallback"`\]
-
-Defined in: [packages/blinkid/src/createBlinkIdUi.ts:80](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid/src/createBlinkIdUi.ts)
+> **addOnResultCallback**: `InstanceType`\<*typeof* [`BlinkIdUxManager`](../classes/BlinkIdUxManager.md)\>\[`"addOnResultCallback"`\]
 
 Adds a callback function to be called when a result is obtained.
 
----
+***
 
 ### blinkIdCore
 
-> **blinkIdCore**: `BlinkIdCore`
-
-Defined in: [packages/blinkid/src/createBlinkIdUi.ts:66](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid/src/createBlinkIdUi.ts)
+> **blinkIdCore**: [`BlinkIdCore`](BlinkIdCore.md)
 
 The BlinkID Core SDK instance.
 
----
+***
 
 ### blinkIdUxManager
 
-> **blinkIdUxManager**: `BlinkIdUxManager`
-
-Defined in: [packages/blinkid/src/createBlinkIdUi.ts:70](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid/src/createBlinkIdUi.ts)
+> **blinkIdUxManager**: [`BlinkIdUxManager`](../classes/BlinkIdUxManager.md)
 
 The BlinkID UX Manager instance.
 
----
+***
 
 ### cameraManager
 
-> **cameraManager**: `CameraManager`
-
-Defined in: [packages/blinkid/src/createBlinkIdUi.ts:68](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid/src/createBlinkIdUi.ts)
+> **cameraManager**: [`CameraManager`](../classes/CameraManager.md)
 
 The Camera Manager instance.
 
----
+***
 
 ### cameraUi
 
-> **cameraUi**: `CameraManagerComponent`
-
-Defined in: [packages/blinkid/src/createBlinkIdUi.ts:72](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid/src/createBlinkIdUi.ts)
+> **cameraUi**: [`CameraManagerComponent`](CameraManagerComponent.md)
 
 The Camera Manager UI instance.
 
----
+***
 
 ### destroy()
 
 > **destroy**: () => `Promise`\<`void`\>
-
-Defined in: [packages/blinkid/src/createBlinkIdUi.ts:76](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid/src/createBlinkIdUi.ts)
 
 Destroys the BlinkID component and releases all resources.
 

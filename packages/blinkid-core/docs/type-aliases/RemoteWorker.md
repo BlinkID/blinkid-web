@@ -1,14 +1,12 @@
 [**@microblink/blinkid-core**](../README.md)
 
----
+***
 
 [@microblink/blinkid-core](../README.md) / RemoteWorker
 
 # Type Alias: RemoteWorker
 
-> **RemoteWorker** = `ReturnType`\<_typeof_ [`createProxyWorker`](../functions/createProxyWorker.md)\>
-
-Defined in: [packages/blinkid-core/src/createProxyWorker.ts:107](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-core/src/createProxyWorker.ts)
+> **RemoteWorker** = `ReturnType`\<*typeof* [`createProxyWorker`](../functions/createProxyWorker.md)\>
 
 Represents a remote worker instance.
 

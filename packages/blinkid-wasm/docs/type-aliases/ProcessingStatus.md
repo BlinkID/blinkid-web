@@ -8,8 +8,6 @@
 
 > **ProcessingStatus** = `"success"` \| `"detection-failed"` \| `"image-preprocessing-failed"` \| `"stability-test-failed"` \| `"scanning-wrong-side"` \| `"field-identification-failed"` \| `"mandatory-field-missing"` \| `"invalid-characters-found"` \| `"image-return-failed"` \| `"barcode-recognition-failed"` \| `"mrz-parsing-failed"` \| `"document-filtered"` \| `"unsupported-document"` \| `"awaiting-other-side"` \| `"not-scanned"` \| `"barcode-detection-failed"`
 
-Defined in: [result/ProcessingStatus.ts:12](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/result/ProcessingStatus.ts)
-
 Represents the status of the document processing.
 
 ProcessingStatus defines various statuses that can occur during the

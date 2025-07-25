@@ -8,8 +8,6 @@
 
 > **DetectionStatus** = `"failed"` \| `"success"` \| `"camera-too-far"` \| `"camera-too-close"` \| `"camera-angle-too-steep"` \| `"document-too-close-to-camera-edge"` \| `"document-partially-visible"`
 
-Defined in: [session/DetectionStatus.ts:31](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/session/DetectionStatus.ts)
-
 Represents the status of the document detection process.
 
 This type represents all possible states that can occur during document detection:

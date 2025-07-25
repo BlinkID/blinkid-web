@@ -1,6 +1,6 @@
 **@microblink/camera-manager**
 
----
+***
 
 # @microblink/camera-manager
 
@@ -37,7 +37,7 @@
 - [cameraManagerStore](variables/cameraManagerStore.md)
 - [cameraUiRefStore](variables/cameraUiRefStore.md)
 - [defaultCameraManagerOptions](variables/defaultCameraManagerOptions.md)
-- [MOUNT_POINT_ID](variables/MOUNT_POINT_ID.md)
+- [MOUNT\_POINT\_ID](variables/MOUNT_POINT_ID.md)
 - [videoResolutions](variables/videoResolutions.md)
 
 ## Functions

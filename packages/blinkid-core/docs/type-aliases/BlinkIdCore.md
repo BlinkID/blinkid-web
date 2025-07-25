@@ -1,14 +1,12 @@
 [**@microblink/blinkid-core**](../README.md)
 
----
+***
 
 [@microblink/blinkid-core](../README.md) / BlinkIdCore
 
 # Type Alias: BlinkIdCore
 
-> **BlinkIdCore** = `Simplify`\<`Remote`\<`BlinkIdWorkerProxy`\>\>
-
-Defined in: [packages/blinkid-core/src/BlinkIdCore.ts:34](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-core/src/BlinkIdCore.ts)
+> **BlinkIdCore** = `Simplify`\<`Remote`\<[`BlinkIdWorkerProxy`](BlinkIdWorkerProxy.md)\>\>
 
 Represents the BlinkID core instance.
 

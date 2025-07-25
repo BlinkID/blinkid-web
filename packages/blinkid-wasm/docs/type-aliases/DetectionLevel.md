@@ -8,8 +8,6 @@
 
 > **DetectionLevel** = `"off"` \| `"low"` \| `"mid"` \| `"high"`
 
-Defined in: [settings/DetectionLevel.ts:12](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/DetectionLevel.ts)
-
 Represents the different levels of detection sensitivity.
 
 DetectionLevel is used to configure detection thresholds and enable or

@@ -1,12 +1,10 @@
 [**@microblink/camera-manager**](../README.md)
 
----
+***
 
 [@microblink/camera-manager](../README.md) / CameraManager
 
 # Class: CameraManager
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:111](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 The CameraManager class.
 
@@ -19,8 +17,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/getCapabilitie
 ### Constructor
 
 > **new CameraManager**(`options`, `videoFrameProcessorOptions?`): `CameraManager`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:163](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Creates a new CameraManager instance.
 
@@ -48,8 +44,6 @@ The options for the VideoFrameProcessor.
 
 > **getState**: () => [`CameraManagerStore`](../type-aliases/CameraManagerStore.md) = `store.getState`
 
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:985](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
-
 Gets the current internal state of the CameraManager.
 
 #### Returns
@@ -58,13 +52,11 @@ Gets the current internal state of the CameraManager.
 
 the current state of the CameraManager
 
----
+***
 
 ### subscribe()
 
 > **subscribe**: \{(`listener`): () => `void`; \<`U`\>(`selector`, `listener`, `options?`): () => `void`; \} = `store.subscribe`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:978](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Allows the user to subscribe to state changes inside the Camera Manager.
 Implemented using Zustand. For usage information, see
@@ -133,8 +125,6 @@ a cleanup function to remove the subscription
 
 > **get** **isActive**(): `boolean`
 
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:207](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
-
 True if there is a video playing or capturing
 
 ##### See
@@ -145,7 +135,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/MediaSession/playbackState for 
 
 `boolean`
 
----
+***
 
 ### resolution
 
@@ -153,23 +143,19 @@ https://developer.mozilla.org/en-US/docs/Web/API/MediaSession/playbackState for 
 
 > **get** **resolution**(): `"720p"` \| `"1080p"` \| `"4k"`
 
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:198](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
-
 The resolution of the camera stream.
 
 ##### Returns
 
 `"720p"` \| `"1080p"` \| `"4k"`
 
----
+***
 
 ### userInitiatedAbort
 
 #### Get Signature
 
 > **get** **userInitiatedAbort**(): `boolean`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:134](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 If true, the user has initiated an abort. This will prevent the
 CameraManager from throwing errors when the user interrupts the process.
@@ -181,8 +167,6 @@ CameraManager from throwing errors when the user interrupts the process.
 #### Set Signature
 
 > **set** **userInitiatedAbort**(`value`): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:138](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 ##### Parameters
 
@@ -199,8 +183,6 @@ Defined in: [packages/camera-manager/src/core/CameraManager.ts:138](https://gith
 ### addFrameCaptureCallback()
 
 > **addFrameCaptureCallback**(`frameCaptureCallback`): () => `boolean`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:373](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Adds a callback that will be triggered on each frame when the playback state
 is "capturing".
@@ -223,13 +205,11 @@ a cleanup function to remove the callback
 
 `boolean`
 
----
+***
 
 ### getCameraDevices()
 
 > **getCameraDevices**(): `Promise`\<[`Camera`](Camera.md)[]\>
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:229](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Returns the cameras that are available to the user, filtered by the facing mode.
 If no facing mode is set, all cameras are returned.
@@ -240,13 +220,11 @@ If no facing mode is set, all cameras are returned.
 
 The cameras that are available to the user, filtered by the facing mode.
 
----
+***
 
 ### initVideoElement()
 
 > **initVideoElement**(`videoElement`): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:354](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Initializes the CameraManager with a video element.
 
@@ -262,13 +240,11 @@ The video element to initialize.
 
 `void`
 
----
+***
 
 ### pausePlayback()
 
 > **pausePlayback**(): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:810](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Pauses the video playback. This will also stop the capturing process.
 
@@ -276,13 +252,11 @@ Pauses the video playback. This will also stop the capturing process.
 
 `void`
 
----
+***
 
 ### refreshCameraDevices()
 
 > **refreshCameraDevices**(): `Promise`\<`void`\>
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:458](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Refreshes available devices on the system and updates the state.
 
@@ -292,13 +266,11 @@ Refreshes available devices on the system and updates the state.
 
 resolves when the camera devices are refreshed
 
----
+***
 
 ### releaseVideoElement()
 
 > **releaseVideoElement**(): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:381](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Cleans up the video element, and stops the stream.
 
@@ -306,13 +278,11 @@ Cleans up the video element, and stops the stream.
 
 `void`
 
----
+***
 
 ### reset()
 
 > **reset**(): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:990](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Resets the CameraManager and stops all streams.
 
@@ -320,13 +290,11 @@ Resets the CameraManager and stops all streams.
 
 `void`
 
----
+***
 
 ### selectCamera()
 
 > **selectCamera**(`camera`): `Promise`\<`void`\>
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:395](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Select a camera device from available ones.
 
@@ -342,13 +310,11 @@ The camera to select.
 
 `Promise`\<`void`\>
 
----
+***
 
 ### setCameraMirrorX()
 
 > **setCameraMirrorX**(`mirrorX`): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:946](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 If true, the video and captured frames will be mirrored horizontally.
 
@@ -364,13 +330,11 @@ If true, the video and captured frames will be mirrored horizontally.
 
 `void`
 
----
+***
 
 ### setExtractionArea()
 
 > **setExtractionArea**(`extractionArea`): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:147](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Sets the area of the video frame that will be extracted.
 
@@ -386,13 +350,11 @@ The area of the video frame that will be extracted.
 
 `void`
 
----
+***
 
 ### setFacingFilter()
 
 > **setFacingFilter**(`facingFilter`): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:217](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Sets the facing filter.
 
@@ -408,13 +370,11 @@ The facing filter.
 
 `void`
 
----
+***
 
 ### setResolution()
 
 > **setResolution**(`resolution`): `Promise`\<`void`\>
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:183](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Sets the resolution of the camera stream.
 
@@ -430,13 +390,11 @@ The resolution to set.
 
 `Promise`\<`void`\>
 
----
+***
 
 ### startCameraStream()
 
 > **startCameraStream**(`params`): `Promise`\<`void`\>
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:757](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Starts a best-effort camera stream. Will pick a camera automatically if
 none is selected.
@@ -455,13 +413,11 @@ The parameters for the camera stream.
 
 resolves when the camera stream starts
 
----
+***
 
 ### startFrameCapture()
 
 > **startFrameCapture**(): `Promise`\<`void`\>
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:626](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Starts capturing frames from the video element.
 
@@ -471,13 +427,11 @@ Starts capturing frames from the video element.
 
 resolves when frame capture starts
 
----
+***
 
 ### startPlayback()
 
 > **startPlayback**(): `Promise`\<`void`\>
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:534](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Starts the video playback
 
@@ -487,13 +441,11 @@ Starts the video playback
 
 resolves when playback starts
 
----
+***
 
 ### stopFrameCapture()
 
 > **stopFrameCapture**(): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:786](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Pauses capturing frames, without stopping playback.
 
@@ -501,13 +453,11 @@ Pauses capturing frames, without stopping playback.
 
 `void`
 
----
+***
 
 ### stopStream()
 
 > **stopStream**(): `void`
-
-Defined in: [packages/camera-manager/src/core/CameraManager.ts:795](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/core/CameraManager.ts)
 
 Stops the currently active stream. Also stops the video playback and capturing process.
 

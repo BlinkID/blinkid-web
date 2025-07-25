@@ -8,8 +8,6 @@
 
 > **ScanningSettings** = `object`
 
-Defined in: [settings/ScanningSettings.ts:19](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Represents the configurable settings for scanning a document.
 
 This structure defines various parameters and policies related to the
@@ -21,8 +19,6 @@ anonymization, along with options for frame processing and image extraction.
 ### allowUncertainFrontSideScan
 
 > **allowUncertainFrontSideScan**: `boolean`
-
-Defined in: [settings/ScanningSettings.ts:276](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 Indicates whether scanning can continue to the next side despite an
 uncertain front-side scan.
@@ -36,8 +32,6 @@ from `video` source, setting will be ignored.
 
 > `optional` **anonymizationMode**: [`AnonymizationMode`](AnonymizationMode.md)
 
-Defined in: [settings/ScanningSettings.ts:206](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 The mode of anonymization applied to the document.
 
 Redact specific fields based on requirements or laws regarding a specific
@@ -48,8 +42,6 @@ document. Data can be redacted from the image, the result or both.
 ### blurDetectionLevel
 
 > **blurDetectionLevel**: [`DetectionLevel`](DetectionLevel.md)
-
-Defined in: [settings/ScanningSettings.ts:34](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 The level of blur detection in the document image.
 
@@ -70,8 +62,6 @@ that only resembles blur.
 
 > **combineResultsFromMultipleInputImages**: `boolean`
 
-Defined in: [settings/ScanningSettings.ts:151](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Indicates whether the aggregation of data from multiple images is enabled.
 
 Disabling this setting will yield higher-quality captured images, but it
@@ -91,8 +81,6 @@ from `photo` source, setting will be ignored.
 
 > **croppedImageSettings**: [`CroppedImageSettings`](CroppedImageSettings.md)
 
-Defined in: [settings/ScanningSettings.ts:302](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Configures the image cropping settings during scanning process.
 
 Allows customization of cropped image handling, such as dotsPerInch,
@@ -105,8 +93,6 @@ document, face or signature regions.
 
 > **customDocumentAnonymizationSettings**: [`DocumentAnonymizationSettings`](DocumentAnonymizationSettings.md)[]
 
-Defined in: [settings/ScanningSettings.ts:215](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Redact fields for specific document class.
 
 Fields specified by requirements or laws for a specific document will be
@@ -118,8 +104,6 @@ data will be redacted from the image, the result or both.
 ### customDocumentRules
 
 > **customDocumentRules**: [`DocumentRules`](DocumentRules.md)[]
-
-Defined in: [settings/ScanningSettings.ts:198](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 Defines custom rules for specific document class.
 
@@ -159,8 +143,6 @@ The more detailed document filter will have priority over the other.
 
 > **enableBarcodeScanOnly**: `boolean`
 
-Defined in: [settings/ScanningSettings.ts:163](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Enables barcode recognition to proceed even if the initial VIZ extraction
 fails.
 
@@ -175,8 +157,6 @@ For multi-side scanning, it is permitted only for the back side.
 ### enableCharacterValidation
 
 > **enableCharacterValidation**: `boolean`
-
-Defined in: [settings/ScanningSettings.ts:247](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 Indicates whether character validation is enabled.
 
@@ -193,8 +173,6 @@ If set to `true`, when an invalid character is detected
 ### glareDetectionLevel
 
 > **glareDetectionLevel**: [`DetectionLevel`](DetectionLevel.md)
-
-Defined in: [settings/ScanningSettings.ts:70](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 The level of glare detection in the document image.
 
@@ -215,8 +193,6 @@ that only resembles glare.
 
 > **inputImageMargin**: `number`
 
-Defined in: [settings/ScanningSettings.ts:259](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Defines the minimum required margin (in percentage) between the edge of the
 input image and the document.
 
@@ -232,8 +208,6 @@ that mandate documents to be stored with adequate margins in the image.
 
 > **maxAllowedMismatchesPerField**: `number`
 
-Defined in: [settings/ScanningSettings.ts:284](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 The maximum allowed mismatches per field during data matching.
 
 Configures the maximum number of characters per field that can be
@@ -244,8 +218,6 @@ inconsistent during data matching. By default, no mismatches are allowed.
 ### recognitionModeFilter
 
 > **recognitionModeFilter**: [`RecognitionModeFilter`](RecognitionModeFilter.md)
-
-Defined in: [settings/ScanningSettings.ts:313](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 **`Experimental`**
 
@@ -263,8 +235,6 @@ specific document groups.
 
 > **returnInputImages**: `boolean`
 
-Defined in: [settings/ScanningSettings.ts:224](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Indicates whether input images should be returned.
 
 Save the input images at the moment of the data extraction or timeout. This
@@ -276,8 +246,6 @@ affected.
 ### scanCroppedDocumentImage
 
 > **scanCroppedDocumentImage**: `boolean`
-
-Defined in: [settings/ScanningSettings.ts:234](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 Process only cropped document images.
 
@@ -292,8 +260,6 @@ setting will be ignored.
 
 > **scanPassportDataPageOnly**: `boolean`
 
-Defined in: [settings/ScanningSettings.ts:293](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Indicates whether only the passport data page should be scanned.
 
 Scan only the data page ( page containing `MRZ` ) of the passport. If set
@@ -306,8 +272,6 @@ passports.
 
 > **scanUnsupportedBack**: `boolean`
 
-Defined in: [settings/ScanningSettings.ts:267](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Indicates whether backside of unsupported document should be scanned also.
 
 By default, back side of the document will not be scanned if only the front
@@ -318,8 +282,6 @@ side is supported for a specific document.
 ### skipImagesOccludedByHand
 
 > **skipImagesOccludedByHand**: `boolean`
-
-Defined in: [settings/ScanningSettings.ts:135](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 Indicates whether images occluded by hand should be rejected.
 
@@ -337,8 +299,6 @@ This setting is applicable only if `scanCroppedDocumentImage` is false.
 ### skipImagesWithBlur
 
 > **skipImagesWithBlur**: `boolean`
-
-Defined in: [settings/ScanningSettings.ts:54](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 Indicates whether images with blur in the document image should be skipped.
 
@@ -362,8 +322,6 @@ from further processing
 ### skipImagesWithGlare
 
 > **skipImagesWithGlare**: `boolean`
-
-Defined in: [settings/ScanningSettings.ts:91](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 Indicates whether images with glare in the document image should be
 skipped.
@@ -389,8 +347,6 @@ from further processing
 
 > **skipImagesWithInadequateLightingConditions**: `boolean`
 
-Defined in: [settings/ScanningSettings.ts:121](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
-
 Indicates whether images with inadequate lighting conditions should be
 rejected.
 
@@ -410,8 +366,6 @@ lighting from being used
 ### tiltDetectionLevel
 
 > **tiltDetectionLevel**: [`DetectionLevel`](DetectionLevel.md)
-
-Defined in: [settings/ScanningSettings.ts:104](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/ScanningSettings.ts)
 
 The level of allowed detected tilt of the document in the image.
 

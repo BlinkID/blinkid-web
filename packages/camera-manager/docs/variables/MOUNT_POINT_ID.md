@@ -1,13 +1,11 @@
 [**@microblink/camera-manager**](../README.md)
 
----
+***
 
-[@microblink/camera-manager](../README.md) / MOUNT_POINT_ID
+[@microblink/camera-manager](../README.md) / MOUNT\_POINT\_ID
 
-# Variable: MOUNT_POINT_ID
+# Variable: MOUNT\_POINT\_ID
 
-> `const` **MOUNT_POINT_ID**: `"camera-manager-mount-point"` = `"camera-manager-mount-point"`
-
-Defined in: [packages/camera-manager/src/ui/createCameraManagerUi.tsx:20](https://github.com/BlinkID/blinkid-web/blob/main/packages/camera-manager/src/ui/createCameraManagerUi.tsx)
+> `const` **MOUNT\_POINT\_ID**: `"camera-manager-mount-point"` = `"camera-manager-mount-point"`
 
 The default mount point ID.

@@ -1,14 +1,12 @@
 [**@microblink/blinkid-ux-manager**](../README.md)
 
----
+***
 
 [@microblink/blinkid-ux-manager](../README.md) / createBlinkIdFeedbackUi
 
 # Function: createBlinkIdFeedbackUi()
 
 > **createBlinkIdFeedbackUi**(`blinkIdUxManager`, `cameraManagerComponent`, `options`): () => `void`
-
-Defined in: [blinkid-ux-manager/src/ui/createBlinkIdFeedbackUi.tsx:51](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-ux-manager/src/ui/createBlinkIdFeedbackUi.tsx)
 
 Creates the BlinkID feedback UI.
 

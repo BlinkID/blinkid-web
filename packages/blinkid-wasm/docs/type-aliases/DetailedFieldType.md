@@ -8,8 +8,6 @@
 
 > **DetailedFieldType** = `object`
 
-Defined in: [settings/DetailedFieldType.ts:9](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/DetailedFieldType.ts)
-
 Represents the detailed field type.
 
 ## Properties
@@ -18,8 +16,6 @@ Represents the detailed field type.
 
 > **alphabetType**: [`AlphabetType`](AlphabetType.md)
 
-Defined in: [settings/DetailedFieldType.ts:13](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/DetailedFieldType.ts)
-
 The alphabet type.
 
 ***
@@ -27,7 +23,5 @@ The alphabet type.
 ### fieldType
 
 > **fieldType**: [`FieldType`](FieldType.md)
-
-Defined in: [settings/DetailedFieldType.ts:11](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-wasm/src/settings/DetailedFieldType.ts)
 
 The field type.

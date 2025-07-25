@@ -1,11 +1,11 @@
 {
   "plugin": ["typedoc-plugin-markdown"],
-  "exclude": ["**/node_modules/**", "**/dist/**", "**/types/**"],
+  "exclude": ["**/node_modules/**", "**/dist/**"],
   "excludeProtected": true,
   "excludeInternal": true,
   "readme": "none",
   "gitRevision": "main",
-  "sourceLinkTemplate": "https://github.com/BlinkID/blinkid-web/blob/main/{path}",
+  "disableSources": true,
   "requiredToBeDocumented": [
     "Enum",
     "EnumMember",

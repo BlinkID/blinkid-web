@@ -1,14 +1,12 @@
 [**@microblink/blinkid-worker**](../README.md)
 
----
+***
 
 [@microblink/blinkid-worker](../README.md) / WorkerScanningSession
 
 # Type Alias: WorkerScanningSession
 
 > **WorkerScanningSession** = `OverrideProperties`\<`BlinkIdScanningSession`, \{ `process`: (`image`) => [`ProcessResultWithBuffer`](ProcessResultWithBuffer.md); \}\> & `object`
-
-Defined in: [BlinkIdWorker.ts:57](https://github.com/BlinkID/blinkid-web/blob/main/packages/blinkid-worker/src/BlinkIdWorker.ts)
 
 The worker scanning session.
 
