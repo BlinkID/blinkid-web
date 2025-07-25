@@ -12,6 +12,11 @@ body {
 }
 
 /* override variable example */
-/*#mb-camera-host::part(capture-screen-part) {*/
-/*  --color-primary: 255 5 5;*/
-/*}*/
+/*#mb-camera-host::part(capture-screen-part) {
+  --color-primary: 255 5 5;
+}*/
+
+/* modify the camera select here */
+/* #mb-camera-host::part(camera-select-part) {
+  display: none;
+} */
