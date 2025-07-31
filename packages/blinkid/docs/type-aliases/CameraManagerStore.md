@@ -22,7 +22,7 @@ The list of cameras that are available to the user.
 
 ### errorState?
 
-> `optional` **errorState**: `Error` \| `CameraError`
+> `optional` **errorState**: `Error` \| [`CameraError`](../classes/CameraError.md)
 
 If the Camera manager has encountered an error, this will be set to the error.
 

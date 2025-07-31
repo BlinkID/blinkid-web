@@ -10,6 +10,7 @@ import {
   getOwner,
   onCleanup,
   onMount,
+  Show,
 } from "solid-js";
 
 import { Dialog } from "@ark-ui/solid/dialog";
@@ -48,7 +49,8 @@ export type FitMode = "contain" | "cover";
  * The CaptureScreen component.
  */
 export const CaptureScreen: Component = () => {
-  const { cameraManager, mountTarget } = useCameraUiStore();
+  const { cameraManager, mountTarget, showCameraErrorModal } =
+    useCameraUiStore();
 
   const [videoRef, setVideoRef] = createSignal<HTMLVideoElement>();
   // Reference to the feedback layer, using signals because of 1 tick rendering
@@ -206,7 +208,9 @@ export const CaptureScreen: Component = () => {
         />
 
         {/* Error modals need to be rendered after the overlayLayer ref is present */}
-        <CameraErrorModal />
+        <Show when={showCameraErrorModal}>
+          <CameraErrorModal />
+        </Show>
       </div>
     </SolidShadowRoot>
   );

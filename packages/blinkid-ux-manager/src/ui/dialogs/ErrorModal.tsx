@@ -28,7 +28,7 @@ export const ErrorModal: Component<ErrorModalProps> = (props) => {
   const { store, updateStore } = useBlinkIdUiStore();
 
   const hideModal = () => {
-    updateStore({ errorState: undefined });
+    updateStore({ errorState: undefined, documentFiltered: false });
   };
 
   const dismountCameraManagerUi = () => {
@@ -39,7 +39,7 @@ export const ErrorModal: Component<ErrorModalProps> = (props) => {
     hideModal();
 
     if (props.shouldResetScanningSession) {
-      await store.blinkIdUxManager.scanningSession.reset();
+      await store.blinkIdUxManager.resetScanningSession(false);
     }
 
     await store.blinkIdUxManager.cameraManager.startFrameCapture();

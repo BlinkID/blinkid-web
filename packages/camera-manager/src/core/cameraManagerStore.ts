@@ -5,7 +5,7 @@
 import { subscribeWithSelector } from "zustand/middleware";
 import { createStore as createZustandStore } from "zustand/vanilla";
 import { Camera, FacingMode } from "./Camera";
-import { CameraError } from "./cameraUtils";
+import { CameraError } from "./cameraError";
 
 /**
  * The playback state of the camera manager.

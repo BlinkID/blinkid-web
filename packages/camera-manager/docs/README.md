@@ -7,11 +7,13 @@
 ## Classes
 
 - [Camera](classes/Camera.md)
+- [CameraError](classes/CameraError.md)
 - [CameraManager](classes/CameraManager.md)
 - [VideoFrameProcessor](classes/VideoFrameProcessor.md)
 
 ## Type Aliases
 
+- [CameraErrorCode](type-aliases/CameraErrorCode.md)
 - [CameraManagerComponent](type-aliases/CameraManagerComponent.md)
 - [CameraManagerOptions](type-aliases/CameraManagerOptions.md)
 - [CameraManagerStore](type-aliases/CameraManagerStore.md)

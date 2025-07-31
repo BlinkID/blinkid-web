@@ -1,7 +1,7 @@
 {
   "name": "@microblink/blinkid-ux-manager",
   "description": "BlinkID UX Manager provides user feedback based on the blinkid process results.",
-  "version": "7.4.0",
+  "version": "7.4.1",
   "author": "Microblink",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",

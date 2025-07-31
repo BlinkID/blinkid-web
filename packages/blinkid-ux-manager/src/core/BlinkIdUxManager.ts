@@ -126,11 +126,11 @@ export class BlinkIdUxManager {
     );
 
     // We unsubscribe the video observer when the video element is removed from the DOM
-    const unsubscribeVideoObserver = cameraManager.subscribe(
+    const unsubscribeVideoObserver = this.cameraManager.subscribe(
       (s) => s.videoElement,
       (videoElement) => {
         if (!videoElement) {
-          console.debug("Removing timeout subscriptions");
+          console.debug("Removing camera manager subscriptions");
           this.reset();
           unsubscribeVideoObserver();
           unsubscribePlaybackState();
@@ -139,7 +139,7 @@ export class BlinkIdUxManager {
     );
 
     // will only trigger if the camera manager is processing frames
-    cameraManager.addFrameCaptureCallback(this.#frameCaptureCallback);
+    this.cameraManager.addFrameCaptureCallback(this.#frameCaptureCallback);
   }
 
   /**
@@ -397,6 +397,43 @@ export class BlinkIdUxManager {
   };
 
   /**
+   * Handles document class filtering if configured.
+   * Returns true if the document should be processed, false if it was filtered out.
+   *
+   * @param processResult - The result of processing the current frame
+   * @returns boolean indicating if the document should be processed
+   */
+  #handleDocumentClassFiltering(
+    processResult: ProcessResultWithBuffer,
+  ): boolean {
+    // Skip filtering if no filter is configured
+    if (this.#documentClassFilter === undefined) {
+      return true;
+    }
+
+    const documentClassInfo = this.#extractDocumentClassInfo(processResult);
+
+    // If document is not classified or passes the filter, continue processing
+    if (
+      !this.#isDocumentClassified(documentClassInfo) ||
+      this.#documentClassFilter(documentClassInfo)
+    ) {
+      return true;
+    }
+
+    // Document was classified but filtered out by client's criteria
+    this.cameraManager.stopFrameCapture();
+
+    // Notify relevant callbacks but skip UI updates since the document is rejected
+    this.#invokeOnDocumentFilteredCallbacks(documentClassInfo);
+
+    // Still invoke frame process callbacks to maintain consistent callback flow
+    this.#invokeOnFrameProcessCallbacks(processResult);
+
+    return false;
+  }
+
+  /**
    * The frame capture callback. This is the main function that is called when a
    * new frame is captured. It is responsible for processing the frame and
    * updating the UI state.
@@ -442,19 +479,13 @@ export class BlinkIdUxManager {
 
     this.#threadBusy = false;
 
-    // document class filter
-    if (this.#documentClassFilter !== undefined) {
-      const documentClassInfo = this.#extractDocumentClassInfo(processResult);
-
-      if (
-        this.#isDocumentClassified(documentClassInfo) &&
-        !this.#documentClassFilter(documentClassInfo)
-      ) {
-        this.#invokeOnDocumentFilteredCallbacks(documentClassInfo);
-      }
+    // Check if document should be processed or filtered out
+    if (!this.#handleDocumentClassFiltering(processResult)) {
+      return processResult.arrayBuffer;
     }
 
-    // Handle UI state changes
+    // Document passed filtering or no filtering was configured
+    // Update UI state based on recognition results and notify callbacks
     this.#handleUiStateChanges(processResult);
     this.#invokeOnFrameProcessCallbacks(processResult);
 
@@ -541,9 +572,7 @@ export class BlinkIdUxManager {
 
       // Reset the feedback stabilizer to clear the state
       // We handle this as a new scan attempt
-
-      this.feedbackStabilizer.reset();
-      this.uiState = this.feedbackStabilizer.currentState;
+      this.#resetUiState();
     }, this.#timeoutDuration);
   };
 
@@ -648,6 +677,15 @@ export class BlinkIdUxManager {
   }
 
   /**
+   * Resets the feedback stabilizer and invokes the onUiStateChanged callbacks.
+   */
+  #resetUiState = () => {
+    this.feedbackStabilizer.reset();
+    this.uiState = this.feedbackStabilizer.currentState;
+    this.#invokeOnUiStateChangedCallbacks(this.uiState);
+  };
+
+  /**
    * Clears the scanning session timeout.
    */
   clearScanTimeout = () => {
@@ -661,11 +699,35 @@ export class BlinkIdUxManager {
   };
 
   /**
-   * Resets the BlinkIdUxManager.
+   * Resets the scanning session.
+   *
+   * @param startFrameCapture Whether to start frame processing.
+   */
+  async resetScanningSession(startFrameCapture = true) {
+    console.debug("🔁 Resetting scanning session");
+    this.clearScanTimeout();
+    this.#threadBusy = false;
+    this.#successProcessResult = undefined;
+    this.#resetUiState();
+
+    await this.scanningSession.reset();
+
+    if (startFrameCapture) {
+      // Check if camera is active before starting frame capture
+      if (!this.cameraManager.isActive) {
+        await this.cameraManager.startCameraStream();
+      }
+      await this.cameraManager.startFrameCapture();
+    }
+  }
+
+  /**
+   * Resets the BlinkIdUxManager. Clears all callbacks.
    *
    * Does not reset the camera manager or the scanning session.
    */
   reset() {
+    console.debug("🔁 Resetting BlinkIdUxManager");
     this.clearScanTimeout();
     this.#threadBusy = false;
     this.#successProcessResult = undefined;

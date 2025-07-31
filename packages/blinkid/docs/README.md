@@ -8,8 +8,11 @@
 
 - [BlinkIdUxManager](classes/BlinkIdUxManager.md)
 - [Camera](classes/Camera.md)
+- [CameraError](classes/CameraError.md)
 - [CameraManager](classes/CameraManager.md)
 - [FeedbackStabilizer](classes/FeedbackStabilizer.md)
+- [LicenseError](classes/LicenseError.md)
+- [ProxyUrlValidationError](classes/ProxyUrlValidationError.md)
 - [VideoFrameProcessor](classes/VideoFrameProcessor.md)
 
 ## Type Aliases
@@ -40,6 +43,7 @@
 - [BlinkIdUiStateMap](type-aliases/BlinkIdUiStateMap.md)
 - [BlinkIdWorkerInitSettings](type-aliases/BlinkIdWorkerInitSettings.md)
 - [BlinkIdWorkerProxy](type-aliases/BlinkIdWorkerProxy.md)
+- [CameraErrorCode](type-aliases/CameraErrorCode.md)
 - [CameraManagerComponent](type-aliases/CameraManagerComponent.md)
 - [CameraManagerOptions](type-aliases/CameraManagerOptions.md)
 - [CameraManagerStore](type-aliases/CameraManagerStore.md)
@@ -84,6 +88,7 @@
 - [ImageSource](type-aliases/ImageSource.md)
 - [InputImageAnalysisResult](type-aliases/InputImageAnalysisResult.md)
 - [InputImageSource](type-aliases/InputImageSource.md)
+- [LicenseErrorCode](type-aliases/LicenseErrorCode.md)
 - [LicenseRequest](type-aliases/LicenseRequest.md)
 - [LicenseStatusResponse](type-aliases/LicenseStatusResponse.md)
 - [LicenseTokenState](type-aliases/LicenseTokenState.md)

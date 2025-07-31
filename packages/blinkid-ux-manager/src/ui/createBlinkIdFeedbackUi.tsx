@@ -37,6 +37,24 @@ export type FeedbackUiOptions = {
    * @defaultValue true
    */
   showHelpButton?: boolean;
+  /**
+   * If set to `true`, the document filtered modal will be shown.
+   *
+   * @defaultValue true
+   */
+  showDocumentFilteredModal?: boolean;
+  /**
+   * If set to `true`, the timeout modal will be shown.
+   *
+   * @defaultValue true
+   */
+  showTimeoutModal?: boolean;
+  /**
+   * If set to `true`, the document unsupported modal will be shown.
+   *
+   * @defaultValue true
+   */
+  showUnsupportedDocumentModal?: boolean;
 };
 
 /**
@@ -57,6 +75,9 @@ export function createBlinkIdFeedbackUi(
     preserveSdkInstance,
     showOnboardingGuide = true,
     showHelpButton = true,
+    showDocumentFilteredModal = true,
+    showTimeoutModal = true,
+    showUnsupportedDocumentModal = true,
   }: FeedbackUiOptions = {},
 ) {
   // Use a ref or closure to handle the circular reference
@@ -78,6 +99,9 @@ export function createBlinkIdFeedbackUi(
         cameraManagerComponent={cameraManagerComponent}
         showOnboardingGuide={showOnboardingGuide}
         showHelpButton={showHelpButton}
+        showDocumentFilteredModal={showDocumentFilteredModal}
+        showTimeoutModal={showTimeoutModal}
+        showUnsupportedDocumentModal={showUnsupportedDocumentModal}
         dismountFeedbackUi={() => dismountFeedbackUiRef.current()}
       >
         <BlinkIdFeedbackUi localization={localizationStrings} />

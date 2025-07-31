@@ -86,6 +86,12 @@ export type CameraManagerUiOptions = {
    * @defaultValue true
    */
   showCloseButton?: boolean;
+  /**
+   * If set to `true`, the camera error modal will be shown.
+   *
+   * @defaultValue true
+   */
+  showCameraErrorModal?: boolean;
 };
 
 /**
@@ -104,6 +110,7 @@ export function createCameraManagerUi(
     showMirrorCameraButton = false,
     showTorchButton = true,
     showCloseButton = true,
+    showCameraErrorModal = true,
   }: CameraManagerUiOptions = {},
 ): Promise<CameraManagerComponent> {
   // The mountable HTML element.
@@ -213,6 +220,7 @@ export function createCameraManagerUi(
           showMirrorCameraButton={showMirrorCameraButton}
           showTorchButton={showTorchButton}
           showCloseButton={showCloseButton}
+          showCameraErrorModal={showCameraErrorModal}
           mountTarget={mountTarget}
         >
           <RootComponent />

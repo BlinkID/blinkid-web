@@ -50,6 +50,8 @@ export type CameraUiStore = {
   showTorchButton: boolean;
   /** Whether to show the close button */
   showCloseButton: boolean;
+  /** Whether to show the camera error modal */
+  showCameraErrorModal: boolean;
   /** Sets a callback to be called when the component is unmounted.
    * Returns a cleanup function that removes the callback when called.
    */
@@ -66,6 +68,7 @@ export const CameraUiStoreProvider: ParentComponent<{
   showMirrorCameraButton: boolean;
   showTorchButton: boolean;
   showCloseButton: boolean;
+  showCameraErrorModal: boolean;
   addOnDismountCallback: (fn: DismountCallback) => () => void;
 }> = (props) => {
   // initial context value
@@ -88,6 +91,8 @@ export const CameraUiStoreProvider: ParentComponent<{
     showTorchButton: props.showTorchButton,
     // eslint-disable-next-line solid/reactivity
     showCloseButton: props.showCloseButton,
+    // eslint-disable-next-line solid/reactivity
+    showCameraErrorModal: props.showCameraErrorModal,
   };
 
   onCleanup(() => {

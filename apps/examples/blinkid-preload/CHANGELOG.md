@@ -1,5 +1,14 @@
 # example-blinkid-preload
 
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/camera-manager@7.2.3
+  - @microblink/blinkid-ux-manager@7.4.1
+  - @microblink/blinkid-core@7.4.1
+
 ## 1.1.10
 
 ### Patch Changes

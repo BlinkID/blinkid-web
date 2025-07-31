@@ -82,6 +82,12 @@ export const App: Component = () => {
     }
   };
 
+  const startOver = () => {
+    setStep("intro");
+    setResult(undefined);
+    setBlinkIdSession(undefined);
+  };
+
   // This effect will run when the step changes
   // It will load the BlinkID core when the step is "form-input"
   createEffect(() => {
@@ -118,7 +124,7 @@ export const App: Component = () => {
           const cameraUi = await createCameraManagerUi(cameraManager);
 
           cameraUi.addOnDismountCallback(() => {
-            setStep("error");
+            console.log("camera ui dismounted");
           });
 
           // we create the UX manager
@@ -201,7 +207,7 @@ export const App: Component = () => {
         <Match when={step() === "success"}>
           <div class={styles.success}>
             <h1 class={styles.title}>Success!</h1>
-            <button class={styles.button} onClick={() => setStep("intro")}>
+            <button class={styles.button} onClick={startOver}>
               Start Over
             </button>
             <h2>Results:</h2>

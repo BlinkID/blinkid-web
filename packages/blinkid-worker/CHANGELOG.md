@@ -1,5 +1,13 @@
 # @microblink/blinkid-worker
 
+## 7.4.1
+
+### Patch Changes
+
+- Enhance error handling in `BlinkIdWorker`
+  - Introduced `LicenseError` class to handle licence unlock failures, including a specific error code.
+  - Exported `ProxyUrlValidationError` class for external usage.
+
 ## 7.4.0
 
 ### Minor Changes

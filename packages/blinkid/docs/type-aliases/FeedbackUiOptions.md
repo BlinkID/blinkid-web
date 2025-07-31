@@ -35,6 +35,20 @@ false
 
 ***
 
+### showDocumentFilteredModal?
+
+> `optional` **showDocumentFilteredModal**: `boolean`
+
+If set to `true`, the document filtered modal will be shown.
+
+#### Default Value
+
+```ts
+true
+```
+
+***
+
 ### showHelpButton?
 
 > `optional` **showHelpButton**: `boolean`
@@ -54,6 +68,34 @@ true
 > `optional` **showOnboardingGuide**: `boolean`
 
 If set to `true`, the onboarding guide will be shown.
+
+#### Default Value
+
+```ts
+true
+```
+
+***
+
+### showTimeoutModal?
+
+> `optional` **showTimeoutModal**: `boolean`
+
+If set to `true`, the timeout modal will be shown.
+
+#### Default Value
+
+```ts
+true
+```
+
+***
+
+### showUnsupportedDocumentModal?
+
+> `optional` **showUnsupportedDocumentModal**: `boolean`
+
+If set to `true`, the document unsupported modal will be shown.
 
 #### Default Value
 

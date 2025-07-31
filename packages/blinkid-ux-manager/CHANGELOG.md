@@ -1,5 +1,19 @@
 # @microblink/blinkid-ux-manager
 
+## 7.4.1
+
+### Patch Changes
+
+- Enhanced reset session behaviour in `BlinkIdUxManager`
+  - Exposed new `resetScanningSession` method
+  - Enhance `BlinkIdFeedbackUi` with modal visibility controls
+  - Added new properties to manage the visibilty of document filtered, timeout, and unsupported document modals in the `BlinkIdUiStore`
+- Fixed issue where `ErrorModal` would not close in some cases.
+- Fixed issue where UI had stale state after session restart.
+- Updated dependencies
+  - @microblink/camera-manager@7.2.3
+  - @microblink/blinkid-core@7.4.1
+
 ## 7.4.0
 
 ### Minor Changes

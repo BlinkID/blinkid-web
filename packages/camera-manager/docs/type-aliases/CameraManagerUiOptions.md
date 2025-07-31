@@ -20,6 +20,20 @@ The localization strings.
 
 ***
 
+### showCameraErrorModal?
+
+> `optional` **showCameraErrorModal**: `boolean`
+
+If set to `true`, the camera error modal will be shown.
+
+#### Default Value
+
+```ts
+true
+```
+
+***
+
 ### showCloseButton?
 
 > `optional` **showCloseButton**: `boolean`

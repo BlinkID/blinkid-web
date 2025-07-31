@@ -1,5 +1,11 @@
 # @microblink/blinkid-wasm
 
+## 7.4.1
+
+### Patch Changes
+
+- Bumped version
+
 ## 7.4.0
 
 ### Minor Changes

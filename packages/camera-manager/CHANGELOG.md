@@ -1,5 +1,13 @@
 # @microblink/camera-manager
 
+## 7.2.3
+
+### Patch Changes
+
+- Add camera error modal visibility control
+    - Introduced `showCameraErrorModal` property in `CameraUiStore` to manage the visibility of the camera error modal.
+    - Updated `CaptureScreen` component to conditionally render `CameraErrorModal` based on the new property.
+
 ## 7.2.2
 
 ### Patch Changes

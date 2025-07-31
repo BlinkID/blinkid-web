@@ -50,6 +50,18 @@ export type BlinkIdUiStore = {
    */
   showHelpButton?: boolean;
   /**
+   * Whether the document filtered modal should be shown.
+   */
+  showDocumentFilteredModal?: boolean;
+  /**
+   * Whether the timeout modal should be shown.
+   */
+  showTimeoutModal?: boolean;
+  /**
+   * Whether the document unsupported modal should be shown.
+   */
+  showUnsupportedDocumentModal?: boolean;
+  /**
    * The function to dismount the feedback UI.
    */
   dismountFeedbackUi: () => void;
@@ -80,6 +92,9 @@ export const BlinkIdUiStoreProvider: ParentComponent<{
   showOnboardingGuide?: boolean;
   showHelpButton?: boolean;
   showHelpTooltipTimeout?: number;
+  showDocumentFilteredModal?: boolean;
+  showTimeoutModal?: boolean;
+  showUnsupportedDocumentModal?: boolean;
   dismountFeedbackUi: () => void;
 }> = (props) => {
   const [store, updateStore] = createStore<BlinkIdUiStore>(
@@ -95,6 +110,9 @@ export const BlinkIdUiStoreProvider: ParentComponent<{
     showOnboardingGuide: props.showOnboardingGuide,
     showHelpTooltipTimeout: props.showHelpTooltipTimeout,
     showHelpButton: props.showHelpButton,
+    showDocumentFilteredModal: props.showDocumentFilteredModal,
+    showTimeoutModal: props.showTimeoutModal,
+    showUnsupportedDocumentModal: props.showUnsupportedDocumentModal,
     dismountFeedbackUi: props.dismountFeedbackUi,
     /* eslint-enable solid/reactivity */
   });

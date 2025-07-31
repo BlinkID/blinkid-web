@@ -11,8 +11,9 @@
 
 import "rvfc-polyfill";
 
-export * from "./core/cameraManagerStore";
 export * from "./core/Camera";
+export * from "./core/cameraError";
+export * from "./core/cameraManagerStore";
 export * from "./core/CameraManager";
 export * from "./core/VideoFrameProcessor";
 

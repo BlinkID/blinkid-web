@@ -1,5 +1,15 @@
 # @microblink/blinkid
 
+## 7.4.1
+
+### Patch Changes
+
+- Exposed `addDocumentClassFilter` and `addOnDocumentFilteredCallback` on the `BlinkIdComponent` type
+- Updated dependencies
+  - @microblink/camera-manager@7.2.3
+  - @microblink/blinkid-ux-manager@7.4.1
+  - @microblink/blinkid-core@7.4.1
+
 ## 7.4.0
 
 ### Minor Changes

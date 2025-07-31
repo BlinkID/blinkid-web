@@ -72,12 +72,11 @@ export const BlinkIdFeedbackUi: Component<{
 
   // Handle document filtered during scanning
   createEffect(() => {
-    const errorCallbackCleanup =
+    const documentFilteredCallbackCleanup =
       store.blinkIdUxManager.addOnDocumentFilteredCallback((_) => {
-        store.blinkIdUxManager.cameraManager.stopFrameCapture();
         updateStore({ documentFiltered: true });
       });
-    onCleanup(() => errorCallbackCleanup());
+    onCleanup(() => documentFilteredCallbackCleanup());
   });
 
   const playbackState = createWithSignal(cameraManagerStore)(
@@ -131,21 +130,34 @@ export const BlinkIdFeedbackUi: Component<{
             return (
               <>
                 <Switch>
-                  <Match when={store.errorState === "timeout"}>
+                  <Match
+                    when={
+                      store.showTimeoutModal && store.errorState === "timeout"
+                    }
+                  >
                     <ErrorModal
                       header={t.scan_unsuccessful}
                       text={t.scan_unsuccessful_details}
                       shouldResetScanningSession={true}
                     />
                   </Match>
-                  <Match when={uiState().key === "UNSUPPORTED_DOCUMENT"}>
+                  <Match
+                    when={
+                      store.showUnsupportedDocumentModal &&
+                      uiState().key === "UNSUPPORTED_DOCUMENT"
+                    }
+                  >
                     <ErrorModal
                       header={t.document_not_recognized}
                       text={t.document_not_recognized_details}
                       shouldResetScanningSession={true}
                     />
                   </Match>
-                  <Match when={store.documentFiltered}>
+                  <Match
+                    when={
+                      store.showDocumentFilteredModal && store.documentFiltered
+                    }
+                  >
                     <ErrorModal
                       header={t.document_filtered}
                       text={t.document_filtered_details}

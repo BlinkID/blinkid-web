@@ -7,11 +7,11 @@ import { rad, radEventListener } from "rad-event-listener";
 
 import { Camera, FacingMode, VideoResolutionName } from "./Camera";
 import {
-  CameraError,
   createCameras,
   findIdealCamera,
   obtainVideoInputDevices,
 } from "./cameraUtils";
+import { CameraError } from "./cameraError";
 
 import {
   PlaybackState,

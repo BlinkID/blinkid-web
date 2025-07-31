@@ -172,13 +172,28 @@ type SanitizedProxyUrls = {
 /**
  * Error thrown when proxy URL validation fails
  */
-class ProxyUrlValidationError extends Error {
+export class ProxyUrlValidationError extends Error {
   constructor(
     message: string,
     public readonly url: string,
   ) {
     super(`Proxy URL validation failed for "${url}": ${message}`);
     this.name = "ProxyUrlValidationError";
+  }
+}
+
+export type LicenseErrorCode = "LICENSE_ERROR";
+
+/**
+ * Error thrown when license unlock fails
+ */
+export class LicenseError extends Error {
+  code: LicenseErrorCode;
+
+  constructor(message: string, code: LicenseErrorCode) {
+    super(message);
+    this.name = "LicenseError";
+    this.code = code;
   }
 }
 
@@ -396,6 +411,13 @@ class BlinkIdWorker {
       settings.userId,
       false,
     );
+
+    if (licenceUnlockResult.licenseError) {
+      throw new LicenseError(
+        "License unlock error: " + licenceUnlockResult.licenseError,
+        "LICENSE_ERROR",
+      );
+    }
 
     // Handle proxy URL configuration
     if (settings.microblinkProxyUrl) {

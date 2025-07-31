@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+# v7.4.1
+
+## What's New
+
+- Exposed `addDocumentClassFilter` and `addOnDocumentFilteredCallback` on the `BlinkIdComponent` type
+- Enhanced reset session behaviour in `BlinkIdUxManager`
+- Enhance `BlinkIdFeedbackUi` with modal visibility controls
+- Add camera error modal visibility control
+- Enhance error handling in `BlinkIdWorker`
+
+### Bug Fixes
+
+- Fixed issue where `ErrorModal` would not close in some cases.
+- Fixed issue where UI had stale state after session restart.
+
 # v7.4.0
 
 ## What's New

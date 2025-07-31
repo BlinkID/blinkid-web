@@ -411,13 +411,33 @@ Returns the timeout duration in ms. Null if timeout won't be triggered ever.
 
 > **reset**(): `void`
 
-Resets the BlinkIdUxManager.
+Resets the BlinkIdUxManager. Clears all callbacks.
 
 Does not reset the camera manager or the scanning session.
 
 #### Returns
 
 `void`
+
+***
+
+### resetScanningSession()
+
+> **resetScanningSession**(`startFrameCapture`): `Promise`\<`void`\>
+
+Resets the scanning session.
+
+#### Parameters
+
+##### startFrameCapture
+
+`boolean` = `true`
+
+Whether to start frame processing.
+
+#### Returns
+
+`Promise`\<`void`\>
 
 ***
 

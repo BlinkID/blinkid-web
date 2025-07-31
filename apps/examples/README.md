@@ -6,6 +6,7 @@ This directory contains example applications demonstrating the capabilities of t
 
 *   [BlinkID Simple](./blinkid-simple/): A simple example of how to use the BlinkID SDK.
 *   [BlinkID Advanced Setup](./blinkid-advanced-setup/): Demonstrates advanced setup and customization of the BlinkID SDK.
+*   [BlinkID UI Customization](./blinkid-ui-customization/): Shows how to implement custom UI, such as replacing UI for various error states (camera errors, timeouts, unsupported documents, filtered documents).
 *   [BlinkID Photo Upload](./blinkid-photo-upload/): An example of how to use the BlinkID SDK with photo upload functionality.
 *   [BlinkID Core API](./blinkid-core-api/): Shows how to use the core API of the BlinkID SDK.
 *   [BlinkID Preload](./blinkid-preload/): Demonstrates how to preload the BlinkID SDK for faster initialization.

@@ -86,6 +86,18 @@ export type BlinkIdComponent = {
   addOnErrorCallback: InstanceType<
     typeof BlinkIdUxManager
   >["addOnErrorCallback"];
+  /**
+   * Adds a document class filter function.
+   */
+  addDocumentClassFilter: InstanceType<
+    typeof BlinkIdUxManager
+  >["addDocumentClassFilter"];
+  /**
+   * Adds a callback function to be called when a document is filtered.
+   */
+  addOnDocumentFilteredCallback: InstanceType<
+    typeof BlinkIdUxManager
+  >["addOnDocumentFilteredCallback"];
 };
 
 /**
@@ -202,6 +214,10 @@ export const createBlinkId = async ({
       blinkIdUxManager.addOnErrorCallback.bind(blinkIdUxManager),
     addOnResultCallback:
       blinkIdUxManager.addOnResultCallback.bind(blinkIdUxManager),
+    addOnDocumentFilteredCallback:
+      blinkIdUxManager.addOnDocumentFilteredCallback.bind(blinkIdUxManager),
+    addDocumentClassFilter:
+      blinkIdUxManager.addDocumentClassFilter.bind(blinkIdUxManager),
   };
 
   return returnObject;

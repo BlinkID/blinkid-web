@@ -4,6 +4,11 @@
 
 # @microblink/blinkid-core
 
+## Classes
+
+- [LicenseError](classes/LicenseError.md)
+- [ProxyUrlValidationError](classes/ProxyUrlValidationError.md)
+
 ## Type Aliases
 
 - [AddressDetailedInfo](type-aliases/AddressDetailedInfo.md)
@@ -53,6 +58,7 @@
 - [ImageExtractionType](type-aliases/ImageExtractionType.md)
 - [InputImageAnalysisResult](type-aliases/InputImageAnalysisResult.md)
 - [InputImageSource](type-aliases/InputImageSource.md)
+- [LicenseErrorCode](type-aliases/LicenseErrorCode.md)
 - [LicenseRequest](type-aliases/LicenseRequest.md)
 - [LicenseStatusResponse](type-aliases/LicenseStatusResponse.md)
 - [LicenseTokenState](type-aliases/LicenseTokenState.md)

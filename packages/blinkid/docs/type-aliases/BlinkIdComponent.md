@@ -12,6 +12,22 @@ Represents the BlinkID component with all SDK instances and UI elements.
 
 ## Properties
 
+### addDocumentClassFilter
+
+> **addDocumentClassFilter**: `InstanceType`\<*typeof* [`BlinkIdUxManager`](../classes/BlinkIdUxManager.md)\>\[`"addDocumentClassFilter"`\]
+
+Adds a document class filter function.
+
+***
+
+### addOnDocumentFilteredCallback
+
+> **addOnDocumentFilteredCallback**: `InstanceType`\<*typeof* [`BlinkIdUxManager`](../classes/BlinkIdUxManager.md)\>\[`"addOnDocumentFilteredCallback"`\]
+
+Adds a callback function to be called when a document is filtered.
+
+***
+
 ### addOnErrorCallback
 
 > **addOnErrorCallback**: `InstanceType`\<*typeof* [`BlinkIdUxManager`](../classes/BlinkIdUxManager.md)\>\[`"addOnErrorCallback"`\]
