@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Please follow the documentation at [blinkid.docs.microblink.com](https://blinkid.docs.microblink.com/v7/quickstart/)!
+Please follow the documentation at [blinkid.docs.microblink.com](https://blinkid.docs.microblink.com/sdk/web/)!
 
 ## Questions & Issues
 

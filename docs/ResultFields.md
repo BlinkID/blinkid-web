@@ -94,7 +94,7 @@ The tables below represent scanning results for each document in each country su
 will always be a part of the result set. The ones marked as "Optional" will be returned only if they exist on the specific document being scanned. 
 For US documents, all information concerns both horizontal and vertical supported documents.
 
-Currently, in BlinkID v6 we support the extraction of fields in Latin, Cyrillic, and Arabic scipts. Information about supported scripts for each document is listed
+Currently, in BlinkID v6 we support the extraction of fields in Latin, Cyrillic, and Arabic scripts. Information about supported scripts for each document is listed
 in the tables in [SupportedDocuments.md](SupportedDocuments.md) file in this repository.
 <br>
 <br>
