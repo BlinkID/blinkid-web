@@ -17,11 +17,8 @@ define how the scanning session should behave.
 The settings control various aspects of the scanning process including:
 
 - Input source (video stream or single photo)
-
 - Scanning mode (single or multiple sides)
-
 - Document detection and quality analysis
-
 - Image processing and result extraction
 
 ## Properties
@@ -37,7 +34,6 @@ photo, as defined by `InputImageSource`. The default is set to `video` for
 real-time scanning through a camera feed.
 
 - `video` - Uses continuous camera feed for scanning
-
 - `photo` - Uses a single captured photo for scanning
 
 #### Default Value
@@ -58,7 +54,6 @@ multiple sides, as defined in `ScanningMode`. The default is set to
 based on the detected document type.
 
 - `automatic` - Automatically determines required sides
-
 - `single` - Scans only one side
 
 #### Default Value

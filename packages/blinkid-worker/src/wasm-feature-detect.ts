@@ -11,6 +11,7 @@ import {
   simd,
   threads,
 } from "wasm-feature-detect";
+import type { WasmVariant } from "@microblink/blinkid-wasm";
 
 /**
  * Checks if the browser is Safari.
@@ -48,11 +49,6 @@ export default async function checkThreadsSupport(): Promise<boolean> {
 
   return "Worker" in self;
 }
-
-/**
- * The WASM variant.
- */
-export type WasmVariant = "basic" | "advanced" | "advanced-threads";
 
 /**
  * Detects the WASM features.

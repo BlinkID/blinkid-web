@@ -442,6 +442,7 @@ export class BlinkIdUxManager {
    */
   #frameCaptureCallback = async (imageData: ImageData) => {
     if (this.#threadBusy) {
+      console.debug("🚦🔴 Thread is busy, skipping frame capture");
       return;
     }
 
@@ -584,19 +585,20 @@ export class BlinkIdUxManager {
    * @param processResult - The process result.
    */
   #handleUiStateChanges = (processResult: ProcessResultWithBuffer) => {
-    const nextUiStateKey = getUiStateKey(
+    const uiStateKeyCandidate = getUiStateKey(
       processResult,
       this.sessionSettings.scanningSettings,
     );
 
-    if (nextUiStateKey === "DOCUMENT_CAPTURED") {
+    if (uiStateKeyCandidate === "DOCUMENT_CAPTURED") {
       // TODO: check if the buffer is still reachable
       this.#successProcessResult = processResult;
     }
 
-    this.rawUiStateKey = nextUiStateKey;
+    this.rawUiStateKey = uiStateKeyCandidate;
 
-    const newUiState = this.feedbackStabilizer.getNewUiState(nextUiStateKey);
+    const newUiState =
+      this.feedbackStabilizer.getNewUiState(uiStateKeyCandidate);
 
     // Skip if the state is the same
     if (newUiState.key === this.uiState.key) {
@@ -647,7 +649,9 @@ export class BlinkIdUxManager {
       this.cameraManager.stopFrameCapture();
       await sleep(uiState.minDuration); // allow animation to play out
 
-      const result = await this.scanningSession.getResult();
+      // get the result and delete the session object
+      const result = await this.getSessionResult(true);
+
       this.#invokeOnResultCallbacks(result);
       return;
     }
@@ -697,6 +701,39 @@ export class BlinkIdUxManager {
     console.debug("⏳🔴 clearing timeout");
     window.clearTimeout(this.#timeoutId);
   };
+
+  /**
+   * Gets the result from the scanning session.
+   *
+   * @param deleteSession - Whether to delete the session after getting the result. Note that
+   * it is not possible to get the result a second time after the document has been fully captured,
+   * so in this case we should delete the scanning session since it is no longer needed.
+   * @returns The result.
+   */
+  async getSessionResult(
+    deleteSession = false,
+  ): Promise<BlinkIdScanningResult> {
+    const result = await this.scanningSession.getResult();
+
+    // cleanup memory, as session cannot be reused for another scan
+    if (deleteSession) {
+      await this.safelyDeleteScanningSession();
+    }
+
+    return result;
+  }
+
+  /**
+   * Safely deletes the scanning session.
+   */
+  async safelyDeleteScanningSession() {
+    // we need to check if the session is deleted, as it might be deleted already
+    const isScanningSessionDeleted = await this.scanningSession.isDeleted();
+
+    if (!isScanningSessionDeleted) {
+      await this.scanningSession.delete();
+    }
+  }
 
   /**
    * Resets the scanning session.

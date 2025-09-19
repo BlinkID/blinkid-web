@@ -15,6 +15,13 @@
 - [ProxyUrlValidationError](classes/ProxyUrlValidationError.md)
 - [VideoFrameProcessor](classes/VideoFrameProcessor.md)
 
+## Interfaces
+
+- [NavigatorUABrandVersion](interfaces/NavigatorUABrandVersion.md)
+- [NavigatorUAData](interfaces/NavigatorUAData.md)
+- [UADataValues](interfaces/UADataValues.md)
+- [UALowEntropyJSON](interfaces/UALowEntropyJSON.md)
+
 ## Type Aliases
 
 - [AddressDetailedInfo](type-aliases/AddressDetailedInfo.md)
@@ -43,6 +50,7 @@
 - [BlinkIdUiStateMap](type-aliases/BlinkIdUiStateMap.md)
 - [BlinkIdWorkerInitSettings](type-aliases/BlinkIdWorkerInitSettings.md)
 - [BlinkIdWorkerProxy](type-aliases/BlinkIdWorkerProxy.md)
+- [BrowserStorageSupport](type-aliases/BrowserStorageSupport.md)
 - [CameraErrorCode](type-aliases/CameraErrorCode.md)
 - [CameraManagerComponent](type-aliases/CameraManagerComponent.md)
 - [CameraManagerOptions](type-aliases/CameraManagerOptions.md)
@@ -61,10 +69,13 @@
 - [DataMatchState](type-aliases/DataMatchState.md)
 - [DateResult](type-aliases/DateResult.md)
 - [DependentInfo](type-aliases/DependentInfo.md)
+- [DerivedDeviceInfo](type-aliases/DerivedDeviceInfo.md)
 - [DetailedCroppedImageResult](type-aliases/DetailedCroppedImageResult.md)
 - [DetailedFieldType](type-aliases/DetailedFieldType.md)
 - [DetectionLevel](type-aliases/DetectionLevel.md)
 - [DetectionStatus](type-aliases/DetectionStatus.md)
+- [DeviceInfo](type-aliases/DeviceInfo.md)
+- [DeviceScreenInfo](type-aliases/DeviceScreenInfo.md)
 - [DismountCallback](type-aliases/DismountCallback.md)
 - [DocumentAnonymizationSettings](type-aliases/DocumentAnonymizationSettings.md)
 - [DocumentClassFilter](type-aliases/DocumentClassFilter.md)
@@ -81,7 +92,10 @@
 - [FacingMode](type-aliases/FacingMode.md)
 - [FeedbackUiOptions](type-aliases/FeedbackUiOptions.md)
 - [FieldType](type-aliases/FieldType.md)
+- [FormFactor](type-aliases/FormFactor.md)
 - [FrameCaptureCallback](type-aliases/FrameCaptureCallback.md)
+- [GpuInfo](type-aliases/GpuInfo.md)
+- [Hints](type-aliases/Hints.md)
 - [ImageAnalysisDetectionStatus](type-aliases/ImageAnalysisDetectionStatus.md)
 - [ImageAnalysisLightingStatus](type-aliases/ImageAnalysisLightingStatus.md)
 - [ImageExtractionType](type-aliases/ImageExtractionType.md)
@@ -112,6 +126,7 @@
 - [RemoteScanningSession](type-aliases/RemoteScanningSession.md)
 - [RemoteWorker](type-aliases/RemoteWorker.md)
 - [Resolution](type-aliases/Resolution.md)
+- [ResourceFileType](type-aliases/ResourceFileType.md)
 - [ResultCompleteness](type-aliases/ResultCompleteness.md)
 - [ScanningMode](type-aliases/ScanningMode.md)
 - [ScanningSettings](type-aliases/ScanningSettings.md)
@@ -129,6 +144,8 @@
 - [VideoFrameProcessorInitOptions](type-aliases/VideoFrameProcessorInitOptions.md)
 - [VideoResolutionName](type-aliases/VideoResolutionName.md)
 - [VizResult](type-aliases/VizResult.md)
+- [WasmBuildType](type-aliases/WasmBuildType.md)
+- [WasmVariant](type-aliases/WasmVariant.md)
 - [WorkerScanningSession](type-aliases/WorkerScanningSession.md)
 
 ## Variables
@@ -144,7 +161,10 @@
 - [getCrossOriginWorkerURL](variables/getCrossOriginWorkerURL.md)
 - [MOUNT\_POINT\_ID](variables/MOUNT_POINT_ID.md)
 - [resetCameraManagerStore](variables/resetCameraManagerStore.md)
+- [resourceFileTypes](variables/resourceFileTypes.md)
 - [videoResolutions](variables/videoResolutions.md)
+- [wasmBuildTypes](variables/wasmBuildTypes.md)
+- [wasmVariants](variables/wasmVariants.md)
 
 ## Functions
 
@@ -158,8 +178,10 @@
 - [extractSideInputImage](functions/extractSideInputImage.md)
 - [extractSignatureImage](functions/extractSignatureImage.md)
 - [findResolutionKey](functions/findResolutionKey.md)
+- [getDeviceInfo](functions/getDeviceInfo.md)
 - [getNormalizedResolution](functions/getNormalizedResolution.md)
 - [getUiStateKey](functions/getUiStateKey.md)
+- [getUserAgentData](functions/getUserAgentData.md)
 - [getUserId](functions/getUserId.md)
 - [isBufferDetached](functions/isBufferDetached.md)
 - [loadBlinkIdCore](functions/loadBlinkIdCore.md)

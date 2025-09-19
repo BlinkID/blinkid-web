@@ -23,7 +23,7 @@ export const UnsupportedDocumentModal: Component<
       open={props.open}
       title="❌ Unsupported Document"
       primaryButtonText="Try Different Document"
-      secondaryButtonText="Cancel"
+      secondaryButtonText="Get Scanning Session Result"
       onPrimaryAction={props.onTryDifferent}
       onSecondaryAction={props.onCancel}
       variant="secondary"

@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+# v7.4.2
+
+## What's New
+
+- Improved `loadBlinkIdCore()` callback. `loadProgress` is now called even when resources response does not have `Content-Length` header
+- `BlinkIdUxManager` will now clear session object on `DOCUMENT_CAPTURED` event
+- Added 2 new methods `getSessionResult` and `safelyDeleteScanningSession` to `BlinkIdUxManager`
+- `blinkid-wasm` package now provides size manifests for resource files
+- Reduced the default resolution to `1080p`
+- Preferred camera resolution can now be set through `CameraManager` constructor
+- Improved `blinkid-ui-customization` example
+
+### Bug Fixes
+
+- Fixed issue with some iPhonePro devices where rotating device would affect scanning
+- Fixed small memory leak happening while creating user agent string
+
 # v7.4.1
 
 ## What's New

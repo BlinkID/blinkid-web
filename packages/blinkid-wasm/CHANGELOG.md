@@ -1,5 +1,12 @@
 # @microblink/blinkid-wasm
 
+## 7.4.2
+
+### Patch Changes
+
+- Fixed small memory leak happening while creating user agent string
+- Now generating size manifests for resource files
+
 ## 7.4.1
 
 ### Patch Changes

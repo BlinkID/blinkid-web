@@ -143,7 +143,11 @@ https://developer.mozilla.org/en-US/docs/Web/API/MediaSession/playbackState for 
 
 > **get** **resolution**(): `"720p"` \| `"1080p"` \| `"4k"`
 
-The resolution of the camera stream.
+The desired video resolution for camera streams. This is used as the ideal resolution
+when starting camera streams. If a camera doesn't support the specified resolution,
+the camera will automatically fall back to the next lower supported resolution in this order:
+4k → 1080p → 720p. The actual resolution used may differ from this setting based on
+camera capabilities and system constraints.
 
 ##### Returns
 
@@ -376,13 +380,16 @@ The facing filter.
 
 > **setResolution**(`resolution`): `Promise`\<`void`\>
 
-Sets the resolution of the camera stream.
+Sets the desired video resolution for camera streams. This is used as the ideal resolution
+when starting camera streams. If a camera doesn't support the specified resolution,
+the camera will automatically fall back to the next lower supported resolution in this order:
+4k → 1080p → 720p. If there's an active stream, it will be restarted with the new resolution.
 
 #### Parameters
 
 ##### resolution
 
-The resolution to set.
+The ideal resolution to set for camera streams.
 
 `"720p"` | `"1080p"` | `"4k"`
 

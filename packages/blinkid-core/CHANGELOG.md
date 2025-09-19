@@ -1,5 +1,13 @@
 # @microblink/blinkid-core
 
+## 7.4.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/blinkid-worker@7.4.2
+  - @microblink/blinkid-wasm@7.4.2
+
 ## 7.4.1
 
 ### Patch Changes

@@ -101,7 +101,6 @@ multiple sides, as defined in `ScanningMode`. The default is set to
 based on the detected document type.
 
 - `automatic` - Automatically determines required sides
-
 - `single` - Scans only one side
 
 **Default Value**
@@ -148,7 +147,7 @@ Used for analytics and tracking purposes.
 
 #### wasmVariant?
 
-`WasmVariant`
+`"basic"` \| `"advanced"` \| `"advanced-threads"`
 
 The WebAssembly module variant to use.
 Different variants may offer different performance/size tradeoffs.

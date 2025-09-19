@@ -1,5 +1,15 @@
 # @microblink/blinkid-ux-manager
 
+## 7.4.2
+
+### Patch Changes
+
+- `BlinkIdUxManager` will now clear session object on `DOCUMENT_CAPTURED` event
+- Added 2 new methods `getSessionResult` and `safelyDeleteScanningSession`
+- Updated dependencies
+  - @microblink/camera-manager@7.2.4
+  - @microblink/blinkid-core@7.4.2
+
 ## 7.4.1
 
 ### Patch Changes

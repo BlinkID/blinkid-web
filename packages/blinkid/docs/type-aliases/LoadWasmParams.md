@@ -32,4 +32,4 @@ The load Wasm params.
 
 ### variant?
 
-> `optional` **variant**: `WasmVariant`
+> `optional` **variant**: [`WasmVariant`](WasmVariant.md)

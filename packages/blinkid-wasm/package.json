@@ -1,12 +1,13 @@
 {
   "name": "@microblink/blinkid-wasm",
   "private": true,
-  "version": "7.4.1",
+  "version": "7.4.2",
   "scripts": {
     "build": "tsc",
     "build:publish": "tsc",
     "clean": "rimraf .turbo types",
     "docs:api": "typedoc",
+    "generate:size-manifest": "tsx scripts/generate-size-manifest.mts",
     "lint": "pnpm lint:types",
     "lint:types": "tsc --emitDeclarationOnly false --noEmit",
     "build:dev": "tsc"
@@ -20,6 +21,7 @@
       "types": "./types/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./size-manifest.json": "./dist/size-manifest.json",
     "./package.json": "./package.json"
   },
   "files": [
