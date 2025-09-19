@@ -3,14 +3,18 @@
  */
 
 import { expose, finalizer, proxy, ProxyMarked, transfer } from "comlink";
-import { detectWasmFeatures, WasmVariant } from "./wasm-feature-detect";
+import { detectWasmFeatures } from "./wasm-feature-detect";
 
-import {
+import type {
+  BlinkIdSessionError,
   BlinkIdProcessResult,
+  BlinkIdScanningResult,
   BlinkIdScanningSession,
   BlinkIdSessionSettings,
   BlinkIdWasmModule,
   EmscriptenModuleFactory,
+  LicenseTokenState,
+  WasmVariant,
 } from "@microblink/blinkid-wasm";
 import { OverrideProperties } from "type-fest";
 import { getCrossOriginWorkerURL } from "./getCrossOriginWorkerURL";
@@ -18,19 +22,16 @@ import { isIOS } from "./isSafari";
 import { obtainNewServerPermission } from "./licencing";
 import { mbToWasmPages } from "./mbToWasmPages";
 
-import { downloadArrayBuffer, DownloadProgress } from "./downloadArrayBuffer";
+import {
+  downloadResourceBuffer,
+  DownloadProgress,
+} from "./downloadResourceBuffer";
 import { buildResourcePath } from "./buildResourcePath";
 import {
   buildSessionSettings,
   PartialBlinkIdSessionSettings,
 } from "./buildSessionSettings";
 // might be needed for types to work
-
-import type {
-  BlinkIdScanningResult,
-  BlinkIdSessionError,
-  LicenseTokenState,
-} from "@microblink/blinkid-wasm";
 
 /**
  * This is a workaround for the fact that the types are not exported.
@@ -301,19 +302,14 @@ class BlinkIdWorker {
         return;
       }
 
+      const totalFinished = wasmProgress.finished && dataProgress.finished;
       const totalLoaded = wasmProgress.loaded + dataProgress.loaded;
       const totalLength =
         wasmProgress.contentLength + dataProgress.contentLength;
-      const combinedPercent = Math.min(
-        Math.round((totalLoaded / totalLength) * 100),
-        100,
-      );
 
-      const combinedProgress: DownloadProgress = {
-        loaded: totalLoaded,
-        contentLength: totalLength,
-        progress: combinedPercent,
-      };
+      const combinedPercent = totalFinished
+        ? 100
+        : Math.min(Math.round((totalLoaded / totalLength) * 100), 100);
 
       // Check if enough time has elapsed since the last update
       const currentTime = performance.now();
@@ -324,7 +320,12 @@ class BlinkIdWorker {
       // Update the timestamp
       lastProgressUpdate = currentTime;
 
-      this.progressStatusCallback(combinedProgress);
+      this.progressStatusCallback({
+        loaded: totalLoaded,
+        contentLength: totalLength,
+        progress: combinedPercent,
+        finished: totalFinished,
+      });
     };
 
     // Wrap each download's progress callback to update the combined progress.
@@ -340,8 +341,20 @@ class BlinkIdWorker {
 
     // Replace simple fetch with progress tracking for both wasm and data downloads
     const [preloadedWasm, preloadedData] = await Promise.all([
-      downloadArrayBuffer(wasmUrl, wasmProgressCallback),
-      downloadArrayBuffer(dataUrl, dataProgressCallback),
+      downloadResourceBuffer(
+        wasmUrl,
+        "wasm",
+        wasmVariant,
+        featureVariant,
+        wasmProgressCallback,
+      ),
+      downloadResourceBuffer(
+        dataUrl,
+        "data",
+        wasmVariant,
+        featureVariant,
+        dataProgressCallback,
+      ),
     ]);
 
     // Ensure final 100% progress update is sent
@@ -352,6 +365,7 @@ class BlinkIdWorker {
         loaded: totalLength,
         contentLength: totalLength,
         progress: 100,
+        finished: true,
       });
     }
 

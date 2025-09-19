@@ -19,6 +19,7 @@ import {
   FrameCaptureCallback,
   PlaybackState,
 } from "@microblink/camera-manager";
+import { blinkIdUiStateMap } from "./blinkid-ui-state";
 
 type PartialProcessResultWithBuffer = Partial<
   OverrideProperties<
@@ -886,5 +887,335 @@ describe("BlinkIdUxManager - Timeout Behavior", () => {
     expect(errorCallback).not.toHaveBeenCalled();
 
     feedbackStabilizerSpy.mockRestore();
+  });
+});
+
+describe("BlinkIdUxManager - Overlay Methods", () => {
+  let manager: BlinkIdUxManager;
+  let mockCameraManager: {
+    addFrameCaptureCallback: ReturnType<typeof vi.fn>;
+    subscribe: ReturnType<typeof vi.fn>;
+  };
+  let mockScanningSession: {
+    process: ReturnType<typeof vi.fn>;
+    getSettings: ReturnType<typeof vi.fn>;
+    showDemoOverlay: ReturnType<typeof vi.fn>;
+    showProductionOverlay: ReturnType<typeof vi.fn>;
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.useFakeTimers();
+
+    mockCameraManager = {
+      addFrameCaptureCallback: vi.fn(),
+      subscribe: vi.fn().mockReturnValue(vi.fn()),
+    };
+
+    mockScanningSession = {
+      process: vi.fn(),
+      getSettings: vi.fn().mockResolvedValue({ scanningSettings: {} }),
+      showDemoOverlay: vi.fn().mockResolvedValue(false),
+      showProductionOverlay: vi.fn().mockResolvedValue(false),
+    };
+
+    manager = new BlinkIdUxManager(
+      mockCameraManager as never,
+      mockScanningSession as never,
+    );
+  });
+
+  afterEach(() => {
+    manager.reset();
+    vi.useRealTimers();
+  });
+
+  test("getShowDemoOverlay should return correct value", async () => {
+    // Default value set in constructor
+    expect(manager.getShowDemoOverlay()).toBe(false);
+
+    // Create new instance with different mock value
+    mockScanningSession.showDemoOverlay.mockResolvedValue(true);
+    const newManager = new BlinkIdUxManager(
+      mockCameraManager as never,
+      mockScanningSession as never,
+    );
+
+    // Wait for constructor promises to resolve
+    await vi.runOnlyPendingTimersAsync();
+    expect(newManager.getShowDemoOverlay()).toBe(true);
+  });
+
+  test("getShowProductionOverlay should return correct value", async () => {
+    // Default value set in constructor
+    expect(manager.getShowProductionOverlay()).toBe(false);
+
+    // Create new instance with different mock value
+    mockScanningSession.showProductionOverlay.mockResolvedValue(true);
+    const newManager = new BlinkIdUxManager(
+      mockCameraManager as never,
+      mockScanningSession as never,
+    );
+
+    // Wait for constructor promises to resolve
+    await vi.runOnlyPendingTimersAsync();
+    expect(newManager.getShowProductionOverlay()).toBe(true);
+  });
+});
+
+describe("BlinkIdUxManager - Session Management", () => {
+  let manager: BlinkIdUxManager;
+  let mockCameraManager: {
+    addFrameCaptureCallback: ReturnType<typeof vi.fn>;
+    subscribe: ReturnType<typeof vi.fn>;
+  };
+  let mockScanningSession: {
+    process: ReturnType<typeof vi.fn>;
+    getSettings: ReturnType<typeof vi.fn>;
+    showDemoOverlay: ReturnType<typeof vi.fn>;
+    showProductionOverlay: ReturnType<typeof vi.fn>;
+    getResult: ReturnType<typeof vi.fn>;
+    delete: ReturnType<typeof vi.fn>;
+    isDeleted: ReturnType<typeof vi.fn>;
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+
+    mockCameraManager = {
+      addFrameCaptureCallback: vi.fn(),
+      subscribe: vi.fn().mockReturnValue(vi.fn()),
+    };
+
+    mockScanningSession = {
+      process: vi.fn(),
+      getSettings: vi.fn().mockResolvedValue({ scanningSettings: {} }),
+      showDemoOverlay: vi.fn().mockResolvedValue(false),
+      showProductionOverlay: vi.fn().mockResolvedValue(false),
+      getResult: vi.fn(),
+      delete: vi.fn().mockResolvedValue(undefined),
+      isDeleted: vi.fn().mockResolvedValue(false),
+    };
+
+    manager = new BlinkIdUxManager(
+      mockCameraManager as never,
+      mockScanningSession as never,
+    );
+  });
+
+  afterEach(() => {
+    manager.reset();
+  });
+
+  test("getSessionResult should return result and delete session by default", async () => {
+    const mockResult = { someData: "test" };
+    mockScanningSession.getResult.mockResolvedValue(mockResult);
+
+    const result = await manager.getSessionResult();
+
+    expect(result).toBe(mockResult);
+    expect(mockScanningSession.getResult).toHaveBeenCalled();
+    expect(mockScanningSession.isDeleted).not.toHaveBeenCalled();
+    expect(mockScanningSession.delete).not.toHaveBeenCalled();
+  });
+
+  test("getSessionResult should not delete session when deleteSession is true", async () => {
+    const mockResult = { someData: "test" };
+    mockScanningSession.getResult.mockResolvedValue(mockResult);
+
+    const result = await manager.getSessionResult(true);
+
+    expect(result).toBe(mockResult);
+    expect(mockScanningSession.getResult).toHaveBeenCalled();
+    expect(mockScanningSession.isDeleted).toHaveBeenCalled();
+    expect(mockScanningSession.delete).toHaveBeenCalled();
+  });
+
+  test("safelyDeleteScanningSession should delete session if not already deleted", async () => {
+    mockScanningSession.isDeleted.mockResolvedValue(false);
+
+    await manager.safelyDeleteScanningSession();
+
+    expect(mockScanningSession.isDeleted).toHaveBeenCalled();
+    expect(mockScanningSession.delete).toHaveBeenCalled();
+  });
+
+  test("safelyDeleteScanningSession should not delete already deleted session", async () => {
+    mockScanningSession.isDeleted.mockResolvedValue(true);
+
+    await manager.safelyDeleteScanningSession();
+
+    expect(mockScanningSession.isDeleted).toHaveBeenCalled();
+    expect(mockScanningSession.delete).not.toHaveBeenCalled();
+  });
+});
+
+describe("BlinkIdUxManager - Document Capture Flow Integration", () => {
+  let manager: BlinkIdUxManager;
+  let mockCameraManager: {
+    addFrameCaptureCallback: ReturnType<typeof vi.fn>;
+    subscribe: ReturnType<typeof vi.fn>;
+    stopFrameCapture: ReturnType<typeof vi.fn>;
+    startFrameCapture: ReturnType<typeof vi.fn>;
+  };
+  let mockScanningSession: {
+    process: ReturnType<typeof vi.fn>;
+    getSettings: ReturnType<typeof vi.fn>;
+    showDemoOverlay: ReturnType<typeof vi.fn>;
+    showProductionOverlay: ReturnType<typeof vi.fn>;
+    getResult: ReturnType<typeof vi.fn>;
+    delete: ReturnType<typeof vi.fn>;
+    isDeleted: ReturnType<typeof vi.fn>;
+  };
+  let frameCaptureCallback: FrameCaptureCallback;
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.useFakeTimers();
+
+    mockCameraManager = {
+      addFrameCaptureCallback: vi
+        .fn()
+        .mockImplementation((callback: FrameCaptureCallback) => callback),
+      subscribe: vi.fn().mockReturnValue(vi.fn()),
+      stopFrameCapture: vi.fn(),
+      startFrameCapture: vi.fn().mockResolvedValue(undefined),
+    };
+
+    mockScanningSession = {
+      process: vi.fn(),
+      getSettings: vi.fn().mockResolvedValue({ scanningSettings: {} }),
+      showDemoOverlay: vi.fn().mockResolvedValue(false),
+      showProductionOverlay: vi.fn().mockResolvedValue(false),
+      getResult: vi.fn(),
+      delete: vi.fn().mockResolvedValue(undefined),
+      isDeleted: vi.fn().mockResolvedValue(false),
+    };
+
+    manager = new BlinkIdUxManager(
+      mockCameraManager as never,
+      mockScanningSession as never,
+    );
+
+    // Capture the frame capture callback for testing
+    expect(mockCameraManager.addFrameCaptureCallback).toHaveBeenCalledTimes(1);
+    frameCaptureCallback =
+      mockCameraManager.addFrameCaptureCallback.mock.calls[0][0];
+  });
+
+  afterEach(() => {
+    manager.reset();
+    vi.useRealTimers();
+  });
+
+  test("should handle successful document capture flow", async () => {
+    const mockResult = { someData: "test" };
+    const resultCallback = vi.fn();
+    const uiStateCallback = vi.fn();
+
+    manager.addOnResultCallback(resultCallback);
+    manager.addOnUiStateChangedCallback(uiStateCallback);
+
+    // Mock feedback stabilizer to return DOCUMENT_CAPTURED state
+    const feedbackStabilizerSpy = vi
+      .spyOn(manager.feedbackStabilizer, "getNewUiState")
+      .mockReturnValue(blinkIdUiStateMap.DOCUMENT_CAPTURED);
+
+    // Mock successful document capture
+    const mockProcessResult = {
+      inputImageAnalysisResult: {
+        processingStatus: "success",
+        documentClassInfo: { country: "usa", type: "dl" },
+        documentDetectionStatus: "success",
+      },
+      resultCompleteness: { scanningStatus: "document-scanned" },
+      arrayBuffer: new ArrayBuffer(0),
+    } as ProcessResultWithBuffer;
+
+    mockScanningSession.process.mockResolvedValue(mockProcessResult);
+    mockScanningSession.getResult.mockResolvedValue(mockResult);
+
+    // Simulate frame capture
+    await frameCaptureCallback({
+      data: new Uint8ClampedArray(0),
+      width: 100,
+      height: 100,
+      colorSpace: "srgb",
+    });
+
+    // Allow animations to complete
+    await vi.runAllTimersAsync();
+
+    // Verify the complete flow
+    expect(feedbackStabilizerSpy).toHaveBeenCalledWith("DOCUMENT_CAPTURED");
+    expect(mockCameraManager.stopFrameCapture).toHaveBeenCalled();
+    expect(mockScanningSession.getResult).toHaveBeenCalled();
+    expect(resultCallback).toHaveBeenCalledWith(mockResult);
+    expect(mockScanningSession.isDeleted).toHaveBeenCalled();
+    expect(mockScanningSession.delete).toHaveBeenCalled();
+
+    // Verify UI state transitions
+    expect(uiStateCallback).toHaveBeenCalledWith(
+      expect.objectContaining({ key: "DOCUMENT_CAPTURED" }),
+    );
+
+    // Clean up
+    feedbackStabilizerSpy.mockRestore();
+  });
+
+  test("should not trigger document capture flow for incomplete results", async () => {
+    const resultCallback = vi.fn();
+    manager.addOnResultCallback(resultCallback);
+
+    // Mock incomplete document detection
+    const mockProcessResult = {
+      inputImageAnalysisResult: {
+        processingStatus: "success",
+        documentClassInfo: { country: "usa", type: "dl" },
+        documentDetectionStatus: "fail",
+      },
+      resultCompleteness: { isComplete: false },
+      arrayBuffer: new ArrayBuffer(0),
+    };
+
+    mockScanningSession.process.mockResolvedValue(mockProcessResult);
+
+    // Simulate frame capture
+    await frameCaptureCallback({
+      data: new Uint8ClampedArray(0),
+      width: 100,
+      height: 100,
+      colorSpace: "srgb",
+    });
+
+    await vi.runAllTimersAsync();
+
+    // Verify no result processing occurred
+    expect(mockScanningSession.getResult).not.toHaveBeenCalled();
+    expect(resultCallback).not.toHaveBeenCalled();
+    expect(mockScanningSession.delete).not.toHaveBeenCalled();
+  });
+
+  test("should handle timeout during document capture", async () => {
+    const errorCallback = vi.fn();
+    manager.addOnErrorCallback(errorCallback);
+
+    // Set a short timeout
+    manager.setTimeoutDuration(1000);
+
+    // Simulate starting capture
+    const subscribeCall = mockCameraManager.subscribe.mock.calls[0];
+    const playbackStateCallback = subscribeCall[1] as (
+      state: PlaybackState,
+    ) => void;
+    playbackStateCallback("capturing");
+
+    // Advance time past timeout
+    await vi.advanceTimersByTimeAsync(1100);
+
+    // Verify timeout handling
+    expect(mockCameraManager.stopFrameCapture).toHaveBeenCalled();
+    expect(errorCallback).toHaveBeenCalledWith("timeout");
+    expect(mockScanningSession.getResult).not.toHaveBeenCalled();
   });
 });

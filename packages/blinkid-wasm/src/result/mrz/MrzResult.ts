@@ -4,7 +4,6 @@
 
 import { DateResult } from "../../utils";
 
-
 /** Types of documents that can contain MRZ */
 export type MrzDocumentType =
   | "unknown"

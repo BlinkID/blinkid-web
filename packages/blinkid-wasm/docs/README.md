@@ -62,6 +62,7 @@
 - [RecognitionModeFilter](type-aliases/RecognitionModeFilter.md)
 - [Rectangle](type-aliases/Rectangle.md)
 - [Region](type-aliases/Region.md)
+- [ResourceFileType](type-aliases/ResourceFileType.md)
 - [ResultCompleteness](type-aliases/ResultCompleteness.md)
 - [ScanningMode](type-aliases/ScanningMode.md)
 - [ScanningSettings](type-aliases/ScanningSettings.md)
@@ -73,3 +74,11 @@
 - [StringResult](type-aliases/StringResult.md)
 - [VehicleClassInfo](type-aliases/VehicleClassInfo.md)
 - [VizResult](type-aliases/VizResult.md)
+- [WasmBuildType](type-aliases/WasmBuildType.md)
+- [WasmVariant](type-aliases/WasmVariant.md)
+
+## Variables
+
+- [resourceFileTypes](variables/resourceFileTypes.md)
+- [wasmBuildTypes](variables/wasmBuildTypes.md)
+- [wasmVariants](variables/wasmVariants.md)

@@ -2,7 +2,7 @@
   "name": "example-camera-manager-selection",
   "description": "Example app showcasing the usage of the @microblink/camera-manager package with camera selection",
   "private": true,
-  "version": "1.1.7",
+  "version": "1.1.8",
   "scripts": {
     "build": "vite build",
     "build:js-dev": "vite build --mode development",

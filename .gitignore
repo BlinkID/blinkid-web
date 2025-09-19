@@ -8,6 +8,10 @@ vite.config.*.timestamp-*
 
 # Python virtual environments
 .venv
+venv
+
+# PNPM store directory
+.pnpm-store
 
 ### C++ ###
 # Prerequisites
@@ -290,3 +294,6 @@ Session.vim
 
 # JetBrains IDEs
 .idea
+
+#mise local
+mise.local.toml

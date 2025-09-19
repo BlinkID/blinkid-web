@@ -1,10 +1,9 @@
 {
-  "name": "blinkid",
-  "description": "",
-  "version": "7.4.1",
-  "author": "",
+  "private": true,
+  "version": "7.4.2",
   "scripts": {
     "build": "turbo build",
+    "build:packages": "turbo build --filter={./packages/*}",
     "build:dev": "turbo build:dev --filter={./packages/*}",
     "build:publish": "turbo build:publish --filter={./packages/*}",
     "clean": "turbo clean",
@@ -26,5 +25,5 @@
     "vitest": "^3.0.8"
   },
   "license": "ISC",
-  "packageManager": "pnpm@10.12.3"
+  "packageManager": "pnpm@10.17.0"
 }

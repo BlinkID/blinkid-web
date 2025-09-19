@@ -78,6 +78,12 @@ export const CaptureScreen: Component = () => {
     const Vw = video.videoWidth;
     const Vh = video.videoHeight;
 
+    // If video dimensions are not available, do nothing.
+    // This can happen during initialization or orientation changes.
+    if (Vw === 0 || Vh === 0) {
+      return;
+    }
+
     const newFitMode = determineFitMode(Cw, Ch, Vw, Vh);
 
     setFitMode(newFitMode);
@@ -108,10 +114,16 @@ export const CaptureScreen: Component = () => {
 
     observe(video);
 
+    /**
+     * Added additional listener to "resize" event on the video element because some iPhone devices
+     * do not have updated video dimensions when the resize observer callback is called.
+     */
+    video.addEventListener("resize", adjustVideoFit);
     video.addEventListener("loadedmetadata", adjustVideoFit);
 
     onCleanup(() => {
       unobserve(video);
+      video.removeEventListener("resize", adjustVideoFit);
       video.removeEventListener("loadedmetadata", adjustVideoFit);
     });
   });

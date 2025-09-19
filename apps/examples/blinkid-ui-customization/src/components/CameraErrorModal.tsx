@@ -22,7 +22,7 @@ export const CameraErrorModal: Component<CameraErrorModalProps> = (props) => {
       open={props.open}
       title="📷 Camera Error"
       primaryButtonText="Retry Camera"
-      secondaryButtonText="Cancel"
+      secondaryButtonText="Get Scanning Session Result"
       onPrimaryAction={props.onRetry}
       onSecondaryAction={props.onCancel}
       variant="error"

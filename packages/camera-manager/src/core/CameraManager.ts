@@ -6,12 +6,12 @@ import { ConnectionObserver } from "@wessberg/connection-observer";
 import { rad, radEventListener } from "rad-event-listener";
 
 import { Camera, FacingMode, VideoResolutionName } from "./Camera";
+import { CameraError } from "./cameraError";
 import {
   createCameras,
   findIdealCamera,
   obtainVideoInputDevices,
 } from "./cameraUtils";
-import { CameraError } from "./cameraError";
 
 import {
   PlaybackState,
@@ -90,10 +90,19 @@ export type StartCameraStreamOptions = {
  * Options for the CameraManager.
  *
  * @param mirrorFrontCameras - If true, front-facing cameras will be mirrored horizontally when started.
+ * @param preferredResolution - The desired video resolution for camera streams. This is used as the ideal resolution when starting camera streams. If a camera doesn't support the specified resolution, the camera will automatically fall back to the next lower supported resolution in this order: 4k → 1080p → 720p.
  */
 export type CameraManagerOptions = {
   /** If true, the camera stream will be mirrored horizontally when started. */
   mirrorFrontCameras: boolean;
+  /**
+   * The desired video resolution for camera streams. This is used as the ideal resolution
+   * when starting camera streams. If a camera doesn't support the specified resolution,
+   * the camera will automatically fall back to the next lower supported resolution in this order:
+   * 4k → 1080p → 720p. The actual resolution used may differ from this setting based on
+   * camera capabilities and system constraints.
+   */
+  preferredResolution: VideoResolutionName;
 };
 
 /**
@@ -101,6 +110,7 @@ export type CameraManagerOptions = {
  */
 export const defaultCameraManagerOptions: CameraManagerOptions = {
   mirrorFrontCameras: true,
+  preferredResolution: "1080p",
 } as const;
 
 /**
@@ -110,7 +120,15 @@ export const defaultCameraManagerOptions: CameraManagerOptions = {
  */
 export class CameraManager {
   #resumeRequest?: Exclude<PlaybackState, "idle">;
-  #resolution: VideoResolutionName = "4k";
+
+  /**
+   * The desired video resolution for camera streams. This is used as the ideal resolution
+   * when starting camera streams. If a camera doesn't support the specified resolution,
+   * the camera will automatically fall back to the next lower supported resolution in this order:
+   * 4k → 1080p → 720p. The actual resolution used may differ from this setting based on
+   * camera capabilities and system constraints.
+   */
+  #resolution: VideoResolutionName;
   #extractionArea?: ExtractionArea;
 
   #videoFrameRequestId:
@@ -164,11 +182,12 @@ export class CameraManager {
     options: Partial<CameraManagerOptions> = {},
     videoFrameProcessorOptions?: VideoFrameProcessorInitOptions,
   ) {
-    const { mirrorFrontCameras }: CameraManagerOptions = {
+    const { mirrorFrontCameras, preferredResolution }: CameraManagerOptions = {
       ...defaultCameraManagerOptions,
       ...options,
     };
 
+    this.#resolution = preferredResolution;
     this.#videoFrameProcessor = new VideoFrameProcessor(
       videoFrameProcessorOptions,
     );
@@ -176,9 +195,12 @@ export class CameraManager {
   }
 
   /**
-   * Sets the resolution of the camera stream.
+   * Sets the desired video resolution for camera streams. This is used as the ideal resolution
+   * when starting camera streams. If a camera doesn't support the specified resolution,
+   * the camera will automatically fall back to the next lower supported resolution in this order:
+   * 4k → 1080p → 720p. If there's an active stream, it will be restarted with the new resolution.
    *
-   * @param resolution - The resolution to set.
+   * @param resolution - The ideal resolution to set for camera streams.
    */
   setResolution = async (resolution: VideoResolutionName) => {
     this.#resolution = resolution;
@@ -193,7 +215,11 @@ export class CameraManager {
   };
 
   /**
-   * The resolution of the camera stream.
+   * The desired video resolution for camera streams. This is used as the ideal resolution
+   * when starting camera streams. If a camera doesn't support the specified resolution,
+   * the camera will automatically fall back to the next lower supported resolution in this order:
+   * 4k → 1080p → 720p. The actual resolution used may differ from this setting based on
+   * camera capabilities and system constraints.
    */
   get resolution() {
     return this.#resolution;

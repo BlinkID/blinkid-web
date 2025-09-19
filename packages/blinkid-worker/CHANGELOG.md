@@ -1,5 +1,13 @@
 # @microblink/blinkid-worker
 
+## 7.4.2
+
+### Patch Changes
+
+- Improved `loadBlinkIdCore()` callback. `loadProgress` is now called even when resources response does not have `Content-Length` header
+- Updated dependencies
+  - @microblink/blinkid-wasm@7.4.2
+
 ## 7.4.1
 
 ### Patch Changes

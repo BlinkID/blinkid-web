@@ -63,19 +63,7 @@ export const App: Component = () => {
     <div>
       <button onClick={() => void initialize()}>Scan</button>
       <Show when={PROCESS_FRAMES}>
-        <canvas
-          ref={canvas}
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            "z-index": 999999,
-            "pointer-events": "none",
-            display: "block",
-            "max-width": "50%",
-            outline: "1px solid red",
-          }}
-        />
+        <canvas ref={canvas} class="camera-preview" />
       </Show>
     </div>
   );

@@ -21,7 +21,7 @@ export const TimeoutErrorModal: Component<TimeoutErrorModalProps> = (props) => {
       open={props.open}
       title="⏰ Scanning Timeout"
       primaryButtonText="Try Again"
-      secondaryButtonText="Cancel"
+      secondaryButtonText="Get Scanning Session Result"
       onPrimaryAction={props.onTryAgain}
       onSecondaryAction={props.onCancel}
       variant="warning"

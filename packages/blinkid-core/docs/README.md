@@ -9,6 +9,13 @@
 - [LicenseError](classes/LicenseError.md)
 - [ProxyUrlValidationError](classes/ProxyUrlValidationError.md)
 
+## Interfaces
+
+- [NavigatorUABrandVersion](interfaces/NavigatorUABrandVersion.md)
+- [NavigatorUAData](interfaces/NavigatorUAData.md)
+- [UADataValues](interfaces/UADataValues.md)
+- [UALowEntropyJSON](interfaces/UALowEntropyJSON.md)
+
 ## Type Aliases
 
 - [AddressDetailedInfo](type-aliases/AddressDetailedInfo.md)
@@ -30,6 +37,7 @@
 - [BlinkIdSessionSettings](type-aliases/BlinkIdSessionSettings.md)
 - [BlinkIdWorkerInitSettings](type-aliases/BlinkIdWorkerInitSettings.md)
 - [BlinkIdWorkerProxy](type-aliases/BlinkIdWorkerProxy.md)
+- [BrowserStorageSupport](type-aliases/BrowserStorageSupport.md)
 - [Country](type-aliases/Country.md)
 - [CroppedImageSettings](type-aliases/CroppedImageSettings.md)
 - [DataMatchFieldState](type-aliases/DataMatchFieldState.md)
@@ -38,10 +46,13 @@
 - [DataMatchState](type-aliases/DataMatchState.md)
 - [DateResult](type-aliases/DateResult.md)
 - [DependentInfo](type-aliases/DependentInfo.md)
+- [DerivedDeviceInfo](type-aliases/DerivedDeviceInfo.md)
 - [DetailedCroppedImageResult](type-aliases/DetailedCroppedImageResult.md)
 - [DetailedFieldType](type-aliases/DetailedFieldType.md)
 - [DetectionLevel](type-aliases/DetectionLevel.md)
 - [DetectionStatus](type-aliases/DetectionStatus.md)
+- [DeviceInfo](type-aliases/DeviceInfo.md)
+- [DeviceScreenInfo](type-aliases/DeviceScreenInfo.md)
 - [DocumentAnonymizationSettings](type-aliases/DocumentAnonymizationSettings.md)
 - [DocumentClassInfo](type-aliases/DocumentClassInfo.md)
 - [DocumentFilter](type-aliases/DocumentFilter.md)
@@ -53,6 +64,9 @@
 - [DocumentType](type-aliases/DocumentType.md)
 - [DriverLicenceDetailedInfo](type-aliases/DriverLicenceDetailedInfo.md)
 - [FieldType](type-aliases/FieldType.md)
+- [FormFactor](type-aliases/FormFactor.md)
+- [GpuInfo](type-aliases/GpuInfo.md)
+- [Hints](type-aliases/Hints.md)
 - [ImageAnalysisDetectionStatus](type-aliases/ImageAnalysisDetectionStatus.md)
 - [ImageAnalysisLightingStatus](type-aliases/ImageAnalysisLightingStatus.md)
 - [ImageExtractionType](type-aliases/ImageExtractionType.md)
@@ -77,6 +91,7 @@
 - [Region](type-aliases/Region.md)
 - [RemoteScanningSession](type-aliases/RemoteScanningSession.md)
 - [RemoteWorker](type-aliases/RemoteWorker.md)
+- [ResourceFileType](type-aliases/ResourceFileType.md)
 - [ResultCompleteness](type-aliases/ResultCompleteness.md)
 - [ScanningMode](type-aliases/ScanningMode.md)
 - [ScanningSettings](type-aliases/ScanningSettings.md)
@@ -88,11 +103,16 @@
 - [StringResult](type-aliases/StringResult.md)
 - [VehicleClassInfo](type-aliases/VehicleClassInfo.md)
 - [VizResult](type-aliases/VizResult.md)
+- [WasmBuildType](type-aliases/WasmBuildType.md)
+- [WasmVariant](type-aliases/WasmVariant.md)
 - [WorkerScanningSession](type-aliases/WorkerScanningSession.md)
 
 ## Variables
 
 - [defaultSessionSettings](variables/defaultSessionSettings.md)
+- [resourceFileTypes](variables/resourceFileTypes.md)
+- [wasmBuildTypes](variables/wasmBuildTypes.md)
+- [wasmVariants](variables/wasmVariants.md)
 
 ## Functions
 
@@ -104,6 +124,8 @@
 - [extractSideInputImage](functions/extractSideInputImage.md)
 - [extractSignatureImage](functions/extractSignatureImage.md)
 - [getCrossOriginWorkerURL](functions/getCrossOriginWorkerURL.md)
+- [getDeviceInfo](functions/getDeviceInfo.md)
+- [getUserAgentData](functions/getUserAgentData.md)
 - [getUserId](functions/getUserId.md)
 - [loadBlinkIdCore](functions/loadBlinkIdCore.md)
 - [testLocalStorage](functions/testLocalStorage.md)

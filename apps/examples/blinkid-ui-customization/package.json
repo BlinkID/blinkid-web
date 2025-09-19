@@ -2,7 +2,7 @@
   "name": "example-blinkid-ui-customization",
   "description": "An example demonstrating custom UI implementations for BlinkID SDK",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "vite build",
     "build:js-dev": "vite build --mode development",

@@ -369,6 +369,30 @@ Returns the time in ms before the help tooltip is shown. Null if tooltip won't b
 
 ***
 
+### getSessionResult()
+
+> **getSessionResult**(`deleteSession?`): `Promise`\<[`BlinkIdScanningResult`](../type-aliases/BlinkIdScanningResult.md)\>
+
+Gets the result from the scanning session.
+
+#### Parameters
+
+##### deleteSession?
+
+`boolean`
+
+Whether to delete the session after getting the result. Note that
+it is not possible to get the result a second time after the document has been fully captured,
+so in this case we should delete the scanning session since it is no longer needed.
+
+#### Returns
+
+`Promise`\<[`BlinkIdScanningResult`](../type-aliases/BlinkIdScanningResult.md)\>
+
+The result.
+
+***
+
 ### getShowDemoOverlay()
 
 > **getShowDemoOverlay**(): `boolean`
@@ -434,6 +458,18 @@ Resets the scanning session.
 `boolean`
 
 Whether to start frame processing.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### safelyDeleteScanningSession()
+
+> **safelyDeleteScanningSession**(): `Promise`\<`void`\>
+
+Safely deletes the scanning session.
 
 #### Returns
 

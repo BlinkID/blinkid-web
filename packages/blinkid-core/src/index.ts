@@ -20,6 +20,9 @@ export * from "./getCrossOriginWorkerURL";
 export * from "./getUserId";
 export * from "./utils";
 
+// WIP
+export * from "./deviceInfo/deviceInfo";
+
 export type * from "@microblink/blinkid-wasm";
 export type * from "@microblink/blinkid-worker";
 

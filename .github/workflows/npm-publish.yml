@@ -1,0 +1,42 @@
+# This workflow will publish npm packages when a new release is created.
+# It requires the CI workflow to pass before publishing.
+
+name: Publish NPM Packages
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  ci-check:
+    name: CI Check
+    uses: ./.github/workflows/main-ci.yml
+    secrets: inherit
+
+  publish-npm:
+    name: Publish to NPM
+    needs: ci-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: HUSKY=0 pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Publish packages
+        run: pnpm publish --filter "./packages/**" --yes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

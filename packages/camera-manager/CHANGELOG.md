@@ -1,12 +1,23 @@
 # @microblink/camera-manager
 
+## 7.2.4
+
+### Patch Changes
+
+- Reduced the default resolution to `1080p`
+- Preferred camera resolution can now be set through `CameraManager` constructor
+
+### Bug Fixes
+
+- Fixed issue with some iPhonePro devices where rotating device would not report correct clientWidth/clientHeight on callback.
+
 ## 7.2.3
 
 ### Patch Changes
 
 - Add camera error modal visibility control
-    - Introduced `showCameraErrorModal` property in `CameraUiStore` to manage the visibility of the camera error modal.
-    - Updated `CaptureScreen` component to conditionally render `CameraErrorModal` based on the new property.
+  - Introduced `showCameraErrorModal` property in `CameraUiStore` to manage the visibility of the camera error modal.
+  - Updated `CaptureScreen` component to conditionally render `CameraErrorModal` based on the new property.
 
 ## 7.2.2
 

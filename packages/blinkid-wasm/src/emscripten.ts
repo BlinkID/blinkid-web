@@ -33,9 +33,8 @@ export interface CCallOpts {
  * JavaScript engine. The memory used by the object must be cleaned up manually
  * by calling the delete() method.
  *
- * @see https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html#memory-management for more details.
- *
  * @ignore
+ * @see https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html#memory-management for more details.
  */
 export type EmbindObject<T extends {}> = T & {
   delete: () => void;
@@ -47,10 +46,9 @@ export type EmbindObject<T extends {}> = T & {
 /**
  * Removes the internals of an Embind object.
  *
+ * @ignore
  * @param T - The type of the object to remove the internals from.
  * @returns The object with the internals removed.
- *
- * @ignore
  */
 export type RemoveEmbindInternals<T> = Omit<
   T,
@@ -153,9 +151,8 @@ export interface EmscriptenModule {
  * option. It's left to you to declare any global variables as needed in your
  * application's types.
  *
- * @param moduleOverrides Default properties for the initialized module.
- *
  * @ignore
+ * @param moduleOverrides Default properties for the initialized module.
  */
 export type EmscriptenModuleFactory<
   T extends EmscriptenModule = EmscriptenModule,

@@ -9,4 +9,5 @@ export * from "./utils";
 
 export * from "./emscripten";
 export * from "./licencing";
+export * from "./wasm-constants";
 export * from "./wasm-module";

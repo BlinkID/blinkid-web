@@ -1,5 +1,8 @@
 packages:
-  - "apps/examples/*"
-  - "apps/tests/*"
-  - "packages/*"
-  - "github/"
+  - apps/examples/*
+  - packages/*
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - esbuild
+  - msw
