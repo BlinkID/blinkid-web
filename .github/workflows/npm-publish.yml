@@ -37,6 +37,6 @@ jobs:
         run: pnpm build
 
       - name: Publish packages
-        run: pnpm publish --filter "./packages/**" --yes
+        run: pnpm publish --filter "./packages/**"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
