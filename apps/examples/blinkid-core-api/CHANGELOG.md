@@ -1,5 +1,12 @@
 # example-blinkid-core-api
 
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/blinkid-core@7.4.3
+
 ## 1.1.12
 
 ### Patch Changes
