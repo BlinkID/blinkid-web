@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "7.4.2",
+  "version": "7.4.3",
   "scripts": {
     "build": "turbo build",
     "build:packages": "turbo build --filter={./packages/*}",

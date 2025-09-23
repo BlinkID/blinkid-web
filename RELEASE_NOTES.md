@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# v7.4.3
+
+### Bug Fixes
+
+- Fixed types
+
 # v7.4.2
 
 ## What's New
@@ -134,7 +140,7 @@ All notable changes to this project will be documented in this file.
 - France, Identity Card - `additionalNameInformation`
 - UK, Asylum Request - `residencePermitType`, `remarks`
 - UK, Residence Permit - `residencePermitType`, `remarks`, `certificateNumber`, `nationalInsuranceNumber`
-## Renamed segments 
+## Renamed segments
 - Bahrain - Identity Card - `documentNumber` -> `personalIdNumber`
 ## Changes inside packages
 ### @microblink/blinkid-ux-manager

@@ -1,7 +1,7 @@
 {
   "name": "@microblink/blinkid-wasm",
   "private": true,
-  "version": "7.4.2",
+  "version": "7.4.3",
   "scripts": {
     "build": "tsc",
     "build:publish": "tsc",
