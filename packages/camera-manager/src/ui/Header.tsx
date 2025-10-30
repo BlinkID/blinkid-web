@@ -59,8 +59,8 @@ export const Header: Component = () => {
     <SmartEnvironmentProvider>
       {() => (
         <div
-          class={`z-2 relative gap-2 grid justify-between items-center grid-cols-[1fr_auto_1fr]
-          py-4 color-white lerp:px-3@xs,8@lg`}
+          class={`z-2 relative gap-2 grid justify-between items-center
+          grid-cols-[1fr_auto_1fr] py-4 color-white lerp:px-3@xs,8@lg`}
         >
           <div
             class={"justify-self-start flex flex-nowrap gap-4 auto-cols-auto"}
@@ -74,9 +74,8 @@ export const Header: Component = () => {
               >
                 <span class="sr-only">{t.mirror_camera}</span>
                 <MirrorIcon
-                  class={
-                    "size-6 shrink-0 transition-transform duration-300 ease-in-out"
-                  }
+                  class={`size-6 shrink-0 transition-transform duration-300
+                  ease-in-out`}
                   style={{
                     transform: isMirrored() ? "scaleX(-1)" : "scaleX(1)",
                   }}
@@ -149,8 +148,9 @@ const ToolbarButton: ParentComponent<ToolbarButtonProps> = (props) => {
           return (
             <button
               {...eventFixer(tooltipProps())}
-              class={`rounded-full bg-dark-500 bg-opacity-50 backdrop-blur grid place-items-center
-              size-12 appearance-none border-none cursor-pointer`}
+              class={`btn-focus rounded-full bg-gray-550/70 backdrop-blur grid
+              place-items-center size-12 appearance-none border-none
+              cursor-pointer`}
             >
               {props.children}
             </button>
@@ -160,7 +160,7 @@ const ToolbarButton: ParentComponent<ToolbarButtonProps> = (props) => {
       {/* Tooltip */}
       <Tooltip.Positioner>
         <Tooltip.Content
-          class={`bg-dark-500 bg-opacity-50 backdrop-blur color-white text-align-center p-2
+          class={`bg-gray-550/70 backdrop-blur color-white text-align-center p-2
             rounded-md text-sm drop-shadow-md`}
         >
           {props.tooltipLabel}

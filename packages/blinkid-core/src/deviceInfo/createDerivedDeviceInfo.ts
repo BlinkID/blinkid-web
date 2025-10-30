@@ -9,8 +9,8 @@ import { getOsFromUserAgent, OperatingSystem } from "./getOsFromUserAgent";
 import type { FormFactor, UADataValues } from "./navigator-types";
 
 export function createDerivedDeviceInfo(
-  userAgentData: UADataValues | undefined,
   userAgent: string,
+  userAgentData?: UADataValues,
 ): DerivedDeviceInfo {
   const appleDeviceModel = getAppleDeviceModel();
 
@@ -29,16 +29,16 @@ export function createDerivedDeviceInfo(
   }
 
   // Get form factor
-  let formFactor: FormFactor[] = ["Desktop"];
+  let formFactors: FormFactor[] = ["Desktop"];
   if (userAgentData?.formFactors?.length) {
-    formFactor = userAgentData.formFactors;
+    formFactors = userAgentData.formFactors;
   } else if (userAgentData?.mobile) {
-    formFactor = ["Mobile"];
+    formFactors = ["Mobile"];
   } else if (appleDeviceModel) {
     if (appleDeviceModel === "iPhone") {
-      formFactor = ["Mobile"];
+      formFactors = ["Mobile"];
     } else if (appleDeviceModel === "iPad") {
-      formFactor = ["Tablet"];
+      formFactors = ["Tablet"];
     }
   }
 
@@ -83,7 +83,7 @@ export function createDerivedDeviceInfo(
 
   return {
     model,
-    formFactor,
+    formFactors: formFactors,
     platform,
     browser: {
       brand: browserBrand,

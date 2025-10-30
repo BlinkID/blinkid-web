@@ -18,6 +18,7 @@
 - [CameraManagerOptions](type-aliases/CameraManagerOptions.md)
 - [CameraManagerStore](type-aliases/CameraManagerStore.md)
 - [CameraManagerUiOptions](type-aliases/CameraManagerUiOptions.md)
+- [CameraPermission](type-aliases/CameraPermission.md)
 - [CameraPreference](type-aliases/CameraPreference.md)
 - [CameraUiLocaleRecord](type-aliases/CameraUiLocaleRecord.md)
 - [CameraUiLocalizationStrings](type-aliases/CameraUiLocalizationStrings.md)

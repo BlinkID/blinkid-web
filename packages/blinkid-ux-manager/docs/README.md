@@ -8,6 +8,7 @@
 
 - [BlinkIdUxManager](classes/BlinkIdUxManager.md)
 - [FeedbackStabilizer](classes/FeedbackStabilizer.md)
+- [HapticFeedbackManager](classes/HapticFeedbackManager.md)
 
 ## Type Aliases
 
@@ -18,6 +19,7 @@
 - [BlinkIdUiStateMap](type-aliases/BlinkIdUiStateMap.md)
 - [DocumentClassFilter](type-aliases/DocumentClassFilter.md)
 - [FeedbackUiOptions](type-aliases/FeedbackUiOptions.md)
+- [HapticFeedbackType](type-aliases/HapticFeedbackType.md)
 - [LocaleRecord](type-aliases/LocaleRecord.md)
 - [LocalizationStrings](type-aliases/LocalizationStrings.md)
 - [PartialProcessResult](type-aliases/PartialProcessResult.md)
@@ -28,7 +30,9 @@
 ## Variables
 
 - [blinkIdUiStateMap](variables/blinkIdUiStateMap.md)
-- [firstSideCapturedStates](variables/firstSideCapturedStates.md)
+- [errorUiStateKeys](variables/errorUiStateKeys.md)
+- [firstSideCapturedUiStateKeys](variables/firstSideCapturedUiStateKeys.md)
+- [HAPTIC\_FEEDBACK\_CONFIGS](variables/HAPTIC_FEEDBACK_CONFIGS.md)
 
 ## Functions
 

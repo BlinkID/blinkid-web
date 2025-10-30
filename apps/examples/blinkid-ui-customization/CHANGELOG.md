@@ -1,5 +1,14 @@
 # example-blinkid-ui-customization
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/camera-manager@7.2.6
+  - @microblink/blinkid-ux-manager@7.6.0
+  - @microblink/blinkid-core@7.6.0
+
 ## 1.0.2
 
 ### Patch Changes

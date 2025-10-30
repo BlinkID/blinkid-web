@@ -1,3 +1,6 @@
+/// <reference types="vitest/config" />
+/// <reference types="@vitest/browser/providers/playwright" />
+
 import UnoCSS from "unocss/vite";
 import { defineConfig, PluginOption } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
@@ -26,6 +29,21 @@ export default defineConfig((config) => ({
     },
     rollupOptions: {
       external: externals,
+    },
+  },
+  test: {
+    browser: {
+      enabled: true,
+      provider: "playwright",
+      screenshotFailures: false,
+      headless: true,
+      instances: [
+        {
+          browser: "chromium",
+          // Doesn't work:
+          // headless: false,
+        },
+      ],
     },
   },
   plugins: [

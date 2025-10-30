@@ -4,13 +4,21 @@
 
 import { subscribeWithSelector } from "zustand/middleware";
 import { createStore as createZustandStore } from "zustand/vanilla";
-import { Camera, FacingMode } from "./Camera";
+import { Camera, FacingMode, Resolution } from "./Camera";
 import { CameraError } from "./cameraError";
+import { ExtractionArea } from "./VideoFrameProcessor";
 
 /**
  * The playback state of the camera manager.
  */
 export type PlaybackState = "idle" | "playback" | "capturing";
+
+export type CameraPermission =
+  | "prompt"
+  | "granted"
+  | "denied"
+  | "blocked"
+  | undefined;
 
 /**
  * The camera manager store.
@@ -22,9 +30,24 @@ export type CameraManagerStore = {
   videoElement?: HTMLVideoElement;
 
   /**
+   * The resolution of the video on the `videoElement`
+   */
+  videoResolution?: Resolution;
+
+  /**
+   * Defines the area of the video which will be sent for processing.
+   */
+  extractionArea?: ExtractionArea;
+
+  /**
    * The list of cameras that are available to the user.
    */
   cameras: Camera[];
+
+  /**
+   * Browser camera permission.
+   */
+  cameraPermission: CameraPermission;
 
   /**
    * The facing mode filter that will be used to filter the available cameras.
@@ -72,10 +95,13 @@ const initialState: CameraManagerStore = {
   cameras: [],
   facingFilter: undefined,
   videoElement: undefined,
+  videoResolution: undefined,
   playbackState: "idle",
+  extractionArea: undefined,
   selectedCamera: undefined,
   isSwappingCamera: false,
   isQueryingCameras: false,
+  cameraPermission: undefined,
   mirrorX: false,
   errorState: undefined,
 };

@@ -142,4 +142,5 @@ export type Region =
   | "haryana"
   | "sergipe"
   | "alagoas"
-  | "bangsamoro";
+  | "bangsamoro"
+  | "telangana";

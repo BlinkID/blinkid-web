@@ -2,12 +2,12 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
-export * from "./AnonymizationMode";
-export * from "./ScanningSettings";
-export * from "./CroppedImageSettings";
-export * from "./DetailedFieldType";
-export * from "./DetectionLevel";
-export * from "./DocumentAnonymizationSettings";
-export * from "./DocumentFilter";
-export * from "./DocumentRules";
-export * from "./RecognitionModeFilter";
+export type * from "./AnonymizationMode";
+export type * from "./ScanningSettings";
+export type * from "./CroppedImageSettings";
+export type * from "./DetailedFieldType";
+export type * from "./DetectionLevel";
+export type * from "./DocumentAnonymizationSettings";
+export type * from "./DocumentFilter";
+export type * from "./DocumentRules";
+export type * from "./RecognitionModeFilter";

@@ -54,7 +54,9 @@ export const App: Component = () => {
         console.log("🧹 Cleaning up");
         fps?.remove();
         removeFrameCaptureCallback();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
       });
+
       await cameraManager.startFrameCapture();
     }
   };

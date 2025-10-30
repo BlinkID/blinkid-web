@@ -1,13 +1,13 @@
 {
   "private": true,
-  "version": "7.4.3",
+  "version": "7.6.0",
   "scripts": {
     "build": "turbo build",
     "build:packages": "turbo build --filter={./packages/*}",
     "build:dev": "turbo build:dev --filter={./packages/*}",
     "build:publish": "turbo build:publish --filter={./packages/*}",
-    "clean": "turbo clean",
-    "create-github": "pnpm clean && pnpm build:publish && pnpm --filter 'github-release' create-github",
+    "clean": "turbo clean && rimraf .turbo .venv",
+    "create-github": "pnpm run clean && pnpm run build:publish && pnpm --filter 'github-release' create-github",
     "lint": "turbo lint",
     "prepare": "husky install",
     "publish-test": "turbo publish-test",
@@ -17,13 +17,14 @@
     "watch": "turbo watch --filter='./packages/*'"
   },
   "devDependencies": {
-    "@changesets/cli": "2.29.2",
+    "@changesets/cli": "2.29.7",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.10",
+    "rimraf": "^6.0.1",
     "syncpack": "13.0.3",
-    "turbo": "^2.4.4",
+    "turbo": "^2.5.8",
     "vitest": "^3.0.8"
   },
   "license": "ISC",
-  "packageManager": "pnpm@10.17.0"
+  "packageManager": "pnpm@10.18.1"
 }

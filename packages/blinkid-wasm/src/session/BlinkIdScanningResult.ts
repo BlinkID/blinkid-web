@@ -101,6 +101,24 @@ export type BlinkIdScanningResult = {
   countryCode?: StringResult;
   /** The national insurance number of the document owner */
   nationalInsuranceNumber?: StringResult;
+  /**  The locality code of the document owner */
+  localityCode?: StringResult;
+  /** The maiden name of the document owner */
+  maidenName?: StringResult;
+  /** The municipality code of the document owner */
+  municipalityCode?: StringResult;
+  /** The municipality of registration of the document owner */
+  municipalityOfRegistration?: StringResult;
+  /** The polling station code of the document owner */
+  pollingStationCode?: StringResult;
+  /** The registration center code of the document owner */
+  registrationCenterCode?: StringResult;
+  /** The section code of the document owner */
+  sectionCode?: StringResult;
+  /** The state code of the document owner */
+  stateCode?: StringResult;
+  /** The state of the document owner */
+  stateName?: StringResult;
 
   /** The date of birth of the document owner */
   dateOfBirth?: DateResult<StringResult>;
@@ -108,6 +126,8 @@ export type BlinkIdScanningResult = {
   dateOfIssue?: DateResult<StringResult>;
   /** The date of expiry of the document */
   dateOfExpiry?: DateResult<StringResult>;
+  /** The date of entry of the document owner */
+  dateOfEntry?: DateResult<StringResult>;
   /** Determines if date of expiry is permanent */
   dateOfExpiryPermanent?: boolean;
 

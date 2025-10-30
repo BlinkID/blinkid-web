@@ -2,11 +2,7 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
-import {
-  LicenseUnlockResult,
-  LicenseRequest,
-  LicenseStatusResponse,
-} from "@microblink/blinkid-wasm";
+import { LicenseRequest, LicenseUnlockResult } from "@microblink/blinkid-wasm";
 
 /**
  * Constructs the license request.
@@ -80,7 +76,7 @@ export async function obtainNewServerPermission(
       );
     }
 
-    const serverPermission = (await response.json()) as LicenseStatusResponse;
+    const serverPermission = await response.text();
     return serverPermission;
   } catch (error) {
     console.error("Server permission request failed:", error);

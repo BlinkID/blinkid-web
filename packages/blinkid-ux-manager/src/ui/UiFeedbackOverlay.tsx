@@ -19,7 +19,7 @@ import { clsx } from "clsx";
 import {
   BlinkIdUiState,
   blinkIdUiStateMap,
-  firstSideCapturedStates,
+  firstSideCapturedUiStateKeys,
 } from "../core/blinkid-ui-state";
 import { useLocalization } from "./LocalizationContext";
 import { feedbackMessages } from "./feedbackMessages";
@@ -55,17 +55,16 @@ export const UiFeedbackOverlay: Component<{
    * Handles showing the success feedback before other states defined in `firstSideCapturedStates`
    */
   createEffect(() => {
-    if (firstSideCapturedStates.includes(props.uiState.key)) {
+    if (firstSideCapturedUiStateKeys.includes(props.uiState.key)) {
       setShowSuccessOnly(true);
 
-      // TODO: incorrectly resolving to NodeJS timeout
       timeout = window.setTimeout(
         () => setShowSuccessOnly(false),
         blinkIdUiStateMap.DOCUMENT_CAPTURED.minDuration,
       );
     } else {
       setShowSuccessOnly(false);
-      clearTimeout(timeout!);
+      window.clearTimeout(timeout!);
     }
 
     onCleanup(() => clearTimeout(timeout!));
@@ -95,8 +94,8 @@ export const UiFeedbackOverlay: Component<{
   return (
     <>
       <div
-        class="absolute left-0 top-0 grid size-full select-none place-items-center
-          contain-strict overflow-hidden"
+        class="absolute left-0 top-0 grid size-full select-none
+          place-items-center contain-strict overflow-hidden"
       >
         <div>
           {/* we only want the actual reticle-like spinners to remain in the screen center
@@ -175,7 +174,10 @@ const SuccessFeedback: Component = () => {
       }}
       exit={{ opacity: 0, scale: 5 }}
     >
-      <DoneIcon class="[&>path]:fill-[initial] size-24 drop-shadow-[0_0_15px_rgba(0,0,0,0.1)]" />
+      <DoneIcon
+        class="[&>path]:fill-[initial] size-24
+          drop-shadow-[0_0_15px_rgba(0,0,0,0.1)]"
+      />
     </Motion>
   );
 };
@@ -262,7 +264,10 @@ const PassportAnimation: Component<{
               easing: "ease",
             }}
           >
-            <PassportTop class="[&>path]:fill-[currentColor] drop-shadow-[0_0_15px_rgba(0,0,0,0.1)]" />
+            <PassportTop
+              class="[&>path]:fill-[currentColor]
+                drop-shadow-[0_0_15px_rgba(0,0,0,0.1)]"
+            />
           </Motion>
 
           <Motion
@@ -274,7 +279,10 @@ const PassportAnimation: Component<{
               easing: "ease",
             }}
           >
-            <PassportBottom class="[&>path]:fill-[currentColor] drop-shadow-[0_0_15px_rgba(0,0,0,0.1)]" />
+            <PassportBottom
+              class="[&>path]:fill-[currentColor]
+                drop-shadow-[0_0_15px_rgba(0,0,0,0.1)]"
+            />
           </Motion>
 
           <Motion
@@ -308,8 +316,8 @@ const ReticleContainer: ParentComponent<{
     <Motion.div
       class={clsx(
         `absolute bottom-0 grid size-full place-items-center rounded-full
-        backdrop-blur-xl bg-opacity-30`,
-        props.type === "error" ? "bg-error-500 " : "bg-dark-100",
+        backdrop-blur-xl`,
+        props.type === "error" ? "bg-error-400/60 " : "bg-gray-550/50",
       )}
       initial={{ opacity: 0 }}
       animate={{
@@ -417,9 +425,10 @@ const UiFeedbackMessage: Component<{
               }}
               transition={{ duration: 0.05 }}
               exit={{ opacity: 0, transform: "translateY(-2rem)" }}
-              class="max-w-45 text-base gap-1 rounded-2 bg-opacity-30 bg-dark-100 px-2 py-3
+              class="max-w-45 text-base gap-1 rounded-2 bg-gray-550/90 px-2 py-3
                 text-center text-balance text-white font-bold
-                text-shadow-[0_1px_4px_rgba(0,0,0,0.1)] backdrop-blur-xl will-change-transform"
+                text-shadow-[0_1px_4px_rgba(0,0,0,0.1)] backdrop-blur-xl
+                will-change-transform"
             >
               <div role="alert">{t[message()!]}</div>
             </Motion.div>

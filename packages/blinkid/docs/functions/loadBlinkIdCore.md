@@ -6,7 +6,7 @@
 
 # Function: loadBlinkIdCore()
 
-> **loadBlinkIdCore**(`settings`, `progressCallback?`): `Promise`\<\{ `progressStatusCallback?`: `Promise`\<`undefined`\> \| `Remote`\<[`ProgressStatusCallback`](../type-aliases/ProgressStatusCallback.md)\>; `createBlinkIdScanningSession`: `Promise`\<`Remote`\<`object` & `object` & `ProxyMarked`\>\>; `createProxySession`: `Promise`\<`Remote`\<`object` & `object` & `ProxyMarked`\>\>; `initBlinkId`: `Promise`\<`void`\>; `ping`: `Promise`\<`number`\>; `terminate`: `Promise`\<`void`\>; \}\>
+> **loadBlinkIdCore**(`settings`, `progressCallback?`): `Promise`\<\{ `progressStatusCallback?`: `Promise`\<`undefined`\> \| `Remote`\<[`ProgressStatusCallback`](../type-aliases/ProgressStatusCallback.md)\>; `createBlinkIdScanningSession`: `Promise`\<`Remote`\<`object` & `object` & `ProxyMarked`\>\>; `createProxySession`: `Promise`\<`Remote`\<`object` & `object` & `ProxyMarked`\>\>; `initBlinkId`: `Promise`\<`void`\>; `reportPinglet`: `Promise`\<`void`\>; `sendPinglets`: `Promise`\<`void`\>; `terminate`: `Promise`\<`void`\>; \}\>
 
 Creates and initializes a BlinkID core instance.
 
@@ -87,7 +87,7 @@ Optional callback for tracking resource download progress (WASM, data files)
 
 ## Returns
 
-`Promise`\<\{ `progressStatusCallback?`: `Promise`\<`undefined`\> \| `Remote`\<[`ProgressStatusCallback`](../type-aliases/ProgressStatusCallback.md)\>; `createBlinkIdScanningSession`: `Promise`\<`Remote`\<`object` & `object` & `ProxyMarked`\>\>; `createProxySession`: `Promise`\<`Remote`\<`object` & `object` & `ProxyMarked`\>\>; `initBlinkId`: `Promise`\<`void`\>; `ping`: `Promise`\<`number`\>; `terminate`: `Promise`\<`void`\>; \}\>
+`Promise`\<\{ `progressStatusCallback?`: `Promise`\<`undefined`\> \| `Remote`\<[`ProgressStatusCallback`](../type-aliases/ProgressStatusCallback.md)\>; `createBlinkIdScanningSession`: `Promise`\<`Remote`\<`object` & `object` & `ProxyMarked`\>\>; `createProxySession`: `Promise`\<`Remote`\<`object` & `object` & `ProxyMarked`\>\>; `initBlinkId`: `Promise`\<`void`\>; `reportPinglet`: `Promise`\<`void`\>; `sendPinglets`: `Promise`\<`void`\>; `terminate`: `Promise`\<`void`\>; \}\>
 
 Promise that resolves with initialized BlinkID core instance
 

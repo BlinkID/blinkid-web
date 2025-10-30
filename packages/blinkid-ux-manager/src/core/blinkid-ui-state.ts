@@ -36,9 +36,11 @@ export type BlinkIdUiStateKey =
   | "SENSING_TOP_PAGE"
   | "SENSING_LEFT_PAGE"
   | "SENSING_RIGHT_PAGE"
+  | "SENSING_LAST_PAGE"
   | "MOVE_TOP"
   | "MOVE_LEFT"
   | "MOVE_RIGHT"
+  | "MOVE_LAST_PAGE"
   | "DOCUMENT_FRAMING_CAMERA_TOO_FAR"
   | "DOCUMENT_FRAMING_CAMERA_TOO_CLOSE"
   | "DOCUMENT_FRAMING_CAMERA_ANGLE_TOO_STEEP"
@@ -54,6 +56,7 @@ export type BlinkIdUiStateKey =
   | "WRONG_TOP_PAGE"
   | "WRONG_LEFT_PAGE"
   | "WRONG_RIGHT_PAGE"
+  | "WRONG_LAST_PAGE"
   | "WRONG_SIDE";
 
 /**
@@ -69,16 +72,6 @@ export type BlinkIdUiStateMap = {
     reticleType: BlinkIdReticleType;
   };
 };
-
-/**
- * The states that are captured when the first side is captured.
- */
-export const firstSideCapturedStates: BlinkIdUiStateKey[] = [
-  "FLIP_CARD",
-  "MOVE_LEFT",
-  "MOVE_RIGHT",
-  "MOVE_TOP",
-] as const;
 
 /**
  * The UI state of BlinkID.
@@ -119,6 +112,11 @@ export const blinkIdUiStateMap: BlinkIdUiStateMap = {
     reticleType: "searching",
     minDuration: 1000,
   },
+  SENSING_LAST_PAGE: {
+    key: "SENSING_LAST_PAGE",
+    reticleType: "searching",
+    minDuration: 1000,
+  },
   SCAN_BARCODE: {
     key: "SCAN_BARCODE",
     reticleType: "processing",
@@ -148,6 +146,12 @@ export const blinkIdUiStateMap: BlinkIdUiStateMap = {
     key: "MOVE_RIGHT",
     reticleType: "move_right",
     minDuration: 2000,
+    singleEmit: true,
+  },
+  MOVE_LAST_PAGE: {
+    key: "MOVE_LAST_PAGE",
+    reticleType: "done",
+    minDuration: 0,
     singleEmit: true,
   },
   // Capturing all sides completed
@@ -197,6 +201,11 @@ export const blinkIdUiStateMap: BlinkIdUiStateMap = {
     reticleType: "error",
     minDuration: 1500,
   },
+  WRONG_LAST_PAGE: {
+    key: "WRONG_LAST_PAGE",
+    reticleType: "error",
+    minDuration: 1500,
+  },
   TOO_DARK: {
     key: "TOO_DARK",
     reticleType: "error",
@@ -235,6 +244,26 @@ export const blinkIdUiStateMap: BlinkIdUiStateMap = {
 } as const;
 
 /**
+ * The states that are captured when the first side is captured.
+ */
+export const firstSideCapturedUiStateKeys: BlinkIdUiStateKey[] = [
+  // two sided documents
+  "FLIP_CARD",
+  // passport pages
+  "MOVE_LEFT",
+  "MOVE_RIGHT",
+  "MOVE_TOP",
+  "MOVE_LAST_PAGE",
+] as const;
+
+/** The error UI state keys. */
+export const errorUiStateKeys: BlinkIdUiStateKey[] = Object.values(
+  blinkIdUiStateMap,
+)
+  .filter((state) => state.reticleType === "error")
+  .map((state) => state.key);
+
+/**
  * The partial process result.
  */
 export type PartialProcessResult = {
@@ -252,6 +281,19 @@ export type PartialProcessResult = {
  */
 function isPassport(docClass: DocumentClassInfo | undefined) {
   return docClass?.type === "passport";
+}
+
+/**
+ * Checks if the document is a passport and has a barcode on the last page (USA or India).
+ *
+ * @param docClass - The document class info.
+ * @returns True if the document is a passport and has a barcode on the last page (USA or India), false otherwise.
+ */
+function isPassportWithBarcode(docClass: DocumentClassInfo | undefined) {
+  return (
+    isPassport(docClass) &&
+    (docClass?.country === "usa" || docClass?.country === "india")
+  );
 }
 
 /**
@@ -295,6 +337,17 @@ export function getUiStateKey(
       )
 
       // passport pages captured
+      .with(
+        {
+          resultCompleteness: {
+            scanningStatus: "side-scanned",
+          },
+          inputImageAnalysisResult: {
+            documentClassInfo: P.when(isPassportWithBarcode),
+          },
+        },
+        () => "MOVE_LAST_PAGE",
+      )
       .with(
         {
           resultCompleteness: {
@@ -504,6 +557,16 @@ export function getUiStateKey(
           inputImageAnalysisResult: {
             scanningSide: "second",
             processingStatus: "scanning-wrong-side",
+            documentClassInfo: P.when(isPassportWithBarcode),
+          },
+        },
+        () => "WRONG_LAST_PAGE",
+      )
+      .with(
+        {
+          inputImageAnalysisResult: {
+            scanningSide: "second",
+            processingStatus: "scanning-wrong-side",
             documentClassInfo: P.when(isPassport),
             documentRotation: "counter-clockwise-90",
           },
@@ -551,6 +614,15 @@ export function getUiStateKey(
       )
 
       // scan passport second page (in frame)
+      .with(
+        {
+          inputImageAnalysisResult: {
+            scanningSide: "second",
+            documentClassInfo: P.when(isPassportWithBarcode),
+          },
+        },
+        () => "SENSING_LAST_PAGE",
+      )
       .with(
         {
           inputImageAnalysisResult: {

@@ -29,21 +29,15 @@ import variables from "./styles/variables.scss?inline";
 import { cameraUiRefSignalStore } from "./zustandRefStore";
 
 import { makeResizeObserver } from "@solid-primitives/resize-observer";
-import { determineFitMode } from "./determineFitMode";
-import { getVisibleVideoArea } from "./getVisibleVideoArea";
 import { CameraErrorModal } from "./CameraErrorModal";
-
-// TODO: Full screen background
+import { debounce } from "./debounce";
+import { determineFitMode, FitMode } from "./determineFitMode";
+import { getVisibleVideoArea } from "./getVisibleVideoArea";
 
 /**
  * The capture screen shadow root host ID.
  */
 export const CAPTURE_SCREEN_SHADOW_ROOT_HOST_ID = "capture-screen-host";
-
-/**
- * The fit mode.
- */
-export type FitMode = "contain" | "cover";
 
 /**
  * The CaptureScreen component.
@@ -110,7 +104,9 @@ export const CaptureScreen: Component = () => {
       return;
     }
 
-    const { observe, unobserve } = makeResizeObserver(adjustVideoFit);
+    const debouncedAdjustVideoFit = debounce(adjustVideoFit, 100);
+
+    const { observe, unobserve } = makeResizeObserver(debouncedAdjustVideoFit);
 
     observe(video);
 
@@ -264,21 +260,17 @@ export const CaptureScreenPortalled: Component = () => {
             open={isOpen()}
             lazyMount
             unmountOnExit
-            // hack to prevent focusing any items, but focusing on the shadow root
             initialFocusEl={() => {
-              const dummyNode = document.createElement("div");
-              dummyNode.tabIndex = -1;
-              rootNode.appendChild(dummyNode);
-              setTimeout(() => {
-                dummyNode.remove();
-              }, 0);
-              return dummyNode;
+              const dialog: HTMLElement =
+                rootNode.querySelector('[role="dialog"]')!;
+              return dialog;
             }}
           >
             <Dialog.Positioner>
               <Dialog.Content
                 aria-labelledby="dialog-title"
-                class="h-vh supports-[(height:100dvh)]:h-dvh top-0 left-0 w-full fixed"
+                class="h-vh supports-[(height:100dvh)]:h-dvh top-0 left-0 w-full
+                  fixed"
               >
                 <Dialog.Title class="sr-only" id="dialog-title">
                   {t.scan_document}

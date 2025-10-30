@@ -345,6 +345,40 @@ cleanup();
 
 ***
 
+### cleanupAllObservers()
+
+> **cleanupAllObservers**(): `void`
+
+#### Returns
+
+`void`
+
+***
+
+### clearUserCallbacks()
+
+> **clearUserCallbacks**(): `void`
+
+#### Returns
+
+`void`
+
+***
+
+### getHapticFeedbackManager()
+
+> **getHapticFeedbackManager**(): [`HapticFeedbackManager`](HapticFeedbackManager.md)
+
+Gets the haptic feedback manager instance.
+
+#### Returns
+
+[`HapticFeedbackManager`](HapticFeedbackManager.md)
+
+The haptic feedback manager
+
+***
+
 ### getHelpTooltipHideDelay()
 
 > **getHelpTooltipHideDelay**(): `null` \| `number`
@@ -431,6 +465,34 @@ Returns the timeout duration in ms. Null if timeout won't be triggered ever.
 
 ***
 
+### isHapticFeedbackEnabled()
+
+> **isHapticFeedbackEnabled**(): `boolean`
+
+Check if haptic feedback is currently enabled.
+
+#### Returns
+
+`boolean`
+
+true if haptic feedback is enabled
+
+***
+
+### isHapticFeedbackSupported()
+
+> **isHapticFeedbackSupported**(): `boolean`
+
+Check if haptic feedback is supported by the current browser/device.
+
+#### Returns
+
+`boolean`
+
+true if haptic feedback is supported
+
+***
+
 ### reset()
 
 > **reset**(): `void`
@@ -474,6 +536,26 @@ Safely deletes the scanning session.
 #### Returns
 
 `Promise`\<`void`\>
+
+***
+
+### setHapticFeedbackEnabled()
+
+> **setHapticFeedbackEnabled**(`enabled`): `void`
+
+Enable or disable haptic feedback.
+
+#### Parameters
+
+##### enabled
+
+`boolean`
+
+Whether haptic feedback should be enabled
+
+#### Returns
+
+`void`
 
 ***
 

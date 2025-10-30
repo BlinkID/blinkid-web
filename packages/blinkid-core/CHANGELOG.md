@@ -1,5 +1,29 @@
 # @microblink/blinkid-core
 
+## 7.6.0
+
+### Minor Changes
+
+- Rename `formFactor` property on `DerivedDeviceInfo` to `formFactors`
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/blinkid-worker@7.6.0
+  - @microblink/blinkid-wasm@7.6.0
+
+## 7.5.0
+
+### Minor Changes
+
+- Version skip
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/blinkid-wasm@7.5.0
+  - @microblink/blinkid-worker@7.5.0
+
 ## 7.4.3
 
 ### Patch Changes
@@ -38,7 +62,6 @@
 ### Patch Changes
 
 - Introduced utilities for extracting images from the `BlinkIdScanningResult`:
-
   - `extractSideInputImage`
   - `extractBarcodeImage`
   - `extractSideDocumentImage`

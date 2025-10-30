@@ -24,6 +24,14 @@ Gets the settings.
 
 The settings.
 
+### ping
+
+> **ping**: `BlinkIdWorker`\[`"reportPinglet"`\]
+
+### sendPinglets
+
+> **sendPinglets**: `BlinkIdWorker`\[`"sendPinglets"`\]
+
 ### showDemoOverlay()
 
 > **showDemoOverlay**: () => `boolean`

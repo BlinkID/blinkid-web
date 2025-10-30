@@ -2,9 +2,9 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
-import { BlinkIdScanningSession, BlinkIdSessionSettings } from "./session";
-import { LicenseUnlockResult, ServerPermissionSubmitResult } from "./licencing";
 import type { EmscriptenModule } from "./emscripten";
+import { LicenseUnlockResult, ServerPermissionSubmitError } from "./licencing";
+import { BlinkIdScanningSession, BlinkIdSessionSettings } from "./session";
 
 /**
  * The BlinkID Wasm module.
@@ -21,6 +21,7 @@ export interface BlinkIdWasmModule extends BlinkIdBindings, EmscriptenModule {}
 export interface BlinkIdBindings {
   createBlinkIdScanningSession: (
     sessionSettings: BlinkIdSessionSettings,
+    userId: string,
   ) => BlinkIdScanningSession;
   initializeWithLicenseKey: (
     licenceKey: string,
@@ -28,8 +29,19 @@ export interface BlinkIdBindings {
     allowHelloMessage: boolean,
   ) => LicenseUnlockResult;
   submitServerPermission: (
-    serverPermission: unknown,
-  ) => ServerPermissionSubmitResult;
+    serverPermission: string,
+  ) => ServerPermissionSubmitError | undefined;
   getActiveLicenseTokenInfo: () => LicenseUnlockResult;
   setPingProxyUrl: (url: string) => void;
+  initializeSdk: (userId: string) => void;
+  terminateSdk: () => void;
+  sendPinglets: () => void;
+  arePingRequestsInProgress: () => boolean;
+  queuePinglet: (
+    data: string,
+    schemaName: string,
+    schemaVersion: string,
+    sessionNumber: number,
+  ) => void;
+  isPingEnabled: () => boolean;
 }

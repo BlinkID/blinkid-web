@@ -13,10 +13,6 @@ dns.setDefaultResultOrder("verbatim");
 
 const serverOptions: ServerOptions = {
   port: 3000,
-  headers: {
-    "Cross-Origin-Embedder-Policy": "require-corp",
-    "Cross-Origin-Opener-Policy": "same-origin",
-  },
 };
 
 export default defineConfig((config) => {

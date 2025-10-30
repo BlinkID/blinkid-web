@@ -128,18 +128,6 @@ const browserRules: readonly BrowserRule[] = [
 export function detectBrowser(): BrowserInfo {
   const ua = navigator.userAgent;
 
-  // iOS WebView is a special case that requires feature detection, not just UA parsing.
-  // We check for it first.
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (window.webkit?.messageHandlers) {
-    const osVersionMatch = ua.match(/OS ([\d_]+)/);
-    return {
-      name: "iOS WebView",
-      version: osVersionMatch ? osVersionMatch[1].replace(/_/g, ".") : "",
-    };
-  }
-
   for (const rule of browserRules) {
     const match = ua.match(rule.regex);
     if (match) {
@@ -148,6 +136,17 @@ export function detectBrowser(): BrowserInfo {
         version: rule.getVersion(match, ua),
       };
     }
+  }
+
+  // iOS WebView is a special case that requires feature detection, not just UA parsing.
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (window.webkit?.messageHandlers) {
+    const osVersionMatch = ua.match(/OS ([\d_]+)/);
+    return {
+      name: "iOS WebView",
+      version: osVersionMatch ? osVersionMatch[1].replace(/_/g, ".") : "",
+    };
   }
 
   return { name: "Unknown", version: "" };

@@ -114,7 +114,7 @@
   transition: border-color 0.2s;
 }
 
-.input:focus {
+.input:focus-visible {
   outline: none;
   border-color: var(--button-bg);
 }

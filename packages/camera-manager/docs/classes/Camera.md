@@ -34,91 +34,93 @@ The device info.
 
 ## Properties
 
+### store
+
+> **store**: `Write`\<`StoreApi`\<`CameraState`\>, `StoreSubscribeWithSelector`\<`CameraState`\>\>
+
+The internal state of the camera, implemented as a Zustand store.
+
+## Accessors
+
 ### activeStream
 
-> **activeStream**: `undefined` \| `MediaStream`
+#### Get Signature
+
+> **get** **activeStream**(): `undefined` \| `MediaStream`
+
+##### Returns
+
+`undefined` \| `MediaStream`
 
 ***
 
 ### deviceInfo
 
-> **deviceInfo**: `InputDeviceInfo`
+#### Get Signature
+
+> **get** **deviceInfo**(): `InputDeviceInfo`
 
 The device info.
+
+##### Returns
+
+`InputDeviceInfo`
 
 ***
 
 ### facingMode
 
-> **facingMode**: [`FacingMode`](../type-aliases/FacingMode.md)
+#### Get Signature
+
+> **get** **facingMode**(): [`FacingMode`](../type-aliases/FacingMode.md)
+
+##### Returns
+
+[`FacingMode`](../type-aliases/FacingMode.md)
 
 ***
 
-### maxSupportedResolution?
+### maxSupportedResolution
 
-> `optional` **maxSupportedResolution**: `"720p"` \| `"1080p"` \| `"4k"`
+#### Get Signature
+
+> **get** **maxSupportedResolution**(): `undefined` \| `"720p"` \| `"1080p"` \| `"4k"`
+
+##### Returns
+
+`undefined` \| `"720p"` \| `"1080p"` \| `"4k"`
 
 ***
 
 ### name
 
-> **name**: `string`
+#### Get Signature
 
-***
+> **get** **name**(): `string`
 
-### notify()
+##### Returns
 
-> **notify**: (`reason?`) => `void`
-
-#### Parameters
-
-##### reason?
-
-`unknown`
-
-#### Returns
-
-`void`
-
-***
-
-### notifyStateChange()?
-
-> `optional` **notifyStateChange**: (`camera`, `reason?`) => `void`
-
-#### Parameters
-
-##### camera
-
-`Camera`
-
-##### reason?
-
-`unknown`
-
-#### Returns
-
-`void`
-
-***
-
-### original
-
-> **original**: `Camera`
-
-Reference to the original instance before it was proxied.
+`string`
 
 ***
 
 ### singleShotSupported
 
-> **singleShotSupported**: `boolean` = `false`
+#### Get Signature
+
+> **get** **singleShotSupported**(): `boolean`
+
+##### Returns
+
+`boolean`
 
 ***
 
-### streamCapabilities?
+### streamCapabilities
 
-> `optional` **streamCapabilities**: `MediaTrackCapabilities`
+#### Get Signature
+
+> **get** **streamCapabilities**(): `undefined` \| `MediaTrackCapabilities`
 
 Stream capabilities as reported by the stream.
 
@@ -126,21 +128,37 @@ On iOS it's the same as `deviceCapabilities`. Firefox is only reporting
 rudimentary capabilities, so we can't rely on this for picking the right
 camera.
 
-#### See
+##### See
 
 https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/getCapabilities
+
+##### Returns
+
+`undefined` \| `MediaTrackCapabilities`
 
 ***
 
 ### torchEnabled
 
-> **torchEnabled**: `boolean` = `false`
+#### Get Signature
+
+> **get** **torchEnabled**(): `boolean`
+
+##### Returns
+
+`boolean`
 
 ***
 
 ### torchSupported
 
-> **torchSupported**: `boolean` = `false`
+#### Get Signature
+
+> **get** **torchSupported**(): `boolean`
+
+##### Returns
+
+`boolean`
 
 ## Methods
 
@@ -192,6 +210,82 @@ Stops the stream on the camera.
 
 ***
 
+### subscribe()
+
+#### Call Signature
+
+> **subscribe**(`listener`): () => `void`
+
+Subscribe to camera state changes.
+
+##### Parameters
+
+###### listener
+
+(`selectedState`, `previousSelectedState`) => `void`
+
+Listener function that gets called when state changes
+
+##### Returns
+
+Unsubscribe function
+
+> (): `void`
+
+###### Returns
+
+`void`
+
+#### Call Signature
+
+> **subscribe**\<`U`\>(`selector`, `listener`, `options?`): () => `void`
+
+Subscribe to camera state changes with selector.
+
+##### Type Parameters
+
+###### U
+
+`U`
+
+##### Parameters
+
+###### selector
+
+(`state`) => `U`
+
+Function to select specific state slice
+
+###### listener
+
+(`selectedState`, `previousSelectedState`) => `void`
+
+Listener function that gets called when selected state changes
+
+###### options?
+
+Optional subscription options
+
+###### equalityFn?
+
+(`a`, `b`) => `boolean`
+
+###### fireImmediately?
+
+`boolean`
+
+##### Returns
+
+Unsubscribe function
+
+> (): `void`
+
+###### Returns
+
+`void`
+
+***
+
 ### toggleTorch()
 
 > **toggleTorch**(): `Promise`\<`boolean`\>
@@ -203,3 +297,13 @@ Toggles the torch on the camera.
 `Promise`\<`boolean`\>
 
 The torch status.
+
+***
+
+### unsubscribeAll()
+
+> **unsubscribeAll**(): `void`
+
+#### Returns
+
+`void`

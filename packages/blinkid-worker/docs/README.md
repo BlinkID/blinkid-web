@@ -7,7 +7,6 @@
 ## Classes
 
 - [LicenseError](classes/LicenseError.md)
-- [ProxyUrlValidationError](classes/ProxyUrlValidationError.md)
 
 ## Type Aliases
 

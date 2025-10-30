@@ -13,16 +13,17 @@ import {
 } from "solid-js";
 import { useBlinkIdUiStore } from "../BlinkIdUiStoreContext";
 
+import { Carousel, DialogTitle, Tooltip } from "@ark-ui/solid";
 import HelpCorrectFraming from "../assets/help/help_fields_visible.svg?component-solid";
 import HelpHarshLight from "../assets/help/help_harsh_light.svg?component-solid";
 import HelpKeepStill from "../assets/help/help_keep_still.svg?component-solid";
-import { Carousel, DialogTitle, Tooltip } from "@ark-ui/solid";
 import QuestionIcon from "../assets/icons/icon-question.svg?component-solid";
 
 import { Dynamic } from "solid-js/web";
 
-import styles from "./styles.module.scss";
+import { PingSdkUxEventImpl } from "../../shared/ping-implementations";
 import { LocalizationStrings, useLocalization } from "../LocalizationContext";
+import styles from "./styles.module.scss";
 
 /**
  * The HelpModal component.
@@ -33,13 +34,22 @@ export const HelpModal: Component = () => {
   const { t } = useLocalization();
 
   const { store, updateStore } = useBlinkIdUiStore();
+  const ping = store.blinkIdUxManager.scanningSession.ping;
+
   const [currentStep, setCurrentStep] = createSignal(0);
 
   const modalVisible = () => store.showHelpModal;
+
   const hideModal = () => {
     updateStore({ showHelpModal: false });
     setCurrentStep(0);
     void store.blinkIdUxManager.cameraManager.startFrameCapture();
+    void ping(
+      new PingSdkUxEventImpl({
+        eventType: "HelpClosed",
+        helpCloseType: isLastStep() ? "ContentFullyViewed" : "ContentSkipped",
+      }),
+    );
   };
 
   const steps: {
@@ -70,6 +80,16 @@ export const HelpModal: Component = () => {
   let startScanningBtnRef!: HTMLButtonElement;
 
   createEffect(() => {
+    if (modalVisible()) {
+      void ping(
+        new PingSdkUxEventImpl({
+          eventType: "HelpOpened",
+        }),
+      );
+    }
+  });
+
+  createEffect(() => {
     const showHelpModal = store.showHelpModal;
 
     if (showHelpModal === undefined) {
@@ -86,7 +106,6 @@ export const HelpModal: Component = () => {
   return (
     <Modal
       mountTarget={store.cameraManagerComponent.overlayLayerNode}
-      initialFocusEl={() => startScanningBtnRef}
       open={modalVisible()}
       showCloseButton
       onCloseClicked={() => hideModal()}
@@ -97,12 +116,18 @@ export const HelpModal: Component = () => {
         page={currentStep()}
         onPageChange={(details) => setCurrentStep(details.page)}
         class={styles.carousel}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        }}
       >
         <Carousel.ItemGroup class={styles.itemGroup}>
           <For each={steps}>
             {(step, index) => (
               <Carousel.Item class={styles.item} index={index()}>
-                <Dynamic component={step.img} />
+                <Dynamic component={step.img} aria-hidden />
                 <div class={styles.textContent}>
                   <DialogTitle>{t[step.title]}</DialogTitle>
                   <p>{t[step.text]}</p>
@@ -114,7 +139,13 @@ export const HelpModal: Component = () => {
         <Carousel.IndicatorGroup class={styles.indicators}>
           <For each={steps}>
             {(_, i) => (
-              <Carousel.Indicator index={i()} class={styles.indicator} />
+              <Carousel.Indicator
+                index={i()}
+                readOnly
+                class={styles.indicator}
+                aria-hidden
+                tabIndex={-1}
+              />
             )}
           </For>
         </Carousel.IndicatorGroup>
@@ -156,6 +187,7 @@ export const HelpButton: ParentComponent<{ isProcessing: boolean }> = (
 ) => {
   const { t } = useLocalization();
   const { store, updateStore } = useBlinkIdUiStore();
+  const ping = store.blinkIdUxManager.scanningSession.ping;
 
   const [tooltipOpen, setTooltipOpen] = createSignal(false);
   const [wasAutoShown, setWasAutoShown] = createSignal(false);
@@ -209,6 +241,17 @@ export const HelpButton: ParentComponent<{ isProcessing: boolean }> = (
     // Show tooltip only if it hasn't been shown before
     if (!tooltipOpen() && !wasAutoShown()) {
       showTooltipAutomatically();
+    }
+  });
+
+  // handle analytics
+  createEffect(() => {
+    if (tooltipOpen()) {
+      void ping(
+        new PingSdkUxEventImpl({
+          eventType: "HelpTooltipDisplayed",
+        }),
+      );
     }
   });
 

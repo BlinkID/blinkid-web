@@ -1,0 +1,58 @@
+/**
+ * Copyright (c) 2025 Microblink Ltd. All rights reserved.
+ */
+
+export default {
+  alert_cancel_btn: "Twam",
+  alert_retry_btn: "San yɛ bio",
+  blur_detected: "Ma krataa ne fon no nna faako",
+  camera_angle_too_steep: "Fa krataa no ne fon no to faako",
+  document_filtered: "Yangye krataa no",
+  document_filtered_details: "Bɔ mmɔden sɛ wobɛskane krataa foforo.",
+  document_not_recognized: "Yɛnnye krataa yi ntom",
+  document_not_recognized_details: "Skane krataa a ɛsɔpɔɔte no anim.",
+  document_too_close_to_edge: "Twe krataa no fi ano",
+  face_photo_not_fully_visible: "Ma anim mfonini nyɛ nea wotumi hu koraa",
+  flip_document: "Dane krataa no",
+  flip_to_back_side: "Dane kɔ akyi",
+  glare_detected: "Woso anaa dane krataa no na fa yi ne sunsuma no",
+  help_aria_label: "Mmoa",
+  help_modal_back_btn: "Akyire",
+  help_modal_details_1:
+    "Hwɛ hu sɛ womfa wo nsateaa nkata krataa no afã horow so, a ase nkyerɛwde no ka ho. Afei nso, hwɛ yiye wɔ hologram reflections a ɛfa krataa no so ho.",
+  help_modal_details_2:
+    "Kwati kanea a ano yɛ den a ɛhwɛ so tẽẽ efisɛ ɛtɔ krataa bi so na ebetumi ama krataa no afã horow bi ayɛ den sɛ wobɛkenkan. Sɛ wuntumi nkenkan nsɛm a ɛwɔ krataa no so a, saa ara na wontumi nhu no yiye wɔ kamara so nso.",
+  help_modal_details_3:
+    "Bɔ mmɔden sɛ worenwoso krataa no ne fon no abere a woreskane. Sɛ wo wosow emu biara a ebetumi ama mfonini no ayɛ kusuu na ama no ayɛ den sɛ wobɛkenkan krataa no.",
+  help_modal_done_btn: "Awiei",
+  help_modal_next_btn: "Nea Edi Hɔ",
+  help_modal_title_1: "Hwɛ sɛ wobehu baabiara",
+  help_modal_title_2: "Hwɛ hann a ano yɛ den kwan",
+  help_modal_title_3: "Gyina faako abere a woreskanee no",
+  help_tooltip: "Wohia mmoa?",
+  move_closer: "Bɛn ho",
+  move_farther: "Kɔ akyirikyiri",
+  move_left: "Dane kɔ kratafa no benkum so",
+  move_right: "Dane kɔ kratafa no nifa so",
+  move_top: "Dane kɔ kratafa no soro",
+  occluded: "Hwɛ sɛ wobehu mfonini no nyinaa",
+  onboarding_modal_btn: "Fi ase skaane",
+  onboarding_modal_details:
+    "Hwɛ hu sɛ wobɛma han atɔ krataa no so yiye. Ɛsɛ sɛ wohu krataa a no afa nyinaa wɔ kamara no skreen so.",
+  onboarding_modal_title: "Hwɛ sɛ wobehu afa nyinaa",
+  scan_data_page: "Skane krataa no akyi nsɛm",
+  scan_last_page_barcode: "Skaane baakoodu a ɛwɔ kratafa a etwa toɔ no mu",
+  scan_left_page: "Skane benkum so",
+  scan_right_page: "Skane nifa so",
+  scan_the_back_side: "Skane krataa no akyi",
+  scan_the_barcode: "Skane barkoodu no",
+  scan_the_front_side: "Skane krataa no anim",
+  scan_top_page: "Skane soro",
+  scan_unsuccessful: "Skane no ankɔ yiye",
+  scan_unsuccessful_details: "Wontumi nkan krataa no. Yɛsrɛw san yɛ bio.",
+  too_bright: "Dane kɔ baabi a hann nni hɔ papa",
+  too_dark: "Dane kɔ baabi a ɛhyerɛn",
+  wrong_left: "Dane kɔ benkum so",
+  wrong_right: "Dane kɔ nifa so",
+  wrong_top: "Dane kɔ soro",
+} as const;

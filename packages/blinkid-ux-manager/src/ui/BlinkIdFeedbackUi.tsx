@@ -9,13 +9,14 @@ import {
   createSignal,
   Match,
   onCleanup,
+  onMount,
   Show,
   Switch,
 } from "solid-js";
 import { createWithSignal } from "solid-zustand";
 import {
   BlinkIdUiState,
-  firstSideCapturedStates,
+  firstSideCapturedUiStateKeys,
 } from "../core/blinkid-ui-state";
 import {
   LocalizationProvider,
@@ -27,14 +28,15 @@ import { UiFeedbackOverlay } from "./UiFeedbackOverlay";
 // this triggers extraction of CSS from the UnoCSS plugin
 import "virtual:uno.css";
 
-import { useBlinkIdUiStore } from "./BlinkIdUiStoreContext";
 import { SmartEnvironmentProvider } from "@microblink/shared-components/SmartEnvironmentProvider";
-import { OnboardingGuideModal } from "./dialogs/OnboardingGuideModal";
-import { HelpButton, HelpModal } from "./dialogs/HelpModal";
-import { ErrorModal } from "./dialogs/ErrorModal";
 import DemoOverlay from "./assets/demo-overlay.svg?component-solid";
 import MicroblinkOverlay from "./assets/microblink.svg?component-solid";
+import { useBlinkIdUiStore } from "./BlinkIdUiStoreContext";
+import { ErrorModal } from "./dialogs/ErrorModal";
+import { HelpButton, HelpModal } from "./dialogs/HelpModal";
+import { OnboardingGuideModal } from "./dialogs/OnboardingGuideModal";
 
+import { PingSdkUxEventImpl } from "../shared/ping-implementations";
 import styles from "./styles.module.scss";
 
 /**
@@ -52,10 +54,6 @@ export const BlinkIdFeedbackUi: Component<{
 
   // `blinkIdUxManager` is not reactive, so we need to create a new signal for
   // the UI state. This is a hacky way to make the UI state reactive.
-
-  // TODO: fix this
-  // only used to map LOW_QUALITY_FRONT and LOW_QUALITY_BACK to SENSING_FRONT
-  // and SENSING_BACK.
   const [uiState, setUiState] = createSignal<BlinkIdUiState>(
     store.blinkIdUxManager.uiState,
   );
@@ -70,11 +68,36 @@ export const BlinkIdFeedbackUi: Component<{
     onCleanup(() => errorCallbackCleanup());
   });
 
+  onMount(() => {
+    const cleanupDismountCallback =
+      store.cameraManagerComponent.addOnDismountCallback(() => {
+        cleanupDismountCallback();
+
+        // if not user-initiated, it's a regular dismount, not a button-click,
+        // so we early exit.
+        if (!store.cameraManagerComponent.cameraManager.userInitiatedAbort) {
+          return;
+        }
+
+        void store.blinkIdUxManager.scanningSession.ping(
+          new PingSdkUxEventImpl({
+            eventType: "CloseButtonClicked",
+          }),
+        );
+      });
+  });
+
   // Handle document filtered during scanning
   createEffect(() => {
     const documentFilteredCallbackCleanup =
-      store.blinkIdUxManager.addOnDocumentFilteredCallback((_) => {
+      store.blinkIdUxManager.addOnDocumentFilteredCallback(() => {
         updateStore({ documentFiltered: true });
+        void store.blinkIdUxManager.scanningSession.ping(
+          new PingSdkUxEventImpl({
+            eventType: "AlertDisplayed",
+            alertType: "DocumentClassNotAllowed",
+          }),
+        );
       });
     onCleanup(() => documentFilteredCallbackCleanup());
   });
@@ -90,10 +113,13 @@ export const BlinkIdFeedbackUi: Component<{
   const shouldShowFeedback = () => {
     return (
       isProcessing() ||
-      firstSideCapturedStates.includes(uiState().key) ||
+      firstSideCapturedUiStateKeys.includes(uiState().key) ||
       uiState().key === "DOCUMENT_CAPTURED"
     );
   };
+
+  const displayTimeoutModal = () =>
+    store.showTimeoutModal && store.errorState === "timeout";
 
   const shouldShowDemoOverlay = () => {
     return store.blinkIdUxManager.getShowDemoOverlay();
@@ -103,13 +129,26 @@ export const BlinkIdFeedbackUi: Component<{
     return store.blinkIdUxManager.getShowProductionOverlay();
   };
 
+  const handleUiStateChange = (newUiState: BlinkIdUiState) => {
+    setUiState(newUiState);
+  };
+
   createEffect(() => {
     const removeUiStateChangeCallback =
-      store.blinkIdUxManager.addOnUiStateChangedCallback((newUiState) => {
-        setUiState(newUiState);
-      });
+      store.blinkIdUxManager.addOnUiStateChangedCallback(handleUiStateChange);
 
     onCleanup(() => removeUiStateChangeCallback());
+  });
+
+  createEffect(() => {
+    if (displayTimeoutModal()) {
+      void store.blinkIdUxManager.scanningSession.ping(
+        new PingSdkUxEventImpl({
+          eventType: "AlertDisplayed",
+          alertType: "StepTimeout",
+        }),
+      );
+    }
   });
 
   return (
@@ -130,11 +169,7 @@ export const BlinkIdFeedbackUi: Component<{
             return (
               <>
                 <Switch>
-                  <Match
-                    when={
-                      store.showTimeoutModal && store.errorState === "timeout"
-                    }
-                  >
+                  <Match when={displayTimeoutModal()}>
                     <ErrorModal
                       header={t.scan_unsuccessful}
                       text={t.scan_unsuccessful_details}
@@ -144,7 +179,7 @@ export const BlinkIdFeedbackUi: Component<{
                   <Match
                     when={
                       store.showUnsupportedDocumentModal &&
-                      uiState().key === "UNSUPPORTED_DOCUMENT"
+                      store.errorState === "unsupported_document"
                     }
                   >
                     <ErrorModal
@@ -172,13 +207,13 @@ export const BlinkIdFeedbackUi: Component<{
 
                 <Show when={shouldShowDemoOverlay()}>
                   <div class={styles.demoOverlay}>
-                    <DemoOverlay width="250" />
+                    <DemoOverlay width="250" aria-hidden />
                   </div>
                 </Show>
 
                 <Show when={shouldShowProductionOverlay()}>
                   <div class={styles.microblinkOverlay}>
-                    <MicroblinkOverlay width="100" />
+                    <MicroblinkOverlay width="100" aria-hidden />
                   </div>
                 </Show>
 

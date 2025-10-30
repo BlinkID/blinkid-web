@@ -6,7 +6,7 @@
 
 # Type Alias: BlinkIdProcessingError
 
-> **BlinkIdProcessingError** = `"timeout"` \| `"unknown"`
+> **BlinkIdProcessingError** = `"timeout"` \| `"unsupported_document"` \| `"unknown"`
 
 BlinkID processing error. These errors are usually unrecoverable and require
 the user to retry the scanning process.

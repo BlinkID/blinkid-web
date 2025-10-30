@@ -7,7 +7,6 @@
 import {
   BlinkIdScanningResult,
   loadBlinkIdCore,
-  BlinkIdProcessResult,
 } from "@microblink/blinkid-core";
 import {
   BlinkIdUxManager,

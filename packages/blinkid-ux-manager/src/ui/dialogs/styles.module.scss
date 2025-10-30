@@ -10,7 +10,8 @@
 .buttonActions {
   @apply flex gap-4 w-full;
 
-  .buttonPrimary, .buttonSecondary {
+  .buttonPrimary,
+  .buttonSecondary {
     @apply w-1/2;
   }
 }
@@ -46,12 +47,15 @@
     @screen lg {
       @apply col-span-2 w-[18rem] max-w-[18rem];
     }
+    @media screen and (max-height: 500px) {
+      @apply col-span-1 w-[10rem] max-w-[10rem];
+    }
   }
 }
 
 // Text content container
 .textContent {
-  @apply col-span-2 text-center;
+  @apply col-span-2 text-center overflow-y-auto;
 
   @screen sm {
     @apply col-span-1 text-left;
@@ -73,6 +77,10 @@
 .carousel {
   @apply grid grid-rows-[1fr_auto_auto];
 
+  @media screen and (max-height: 500px) {
+    @apply h-full;
+  }
+
   .itemGroup {
     @apply row-start-1;
     @extend .content;
@@ -80,10 +88,15 @@
 
   .item {
     @extend .header;
+    @apply overflow-y-auto;
   }
 
   .indicators {
     @apply row-start-2 flex justify-center gap-3 py-3;
+
+    @media screen and (max-height: 500px) {
+      @apply py-1.5;
+    }
 
     .indicator {
       @apply w-2 h-2 bg-gray-200 rounded-full cursor-auto border-none transition-colors duration-200;
@@ -100,7 +113,8 @@
     .controlsInner {
       @apply flex gap-4 w-full max-w-full;
 
-      .buttonPrimary, .buttonSecondary {
+      .buttonPrimary,
+      .buttonSecondary {
         @apply w-1/2;
       }
 
@@ -135,7 +149,7 @@
 
 // Help button and tooltip
 .helpButton {
-  @apply rounded-full bg-white grid place-items-center size-9 appearance-none border-none
+  @apply btn-focus rounded-full bg-white grid place-items-center size-9 appearance-none border-none
   hover:bg-gray-100 active:bg-gray-200 pos-absolute bottom-4 right-4;
 
   svg {

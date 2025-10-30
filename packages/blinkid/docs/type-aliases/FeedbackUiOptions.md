@@ -63,6 +63,20 @@ true
 
 ***
 
+### showHelpTooltipTimeout?
+
+> `optional` **showHelpTooltipTimeout**: `number`
+
+The timeout for the help tooltip.
+
+#### Default Value
+
+```ts
+3000
+```
+
+***
+
 ### showOnboardingGuide?
 
 > `optional` **showOnboardingGuide**: `boolean`

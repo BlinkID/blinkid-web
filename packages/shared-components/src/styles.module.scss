@@ -1,5 +1,9 @@
 .dialogPositioner {
   @apply h-vh supports-[(height:100dvh)]:h-dvh top-0 left-0 w-full fixed grid p-8;
+
+  @screen lt-xs {
+    @apply p-4;
+  }
 }
 
 .dialogBackdrop {
@@ -16,6 +20,14 @@
 
   &.compact {
     @apply p-[min(8%,1.5rem)];
+
+    @media screen and (max-height: 500px) {
+      @apply h-auto;
+    }
+  }
+
+  @media screen and (max-height: 500px) {
+    @apply h-full px-[min(8%,1.5rem)] py-[min(8%,0.5rem)] max-h-[calc(100dvh-2rem)] overflow-hidden;
   }
 
   @screen sm {
@@ -32,18 +44,17 @@
 }
 
 .contentOut {
-  @apply overflow-y-auto;
+  @apply h-full;
 }
 
 .closeButton {
-  @apply absolute top-2.5 right-2.5 w-8 h-8 flex items-center justify-center rounded-full
+  @apply absolute top-2.5 right-2.5 w-8 h-8 flex items-center justify-center
   bg-transparent border-none transition-colors transition-duration-100
   hover:bg-gray-100 active:bg-gray-200;
 }
 
 .closeButtonInner {
-  @apply text-3xl text-black font-extralight leading-none flex items-center
-  justify-center translate-y-[-2px];
+  @apply w-3.5 h-3.5;
 }
 
 .primaryActionButton {
@@ -57,7 +68,8 @@
 .actions {
   @apply flex gap-4;
 
-  .primaryActionButton, .secondaryActionButton {
+  .primaryActionButton,
+  .secondaryActionButton {
     @apply w-1/2;
   }
 }

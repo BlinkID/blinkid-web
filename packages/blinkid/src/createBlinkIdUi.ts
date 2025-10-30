@@ -181,7 +181,11 @@ export const createBlinkId = async ({
     (state) => {
       if (state === "playback") {
         // this creates the feedback UI and attaches it to the camera UI
-        createBlinkIdFeedbackUi(blinkIdUxManager, cameraUi, feedbackUiOptions);
+        createBlinkIdFeedbackUi(
+          blinkIdUxManager,
+          cameraUi,
+          (feedbackUiOptions = {}),
+        );
 
         if (feedbackUiOptions?.showOnboardingGuide === false) {
           void cameraManager.startFrameCapture();

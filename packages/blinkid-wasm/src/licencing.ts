@@ -58,11 +58,8 @@ export type LicenseRequest = Readonly<{
   sdkVersion: string;
 }>;
 
-/** The license status response. */
-export type LicenseStatusResponse = Record<string, string>;
-
-/** The server permission submit result. */
-export type ServerPermissionSubmitResult = Readonly<{
+/** The server permission submit error. */
+export type ServerPermissionSubmitError = Readonly<{
   /** The error. */
   error: ServerPermissionError;
   /** The lease. */

@@ -1,5 +1,35 @@
 # @microblink/blinkid-ux-manager
 
+## 7.6.0
+
+### Minor Changes
+
+- Improved visual clarity and of feedback UI elements
+- Added a new UI state `MOVE_LAST_PAGE` for Indian passports and applicable US passports, as well as the accompanying UI feedback message.
+- Implemented ping v3 event handling
+- Renamed `#handleUiStateChanges` method to `#updateUiStateFromProcessResult`
+- Added missing `showHelpTooltipTimeout` option to the `FeedbackUiOptions`
+- Added haptic feedback on supported devices
+- Various bug fixes and cleanups
+
+### Patch Changes
+
+- Added translation files for 33 new languages (see [README.md](README.md#provided-translations))
+- Updated dependencies
+  - @microblink/camera-manager@7.2.6
+  - @microblink/blinkid-core@7.6.0
+
+## 7.5.0
+
+### Minor Changes
+
+- Version skip
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/blinkid-core@7.5.0
+
 ## 7.4.3
 
 ### Patch Changes

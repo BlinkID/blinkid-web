@@ -1,5 +1,25 @@
 # @microblink/blinkid-worker
 
+## 7.6.0
+
+### Minor Changes
+
+- Add support for ping v3
+
+### Patch Changes
+
+- Update dependencies
+- Updated dependencies
+- Updated dependencies [8e05b35]
+  - @microblink/blinkid-wasm@7.6.0
+
+## 7.5.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/blinkid-wasm@7.5.0
+
 ## 7.4.3
 
 ### Patch Changes

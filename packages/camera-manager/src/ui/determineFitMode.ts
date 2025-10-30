@@ -2,7 +2,11 @@
  * Copyright (c) 2025 Microblink Ltd. All rights reserved.
  */
 
-import { FitMode } from "./CaptureScreen";
+/**
+ * The fit mode.
+ */
+
+export type FitMode = "contain" | "cover";
 
 /**
  * Determines the fit mode for the video element based on the container and video dimensions.

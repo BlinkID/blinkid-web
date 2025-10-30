@@ -31,6 +31,9 @@ export type BarcodeResult = {
   /** The raw, unparsed barcode data. */
   barcodeData: BarcodeData;
 
+  /** Whether the raw barcode data was successfully parsed into structured information. */
+  parsed: boolean;
+
   /** The first name of the document owner. */
   firstName: string;
   /** The middle name of the document owner. */

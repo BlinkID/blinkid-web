@@ -1,4 +1,5 @@
 types
 public/resources/**
+src/pinglets
 
 !dist

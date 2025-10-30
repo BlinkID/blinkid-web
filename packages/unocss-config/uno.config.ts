@@ -12,7 +12,7 @@ import {
   addScaleMultiplier,
   createSpacingRules,
   sizeObject,
-} from "./src/_rules/index.ts";
+} from "./src/rules/index.ts";
 
 export default defineConfig({
   presets: [presetUno()],
@@ -28,7 +28,7 @@ export default defineConfig({
   },
   shortcuts: {
     "btn-focus":
-      "focus:outline focus:outline-2px focus:outline-solid focus:outline-accent-400 focus:outline-offset-4px",
+      "focus-visible:outline focus-visible:outline-2px focus-visible:outline-solid focus-visible:outline-primary focus-visible:outline-offset-4px",
     "btn-disabled":
       "[&[disabled]]:cursor-not-allowed [&[disabled]]:bg-gray-200 [&[disabled]]:text-gray-500 hover:[&[disabled]]:bg-gray-200 hover:[&[disabled]]:text-gray-500 [&[disabled]]:ring-0",
 
@@ -159,6 +159,7 @@ export default defineConfig({
         "300": "rgb(var(--color-gray-300-rgb-value) / <alpha-value>)",
         "400": "rgb(var(--color-gray-400-rgb-value) / <alpha-value>)",
         "500": "rgb(var(--color-gray-500-rgb-value) / <alpha-value>)",
+        "550": "rgb(var(--color-gray-550-rgb-value) / <alpha-value>)",
         "600": "rgb(var(--color-gray-600-rgb-value) / <alpha-value>)",
         "700": "rgb(var(--color-gray-700-rgb-value) / <alpha-value>)",
         "800": "rgb(var(--color-gray-800-rgb-value) / <alpha-value>)",

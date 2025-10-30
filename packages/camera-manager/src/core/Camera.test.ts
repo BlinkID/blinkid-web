@@ -198,7 +198,7 @@ describe("Camera resolution fallback", () => {
     );
 
     // Simulate that camera has determined its max supported resolution
-    camera.maxSupportedResolution = "720p";
+    camera.store.setState({ maxSupportedResolution: "720p" });
 
     const stream = await camera.startStream("4k");
 

@@ -46,7 +46,7 @@ export type DeviceInfo = {
 
 export type DerivedDeviceInfo = {
   model: string;
-  formFactor: FormFactor[];
+  formFactors: FormFactor[];
   platform: OperatingSystem | "";
   browser: {
     brand: string;
@@ -138,8 +138,8 @@ export async function getDeviceInfo() {
       localStorageEnabled: isLocalStorageAvailable(),
     },
     derivedDeviceInfo: createDerivedDeviceInfo(
-      userAgentData,
       navigator.userAgent,
+      userAgentData,
     ),
   };
 

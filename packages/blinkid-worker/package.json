@@ -2,7 +2,7 @@
   "name": "@microblink/blinkid-worker",
   "description": "Provides a worker which runs the BlinkID WebAssembly in separate thread",
   "private": true,
-  "version": "7.4.3",
+  "version": "7.6.0",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",
     "build:dev": "concurrently pnpm:build:js-dev pnpm:build:types",
@@ -51,10 +51,10 @@
     "rimraf": "^6.0.1",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.0",
-    "tsx": "^4.19.2",
+    "tsx": "^4.20.6",
     "typescript": "^5.8.3",
     "vite": "^6.2.1",
     "vitest": "^3.0.8",
-    "zx": "^8.5.2"
+    "zx": "^8.8.5"
   }
 }

@@ -167,6 +167,14 @@ The nationality of the document owner.
 
 ***
 
+### parsed
+
+> **parsed**: `boolean`
+
+Whether the raw barcode data was successfully parsed into structured information.
+
+***
+
 ### personalIdNumber
 
 > **personalIdNumber**: `string`

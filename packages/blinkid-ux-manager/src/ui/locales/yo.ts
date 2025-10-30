@@ -1,0 +1,58 @@
+/**
+ * Copyright (c) 2025 Microblink Ltd. All rights reserved.
+ */
+
+export default {
+  alert_cancel_btn: "Fagi lée",
+  alert_retry_btn: "Tún gbìyànjú síi",
+  blur_detected: "Mú ìwé àkọsílẹ̀ àti fóònù dúró",
+  camera_angle_too_steep: "Gbe ìwé àkọsílẹ̀ ní pẹrẹsẹ kó bára dọ́gba pẹ̀lú fóònù",
+  document_filtered: "Ìwé àkọsílẹ̀ kò jẹ́ gbígbà",
+  document_filtered_details: "Gbìyànjú síṣe ẹ̀dà àwòrán ìwé àkọsílẹ̀ tó yàtọ̀.",
+  document_not_recognized: "A kò rí ìdámọ̀ ìwé àkọsílẹ̀ ṣe",
+  document_not_recognized_details: "Ṣe ẹ̀dà àwòrán iwájú ìwé àkọsílẹ̀ tó nílò.",
+  document_too_close_to_edge: "Sún ìwé àkọsílẹ̀ náà kúrò ní eteetí",
+  face_photo_not_fully_visible: "Jẹ́ kí àwòrán ojú rẹ hàn kedere",
+  flip_document: "Yí ìwé àkọsílẹ̀ padà",
+  flip_to_back_side: "Yí padà sí ẹ̀yìn",
+  glare_detected: "Tẹ̀ ẹ́ tàbí yí ìwé àkọsílẹ̀ náà láti yọ àgbéyọ kúrò",
+  help_aria_label: "Ìrànlọ́wọ́",
+  help_modal_back_btn: "Padà",
+  help_modal_details_1:
+    "Rí i dájú pé o kò fi ìka bo apá ibì kan lára ìwé àkọsílẹ̀ náà, títí kan àwọn ìlà ìsàlẹ̀. Bákan náà, ṣọ́ra fún àwọn ìtànyòò hologram tí wọ́n máa ń wa ní àwọn apá kan lórí ìwé àkọsílẹ̀ náà.",
+  help_modal_details_2:
+    "Yẹra fún ìmọ́lẹ̀ tó lágbára nítorí pé ó máa ń hàn nínú ìwé àkọsílẹ̀ náà àti pé ó lè mú kí àwọn apá kan nínú àwọn ìwé àkọsílẹ̀ náà má ṣe é kà. Tí ọ kò bá lè ka àwọn ìsọfúnni tó wà nínú ìwé àkọsílẹ̀ náà, kò ní hàn sí kámẹ́rà náà.",
+  help_modal_details_3:
+    "Gbìyànjú kó mú fóònù àti ìwé àkọsílẹ̀ dúró nígbà ṣíṣe ẹ̀dà àwòrán. Sí sún kiri lè fa bóyá kí àwòrán náà rí bàìbàì àti kí ó mú kí àwọn ìsọfúnni orí ìwé àkọsílẹ̀ má ṣe jẹ́ é kà.",
+  help_modal_done_btn: "Parí",
+  help_modal_next_btn: "Tó kàn",
+  help_modal_title_1: "Jẹ́ kí gbogbo ààyè orí ìwé àkọsílẹ̀ náà hàn kedere",
+  help_modal_title_2: "Ṣọ́ra fún ìmọ́lẹ̀ tó lágbára jù",
+  help_modal_title_3: "Dúró sí ojú kan nígbà ṣíṣe ẹ̀dà àwòrán",
+  help_tooltip: "Ṣé o nílò ìrànlọ́wọ́?",
+  move_closer: "Sún mọ́ síi",
+  move_farther: "Sún jìnnà síi",
+  move_left: "Lọ sí ojú-ìwé tó wà ní òsì",
+  move_right: "Lọ sí ojú-ìwé tó wà ní ọ̀tún",
+  move_top: "Lọ sí ojú-ìwé tó wà ní òkè",
+  occluded: "Jẹ́ kí ìwé àkọsílẹ̀ hàn kedere ní kíkún",
+  onboarding_modal_btn: "Bẹ̀rẹ̀ ṣíṣẹ́dà àwòrán",
+  onboarding_modal_details:
+    "Ríi dájú pé ìmọ́lẹ̀ tàn sórí ìwé àkọsílẹ̀ náà dáadáa. Gbogbo ààyè orí ìwé àkọsílẹ̀ náà ni kó sí hàn kedere lórí àwo kámẹ́rà.",
+  onboarding_modal_title: "Jẹ́ kí gbogbo àwọn ìsọfúnni náà hàn kedere",
+  scan_data_page: "Ṣe ẹ̀dà àwòrán ojú-ìwé ẹ̀gbà ìwé àkọsílẹ̀ náà",
+  scan_last_page_barcode: "Ṣàyẹ̀wò kóòdù onílà láti ojú-ewé tó gbẹ̀yìn",
+  scan_left_page: "Ṣe ẹ̀dà àwòrán ojú-ìwé òsì",
+  scan_right_page: "Ṣe ẹ̀dà àwòrán ojú-ìwé ọ̀tún",
+  scan_the_back_side: "Ṣe ẹ̀dà àwòrán ẹ̀yìn ìwé àkọsílẹ̀ náà",
+  scan_the_barcode: "Ṣe àyẹ̀wò kóódù onílà",
+  scan_the_front_side: "Ṣe ẹ̀dà àwòrán iwájú ìwé àkọsílẹ̀",
+  scan_top_page: "Ṣe ẹ̀dà àwòrán ojú-ìwé òkè",
+  scan_unsuccessful: "Ṣíṣe ẹ̀dà àwòrán kò yege",
+  scan_unsuccessful_details: "A kò rí ìwé àkọsílẹ̀ náà kà. Jọ̀wọ́ tún gbìyànjú.",
+  too_bright: "Lọ sí ibi tí ìmọ́lẹ̀ ò fi bẹ́ẹ̀ sí",
+  too_dark: "Lọ sí ibi tó mọ́lẹ̀ síi",
+  wrong_left: "Lọ sí ojú-ìwé òsì",
+  wrong_right: "Lọ sí ojú-ìwé ọ̀tún",
+  wrong_top: "Lọ sí ojú-ìwé òkè",
+} as const;
