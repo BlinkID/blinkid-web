@@ -24,9 +24,9 @@
 
 ***
 
-### formFactor
+### formFactors
 
-> **formFactor**: [`FormFactor`](FormFactor.md)[]
+> **formFactors**: [`FormFactor`](FormFactor.md)[]
 
 ***
 

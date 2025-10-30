@@ -1,0 +1,58 @@
+/**
+ * Copyright (c) 2025 Microblink Ltd. All rights reserved.
+ */
+
+export default {
+  alert_cancel_btn: "取消",
+  alert_retry_btn: "重试",
+  blur_detected: "使文件和手机保持静止不动",
+  camera_angle_too_steep: "使文件与手机保持平行",
+  document_filtered: "文档不被接受",
+  document_filtered_details: "尝试扫描不同的文档。",
+  document_not_recognized: "文档无法识别",
+  document_not_recognized_details: "扫描支持文件类型的正面。",
+  document_too_close_to_edge: "从边缘移动文件",
+  face_photo_not_fully_visible: "让面部照片完全可见",
+  flip_document: "翻转文档",
+  flip_to_back_side: "给文件翻页",
+  glare_detected: "倾斜或移动文件以消除反光",
+  help_aria_label: "帮助",
+  help_modal_back_btn: "返回",
+  help_modal_details_1:
+    "确保不要用手指遮盖文件的任意部分，包括底部边线。同时注意全息图在文件字段的反射。",
+  help_modal_details_2:
+    "避免强光直射，因为它会在文件中反射出来 ，可能造成文件的某些地方不可读。如果您不能读取文件上的数据，那么它也不会被相机看到。",
+  help_modal_details_3:
+    "扫描时尽量保持手机和文件不动。移动可能造成图像模糊，使文件数据不可读。",
+  help_modal_done_btn: "完成",
+  help_modal_next_btn: "下一步",
+  help_modal_title_1: "保持所有字段可见",
+  help_modal_title_2: "注意强光直射",
+  help_modal_title_3: "扫描时保持不动",
+  help_tooltip: "需要帮助？",
+  move_closer: "靠近一些",
+  move_farther: "离远一些",
+  move_left: "移动至左侧页面",
+  move_right: "移动到右侧页面",
+  move_top: "移动至顶部页面",
+  occluded: "保持文档完全可见",
+  onboarding_modal_btn: "开始扫描",
+  onboarding_modal_details:
+    "确保文件处于光线充足的地方。所有文件字段应在相机屏幕上可见。",
+  onboarding_modal_title: "保持所有细节可见",
+  scan_data_page: "扫描文档的数据页",
+  scan_last_page_barcode: "扫描最后一页的条形码",
+  scan_left_page: "扫描左侧页面",
+  scan_right_page: "扫描右侧页面",
+  scan_the_back_side: "扫描文件反面",
+  scan_the_barcode: "扫描条形码",
+  scan_the_front_side: "扫描文件的\n正面",
+  scan_top_page: "扫描顶部页面",
+  scan_unsuccessful: "扫描失败",
+  scan_unsuccessful_details: "未能读取文件,请重试。",
+  too_bright: "移动到光线更暗的位置",
+  too_dark: "移动到更明亮的位置",
+  wrong_left: "移动至左侧页面",
+  wrong_right: "移动至右侧页面",
+  wrong_top: "移动至顶部页面",
+} as const;

@@ -40,6 +40,13 @@ describe("getAppleDeviceModel", () => {
       expected: "iPhone",
     },
     {
+      description: "iPhone with Chrome",
+      userAgent:
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.69 Mobile/15E148 Safari/604.1",
+      maxTouchPoints: 1,
+      expected: "iPhone",
+    },
+    {
       description: "Mac",
       userAgent:
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",

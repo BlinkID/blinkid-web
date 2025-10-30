@@ -9,6 +9,7 @@
 export type BlinkIdProcessingError =
   // processing
   | "timeout"
+  | "unsupported_document"
 
   // other
   | "unknown";

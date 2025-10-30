@@ -2,7 +2,7 @@
   "name": "example-camera-manager-selection",
   "description": "Example app showcasing the usage of the @microblink/camera-manager package with camera selection",
   "private": true,
-  "version": "1.1.9",
+  "version": "1.1.10",
   "scripts": {
     "build": "vite build",
     "build:js-dev": "vite build --mode development",
@@ -19,7 +19,7 @@
   "type": "module",
   "dependencies": {
     "@microblink/camera-manager": "workspace:^",
-    "solid-js": "^1.9.5"
+    "solid-js": "^1.9.9"
   },
   "devDependencies": {
     "@microblink/tsconfig": "workspace:*",
@@ -31,7 +31,7 @@
     "eslint-define-config": "^1.24.1",
     "eslint-plugin-solid": "0.14.5",
     "mkcert-cli": "^1.5.0",
-    "prettier": "^3.5.1",
+    "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
     "sass": "^1.85.0",
     "serve": "^14.2.4",
@@ -42,7 +42,7 @@
     "vite-plugin-qrcode": "^0.2.4",
     "vite-plugin-solid": "^2.11.6",
     "yy-fps": "^2.0.1",
-    "zx": "^8.5.2"
+    "zx": "^8.8.5"
   },
   "license": "MIT"
 }

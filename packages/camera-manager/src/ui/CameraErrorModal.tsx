@@ -4,9 +4,10 @@
 
 import { AlertModal } from "@microblink/shared-components/AlertModal";
 import { Component, Show } from "solid-js";
+import { CameraError } from "../core/cameraError";
 import { useCameraUiStore } from "./CameraUiStoreContext";
-import { cameraUiRefSignalStore } from "./zustandRefStore";
 import { useLocalization } from "./LocalizationContext";
+import { cameraUiRefSignalStore } from "./zustandRefStore";
 
 /**
  * The CameraErrorModal component.
@@ -19,20 +20,47 @@ const CameraErrorModal: Component = () => {
   const errorState = cameraManagerSolidStore((x) => x.errorState);
   const overlayLayer = cameraUiRefSignalStore((x) => x.overlayLayer);
 
-  // TODO: handle only permission error for now
+  const isPermissionError = () => {
+    const err = errorState();
+    if (err instanceof CameraError && err.code === "PERMISSION_DENIED") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const headerText = () => {
+    if (isPermissionError()) {
+      return t.camera_error_title;
+    } else if (errorState()) {
+      return errorState()!.name;
+    } else {
+      return "";
+    }
+  };
+
+  const bodyText = () => {
+    if (isPermissionError()) {
+      return t.camera_error_details;
+    } else if (errorState()) {
+      return errorState()!.name;
+    } else {
+      return "";
+    }
+  };
 
   return (
     <>
-      <Show when={errorState()}>
+      <Show when={isPermissionError()}>
         <AlertModal
           mountTarget={overlayLayer()}
-          header={t.camera_error_title}
+          header={headerText()}
+          text={bodyText()}
           open={true}
           onPrimaryClick={() => void cameraManager.startCameraStream()}
           onSecondaryClick={() => dismountCameraUi()}
           primaryButtonText={t.camera_error_primary_btn}
           secondaryButtonText={t.camera_error_cancel_btn}
-          text={t.camera_error_details}
         />
       </Show>
     </>

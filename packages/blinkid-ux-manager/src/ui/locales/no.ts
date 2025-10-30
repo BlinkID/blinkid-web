@@ -1,0 +1,58 @@
+/**
+ * Copyright (c) 2025 Microblink Ltd. All rights reserved.
+ */
+
+export default {
+  alert_cancel_btn: "Avbryt",
+  alert_retry_btn: "Prøv på nytt",
+  blur_detected: "Hold dokumentet og telefonen i ro",
+  camera_angle_too_steep: "La dokumentet være parallelt med telefonen",
+  document_filtered: "Dokumentet godtas ikke",
+  document_filtered_details: "Forsøk å skanne et annet dokument.",
+  document_not_recognized: "Dokument ikke gjenkjent",
+  document_not_recognized_details: "Skann forsiden av et støttet dokument.",
+  document_too_close_to_edge: "Flytt dokumentet fra kanten",
+  face_photo_not_fully_visible: "La ansiktsfoto være helt synlig",
+  flip_document: "Snu dokumentet",
+  flip_to_back_side: "Snu til baksiden",
+  glare_detected: "Vipp eller flytt dokumentet for å fjerne refleksjon",
+  help_aria_label: "Hjelp",
+  help_modal_back_btn: "Tilbake",
+  help_modal_details_1:
+    "Sørg for at du ikke dekker til deler av dokumentet med en finger, inkludert bunnlinjene. Se også etter hologramrefleksjoner som kan forstyrre feltene i dokumentet.",
+  help_modal_details_2:
+    "Unngå direkte hardt lys fordi det gjenspeiles i dokumentet og kan føre til at deler av dokumentet blir uleselig. Hvis ikke du kan lese det som står i dokumentet, blir det heller ikke synlig for kamera.",
+  help_modal_details_3:
+    "Forsøk å holde telefonen og dokumentet i ro under skanningen. Å bevege dem kan føre til at bildet blir uskarpt og dataene i dokumentet uleselige.",
+  help_modal_done_btn: "Ferdig",
+  help_modal_next_btn: "Neste",
+  help_modal_title_1: "La alle feltene være synlige",
+  help_modal_title_2: "Se opp for hardt lys",
+  help_modal_title_3: "Stå i ro under skanningen",
+  help_tooltip: "Trenger du hjelp?",
+  move_closer: "Flytt nærmere",
+  move_farther: "Flytt lenger bort",
+  move_left: "Flytt til siden til venstre",
+  move_right: "Flytt til siden til høyre",
+  move_top: "Flytt til den øverste siden",
+  occluded: "La dokumentet være helt synlig.",
+  onboarding_modal_btn: "Start skanning",
+  onboarding_modal_details:
+    "Sørg for at dokumentet er godt opplyst. Alle feltene i dokumentet skal være synlige på kameraskjermen.",
+  onboarding_modal_title: "La alle detaljene være synlige",
+  scan_data_page: "Skann datasiden av dokumentet",
+  scan_last_page_barcode: "Skann strekkoden på siste side",
+  scan_left_page: "Skann den venstre siden",
+  scan_right_page: "Skann den høyre siden",
+  scan_the_back_side: "Skann baksiden av dokumentet",
+  scan_the_barcode: "Skann strekkoden",
+  scan_the_front_side: "Skann forsiden av dokumentet",
+  scan_top_page: "Skann den øverste siden",
+  scan_unsuccessful: "Skanning mislyktes",
+  scan_unsuccessful_details: "Kunne ikke lese dokumentet. Prøv igjen.",
+  too_bright: "Flytt til et sted med mindre belysning",
+  too_dark: "Flytt til et lysere sted",
+  wrong_left: "Flytt til den venstre siden",
+  wrong_right: "Flytt til den høyre siden",
+  wrong_top: "Flytt til toppen av siden",
+} as const;

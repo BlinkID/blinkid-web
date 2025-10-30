@@ -84,4 +84,8 @@ export type DocumentType =
   | "registration-certificate"
   | "medical-marijuana-id"
   | "non-card-tribal-id"
-  | "diplomatic-id";
+  | "diplomatic-id"
+  | "emergency-passport"
+  | "temporary-passport"
+  | "metis-federation-card"
+  | "adr-certificate";

@@ -3,7 +3,7 @@
  */
 
 import { Modal } from "@microblink/shared-components/Modal";
-import { type Component } from "solid-js";
+import { createEffect, type Component } from "solid-js";
 import { useBlinkIdUiStore } from "../BlinkIdUiStoreContext";
 
 import HelpCorrectFraming from "../assets/help/help_correct_framing.svg?component-solid";
@@ -11,6 +11,7 @@ import HelpCorrectFraming from "../assets/help/help_correct_framing.svg?componen
 import styles from "./styles.module.scss";
 import { DialogTitle } from "@ark-ui/solid";
 import { useLocalization } from "../LocalizationContext";
+import { PingSdkUxEventImpl } from "../../shared/ping-implementations";
 
 /**
  * The OnboardingGuideModal component.
@@ -21,6 +22,7 @@ export const OnboardingGuideModal: Component = () => {
   const { t } = useLocalization();
 
   const { store, updateStore } = useBlinkIdUiStore();
+  const ping = store.blinkIdUxManager.scanningSession.ping;
 
   const modalVisible = () => store.showOnboardingGuide;
   const hideModal = () => {
@@ -28,19 +30,28 @@ export const OnboardingGuideModal: Component = () => {
     void store.blinkIdUxManager.cameraManager.startFrameCapture();
   };
 
+  createEffect(() => {
+    if (modalVisible()) {
+      void ping(
+        new PingSdkUxEventImpl({
+          eventType: "OnboardingInfoDisplayed",
+        }),
+      );
+    }
+  });
+
   let startScanningBtnRef!: HTMLButtonElement;
 
   return (
     <Modal
       mountTarget={store.cameraManagerComponent.overlayLayerNode}
-      initialFocusEl={() => startScanningBtnRef}
       open={modalVisible()}
       modalStyle="large"
     >
       <div class={styles.onboardingGuide}>
         <div class={styles.content}>
           <div class={styles.header}>
-            <HelpCorrectFraming />
+            <HelpCorrectFraming aria-hidden />
             <div class={styles.textContent}>
               <DialogTitle>{t.onboarding_modal_title}</DialogTitle>
               <p>{t.onboarding_modal_details}</p>

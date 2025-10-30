@@ -84,6 +84,14 @@ The date of birth of the document owner
 
 ***
 
+### dateOfEntry?
+
+> `optional` **dateOfEntry**: [`DateResult`](DateResult.md)\<[`StringResult`](StringResult.md)\>
+
+The date of entry of the document owner
+
+***
+
 ### dateOfExpiry?
 
 > `optional` **dateOfExpiry**: [`DateResult`](DateResult.md)\<[`StringResult`](StringResult.md)\>
@@ -212,11 +220,27 @@ The last name of the document owner
 
 ***
 
+### localityCode?
+
+> `optional` **localityCode**: [`StringResult`](StringResult.md)
+
+The locality code of the document owner
+
+***
+
 ### localizedName?
 
 > `optional` **localizedName**: [`StringResult`](StringResult.md)
 
 The localized name of the document owner
+
+***
+
+### maidenName?
+
+> `optional` **maidenName**: [`StringResult`](StringResult.md)
+
+The maiden name of the document owner
 
 ***
 
@@ -241,6 +265,22 @@ The marital status of the document owner
 > `optional` **mothersName**: [`StringResult`](StringResult.md)
 
 The mother's name of the document owner
+
+***
+
+### municipalityCode?
+
+> `optional` **municipalityCode**: [`StringResult`](StringResult.md)
+
+The municipality code of the document owner
+
+***
+
+### municipalityOfRegistration?
+
+> `optional` **municipalityOfRegistration**: [`StringResult`](StringResult.md)
+
+The municipality of registration of the document owner
 
 ***
 
@@ -276,6 +316,14 @@ The place of birth of the document owner
 
 ***
 
+### pollingStationCode?
+
+> `optional` **pollingStationCode**: [`StringResult`](StringResult.md)
+
+The polling station code of the document owner
+
+***
+
 ### profession?
 
 > `optional` **profession**: [`StringResult`](StringResult.md)
@@ -289,6 +337,14 @@ The profession of the document owner
 > `optional` **race**: [`StringResult`](StringResult.md)
 
 The race of the document owner
+
+***
+
+### registrationCenterCode?
+
+> `optional` **registrationCenterCode**: [`StringResult`](StringResult.md)
+
+The registration center code of the document owner
 
 ***
 
@@ -324,6 +380,14 @@ The residential status of the document owner
 
 ***
 
+### sectionCode?
+
+> `optional` **sectionCode**: [`StringResult`](StringResult.md)
+
+The section code of the document owner
+
+***
+
 ### sex?
 
 > `optional` **sex**: [`StringResult`](StringResult.md)
@@ -345,6 +409,22 @@ The specific document validity
 > `optional` **sponsor**: [`StringResult`](StringResult.md)
 
 The sponsor of the document owner
+
+***
+
+### stateCode?
+
+> `optional` **stateCode**: [`StringResult`](StringResult.md)
+
+The state code of the document owner
+
+***
+
+### stateName?
+
+> `optional` **stateName**: [`StringResult`](StringResult.md)
+
+The state of the document owner
 
 ***
 

@@ -9,6 +9,7 @@ import {
   PartialProcessResult,
 } from "./blinkid-ui-state";
 import {
+  Country,
   defaultSessionSettings,
   DetectionStatus,
   DocumentRotation,
@@ -237,19 +238,44 @@ describe("getUiStateKey", () => {
       expect(result).toBe<BlinkIdUiStateKey>("SENSING_DATA_PAGE");
     });
 
-    test.each<{ rotation: DocumentRotation; expected: BlinkIdUiStateKey }>([
+    test.each<{
+      rotation: DocumentRotation;
+      expected: BlinkIdUiStateKey;
+      country?: Country;
+    }>([
       { rotation: "zero", expected: "SENSING_TOP_PAGE" },
       { rotation: "not-available", expected: "SENSING_TOP_PAGE" },
       { rotation: "upside-down", expected: "SENSING_TOP_PAGE" },
       { rotation: "counter-clockwise-90", expected: "SENSING_LEFT_PAGE" },
       { rotation: "clockwise-90", expected: "SENSING_RIGHT_PAGE" },
+      { rotation: "zero", expected: "SENSING_LAST_PAGE", country: "india" },
+      {
+        rotation: "not-available",
+        expected: "SENSING_LAST_PAGE",
+        country: "india",
+      },
+      {
+        rotation: "upside-down",
+        expected: "SENSING_LAST_PAGE",
+        country: "usa",
+      },
+      {
+        rotation: "counter-clockwise-90",
+        expected: "SENSING_LAST_PAGE",
+        country: "usa",
+      },
+      {
+        rotation: "clockwise-90",
+        expected: "SENSING_LAST_PAGE",
+        country: "usa",
+      },
     ])(
-      "should return $expected when scanning second side of passport with rotation $rotation",
-      ({ rotation, expected }) => {
+      "should return $expected when scanning second side of passport with rotation $rotation and country $country",
+      ({ rotation, expected, country }) => {
         const processResult = createProcessResult({
           inputImageAnalysisResult: {
             scanningSide: "second",
-            documentClassInfo: { type: "passport" },
+            documentClassInfo: { type: "passport", country },
             documentRotation: rotation,
           },
         });
@@ -263,19 +289,30 @@ describe("getUiStateKey", () => {
   });
 
   describe("Passport Navigation States", () => {
-    test.each<{ rotation: DocumentRotation; expected: BlinkIdUiStateKey }>([
+    test.each<{
+      rotation: DocumentRotation;
+      expected: BlinkIdUiStateKey;
+      country?: Country;
+    }>([
       { rotation: "zero", expected: "MOVE_TOP" },
       { rotation: "counter-clockwise-90", expected: "MOVE_LEFT" },
       { rotation: "clockwise-90", expected: "MOVE_RIGHT" },
+      { rotation: "zero", expected: "MOVE_LAST_PAGE", country: "india" },
+      {
+        rotation: "counter-clockwise-90",
+        expected: "MOVE_LAST_PAGE",
+        country: "india",
+      },
+      { rotation: "clockwise-90", expected: "MOVE_LAST_PAGE", country: "usa" },
     ])(
-      "should return $expected when passport document rotation is $rotation",
-      ({ rotation, expected }) => {
+      "should return $expected when passport document rotation is $rotation and country $country",
+      ({ rotation, expected, country }) => {
         const processResult = createProcessResult({
           resultCompleteness: {
             scanningStatus: "side-scanned",
           },
           inputImageAnalysisResult: {
-            documentClassInfo: { type: "passport" },
+            documentClassInfo: { type: "passport", country },
             documentRotation: rotation,
           },
         });
@@ -289,20 +326,41 @@ describe("getUiStateKey", () => {
   });
 
   describe("Wrong Passport Page States", () => {
-    test.each<{ rotation: DocumentRotation; expected: BlinkIdUiStateKey }>([
+    test.each<{
+      rotation: DocumentRotation;
+      expected: BlinkIdUiStateKey;
+      country?: Country;
+    }>([
       { rotation: "zero", expected: "WRONG_TOP_PAGE" },
       { rotation: "upside-down", expected: "WRONG_TOP_PAGE" },
       { rotation: "not-available", expected: "WRONG_TOP_PAGE" },
       { rotation: "counter-clockwise-90", expected: "WRONG_LEFT_PAGE" },
       { rotation: "clockwise-90", expected: "WRONG_RIGHT_PAGE" },
+      { rotation: "zero", expected: "WRONG_LAST_PAGE", country: "india" },
+      {
+        rotation: "upside-down",
+        expected: "WRONG_LAST_PAGE",
+        country: "india",
+      },
+      {
+        rotation: "not-available",
+        expected: "WRONG_LAST_PAGE",
+        country: "usa",
+      },
+      {
+        rotation: "counter-clockwise-90",
+        expected: "WRONG_LAST_PAGE",
+        country: "usa",
+      },
+      { rotation: "clockwise-90", expected: "WRONG_LAST_PAGE", country: "usa" },
     ])(
-      "should return $expected when scanning wrong side with rotation $rotation",
-      ({ rotation, expected }) => {
+      "should return $expected when scanning wrong side with rotation $rotation and country $country",
+      ({ rotation, expected, country }) => {
         const processResult = createProcessResult({
           inputImageAnalysisResult: {
             scanningSide: "second",
             processingStatus: "scanning-wrong-side",
-            documentClassInfo: { type: "passport" },
+            documentClassInfo: { type: "passport", country },
             documentRotation: rotation,
           },
         });

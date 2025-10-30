@@ -119,6 +119,22 @@ a cleanup function to remove the subscription
 
 ## Accessors
 
+### extractionArea
+
+#### Get Signature
+
+> **get** **extractionArea**(): `undefined` \| [`ExtractionArea`](../type-aliases/ExtractionArea.md)
+
+Gets the area of the video frame that will be extracted.
+
+##### Returns
+
+`undefined` \| [`ExtractionArea`](../type-aliases/ExtractionArea.md)
+
+The area of the video frame that will be extracted.
+
+***
+
 ### isActive
 
 #### Get Signature
@@ -152,6 +168,18 @@ camera capabilities and system constraints.
 ##### Returns
 
 `"720p"` \| `"1080p"` \| `"4k"`
+
+***
+
+### selectedCamera
+
+#### Get Signature
+
+> **get** **selectedCamera**(): `undefined` \| [`Camera`](Camera.md)
+
+##### Returns
+
+`undefined` \| [`Camera`](Camera.md)
 
 ***
 

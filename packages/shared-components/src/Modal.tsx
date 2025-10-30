@@ -6,6 +6,7 @@ import { Dialog } from "@ark-ui/solid/dialog";
 import { JSX, ParentComponent, Show } from "solid-js";
 import { Portal } from "solid-js/web";
 import { SmartEnvironmentProvider } from "./SmartEnvironmentProvider";
+import IconClose from "./assets/icons/icon-close.svg?component-solid";
 
 import styles from "./styles.module.scss";
 
@@ -34,11 +35,18 @@ export const Modal: ParentComponent<ModalProps> = (props) => {
 
   return (
     <SmartEnvironmentProvider>
-      {() => (
+      {(root) => (
         <Dialog.Root
           // prevent closing by clicking outside
           onFocusOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
+          // prevent focusing on first interactable element
+          initialFocusEl={() => {
+            const dialog: HTMLElement = root.querySelector(
+              '[role="dialog"]',
+            ) as HTMLElement;
+            return dialog;
+          }}
           restoreFocus
           unmountOnExit
           lazyMount
@@ -62,10 +70,11 @@ export const Modal: ParentComponent<ModalProps> = (props) => {
                   {/* Close button */}
                   <Show when={props.showCloseButton}>
                     <Dialog.CloseTrigger
+                      aria-label="Close"
                       class={styles.closeButton}
                       onClick={props.onCloseClicked}
                     >
-                      <span class={styles.closeButtonInner}>&times;</span>
+                      <IconClose class={styles.closeButtonInner} />
                     </Dialog.CloseTrigger>
                   </Show>
 
@@ -121,13 +130,10 @@ export const AlertModal: ParentComponent<AlertModalProps> = ({
   primaryButtonText = "Retry",
   secondaryButtonText = "Cancel",
 }) => {
-  let primaryButtonEl!: HTMLButtonElement;
-
   return (
     <Modal
       mountTarget={mountTarget}
       header={<span class={styles.alertTitle}>{header}</span>}
-      initialFocusEl={() => primaryButtonEl}
       open={open}
       actions={
         <div class={styles.actions}>
@@ -138,7 +144,6 @@ export const AlertModal: ParentComponent<AlertModalProps> = ({
             {secondaryButtonText}
           </button>
           <button
-            ref={primaryButtonEl}
             class={styles.primaryActionButton}
             onClick={() => onPrimaryClick()}
           >

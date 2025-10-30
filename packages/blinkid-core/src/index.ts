@@ -9,7 +9,7 @@
  * and core scanning operations.
  */
 
-import { WorkerScanningSession } from "@microblink/blinkid-worker";
+import type { WorkerScanningSession } from "@microblink/blinkid-worker";
 import { Remote } from "comlink";
 
 export * from "./BlinkIdCore";

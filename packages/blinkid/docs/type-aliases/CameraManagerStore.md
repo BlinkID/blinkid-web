@@ -12,6 +12,14 @@ The camera manager store.
 
 ## Properties
 
+### cameraPermission
+
+> **cameraPermission**: [`CameraPermission`](CameraPermission.md)
+
+Browser camera permission.
+
+***
+
 ### cameras
 
 > **cameras**: [`Camera`](../classes/Camera.md)[]
@@ -25,6 +33,14 @@ The list of cameras that are available to the user.
 > `optional` **errorState**: `Error` \| [`CameraError`](../classes/CameraError.md)
 
 If the Camera manager has encountered an error, this will be set to the error.
+
+***
+
+### extractionArea?
+
+> `optional` **extractionArea**: [`ExtractionArea`](ExtractionArea.md)
+
+Defines the area of the video which will be sent for processing.
 
 ***
 
@@ -82,3 +98,11 @@ The currently selected camera.
 > `optional` **videoElement**: `HTMLVideoElement`
 
 The video element that will display the camera stream.
+
+***
+
+### videoResolution?
+
+> `optional` **videoResolution**: [`Resolution`](Resolution.md)
+
+The resolution of the video on the `videoElement`

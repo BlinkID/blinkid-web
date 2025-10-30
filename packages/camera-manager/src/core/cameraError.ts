@@ -5,8 +5,11 @@
 /**
  * A camera error code.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type CameraErrorCode = "PERMISSION_DENIED" | (string & {});
+export type CameraErrorCode =
+  | "PERMISSION_DENIED"
+  | "STREAM_ENDED_UNEXPECTEDLY"
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  | (string & {});
 
 /**
  * A camera error.

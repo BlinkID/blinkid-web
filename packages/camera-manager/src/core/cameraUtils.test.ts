@@ -45,13 +45,13 @@ class MockCamera extends Camera {
 
     // Override properties
     if (options.facingMode !== undefined) {
-      this.facingMode = options.facingMode;
+      this.store.setState({ facingMode: options.facingMode });
     }
     if (options.torchSupported !== undefined) {
-      this.torchSupported = options.torchSupported;
+      this.store.setState({ torchSupported: options.torchSupported });
     }
     if (options.singleShotSupported !== undefined) {
-      this.singleShotSupported = options.singleShotSupported;
+      this.store.setState({ singleShotSupported: options.singleShotSupported });
     }
 
     // Override startStream if provided

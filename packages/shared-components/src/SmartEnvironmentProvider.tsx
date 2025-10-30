@@ -5,10 +5,12 @@
 import { EnvironmentProvider } from "@ark-ui/solid/environment";
 import { Component, createSignal, JSX, onMount, Show } from "solid-js";
 
+type RootNode = HTMLDocument | ShadowRoot;
+
 export const SmartEnvironmentProvider: Component<{
-  children: (rootNode: Node) => JSX.Element;
+  children: (rootNode: RootNode) => JSX.Element;
 }> = (props) => {
-  const [rootNode, setRootNode] = createSignal<Node>();
+  const [rootNode, setRootNode] = createSignal<RootNode>();
   const [ref, setRef] = createSignal<HTMLSpanElement>();
 
   onMount(() => {
@@ -18,7 +20,7 @@ export const SmartEnvironmentProvider: Component<{
       return;
     }
 
-    setRootNode(spanRef.getRootNode());
+    setRootNode(spanRef.getRootNode() as RootNode);
   });
 
   return (

@@ -6,7 +6,7 @@
 
 # Function: createBlinkIdFeedbackUi()
 
-> **createBlinkIdFeedbackUi**(`blinkIdUxManager`, `cameraManagerComponent`, `options`): () => `void`
+> **createBlinkIdFeedbackUi**(`blinkIdUxManager`, `cameraManagerComponent`, `feedbackUiOptions`): () => `void`
 
 Creates the BlinkID feedback UI.
 
@@ -24,11 +24,9 @@ The BlinkID Ux Manager.
 
 The Camera Manager Component.
 
-### options
+### feedbackUiOptions
 
-[`FeedbackUiOptions`](../type-aliases/FeedbackUiOptions.md) = `{}`
-
-The options for the createBlinkIdFeedbackUi function.
+`Partial`\<[`FeedbackUiOptions`](../type-aliases/FeedbackUiOptions.md)\>
 
 ## Returns
 

@@ -25,6 +25,10 @@ describe("detectBrowser", () => {
       "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/125.0.6422.80 Mobile/15E148 Safari/604.1",
       { name: "Chrome", version: "125.0.6422.80" },
     ],
+    [
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.69 Mobile/15E148 Safari/604.1",
+      { name: "Chrome", version: "141.0.7390.69" },
+    ],
 
     // Firefox
     [

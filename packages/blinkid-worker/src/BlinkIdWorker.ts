@@ -6,15 +6,18 @@ import { expose, finalizer, proxy, ProxyMarked, transfer } from "comlink";
 import { detectWasmFeatures } from "./wasm-feature-detect";
 
 import type {
-  BlinkIdSessionError,
+  Ping,
   BlinkIdProcessResult,
   BlinkIdScanningResult,
   BlinkIdScanningSession,
+  BlinkIdSessionError,
   BlinkIdSessionSettings,
   BlinkIdWasmModule,
   EmscriptenModuleFactory,
-  LicenseTokenState,
+  PingSdkInitStart,
+  SdkInitStartData,
   WasmVariant,
+  PingError,
 } from "@microblink/blinkid-wasm";
 import { OverrideProperties } from "type-fest";
 import { getCrossOriginWorkerURL } from "./getCrossOriginWorkerURL";
@@ -22,181 +25,20 @@ import { isIOS } from "./isSafari";
 import { obtainNewServerPermission } from "./licencing";
 import { mbToWasmPages } from "./mbToWasmPages";
 
-import {
-  downloadResourceBuffer,
-  DownloadProgress,
-} from "./downloadResourceBuffer";
 import { buildResourcePath } from "./buildResourcePath";
 import {
   buildSessionSettings,
   PartialBlinkIdSessionSettings,
 } from "./buildSessionSettings";
-// might be needed for types to work
-
-/**
- * This is a workaround for the fact that the types are not exported.
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface _BlinkIdScanningResult extends BlinkIdScanningResult {}
-
-/**
- * This is a workaround for the fact that the types are not exported.
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface _BlinkIdSessionError extends BlinkIdSessionError {}
-
-/**
- * The process result with buffer.
- */
-export type ProcessResultWithBuffer = BlinkIdProcessResult & {
-  arrayBuffer: ArrayBuffer;
-};
-
-/**
- * The worker scanning session.
- */
-export type WorkerScanningSession = OverrideProperties<
-  BlinkIdScanningSession,
-  {
-    process: (image: ImageData) => ProcessResultWithBuffer;
-  }
-> & {
-  /**
-   * Gets the settings.
-   *
-   * @returns The settings.
-   */
-  getSettings: () => BlinkIdSessionSettings;
-  /**
-   * Shows the demo overlay.
-   *
-   * @returns Whether the demo overlay is shown.
-   */
-  showDemoOverlay: () => boolean;
-  /**
-   * Shows the production overlay.
-   *
-   * @returns Whether the production overlay is shown.
-   */
-  showProductionOverlay: () => boolean;
-};
-
-/**
- * Initialization settings for the BlinkID worker.
- *
- * These settings control how the BlinkID worker is initialized and configured,
- * including resource locations, memory allocation, and build variants.
- */
-export type BlinkIdWorkerInitSettings = {
-  /**
-   * The license key required to unlock and use the BlinkID SDK.
-   * This must be a valid license key obtained from Microblink.
-   */
-  licenseKey: string;
-
-  /**
-   * The URL of the Microblink proxy server. This proxy handles requests to Microblink's Baltazar and Ping servers.
-   *
-   * **Requirements:**
-   * - Must be a valid HTTPS URL
-   * - The proxy server must implement the expected Microblink API endpoints
-   * - This feature is only available if explicitly permitted by your license
-   *
-   * **Endpoints:**
-   * - Ping: `{proxyUrl}/ping`
-   * - Baltazar: `{proxyUrl}/api/v2/status/check`
-   *
-   * @example "https://your-proxy.example.com"
-   */
-  microblinkProxyUrl?: string;
-
-  /**
-   * The parent directory where the `/resources` directory is hosted.
-   * Defaults to `window.location.href`, at the root of the current page.
-   */
-  resourcesLocation?: string;
-
-  /**
-   * A unique identifier for the user/session.
-   * Used for analytics and tracking purposes.
-   */
-  userId: string;
-
-  /**
-   * The WebAssembly module variant to use.
-   * Different variants may offer different performance/size tradeoffs.
-   */
-  wasmVariant?: WasmVariant;
-
-  /**
-   * The initial memory allocation for the Wasm module, in megabytes.
-   * Larger values may improve performance but increase memory usage.
-   */
-  initialMemory?: number;
-
-  /**
-   * Whether to use the lightweight build of the SDK.
-   * Lightweight builds have reduced size but may have limited functionality.
-   */
-  useLightweightBuild: boolean;
-};
-
-/**
- * The load Wasm params.
- */
-export type LoadWasmParams = {
-  resourceUrl: string;
-  variant?: WasmVariant;
-  useLightweightBuild: boolean;
-  initialMemory?: number;
-};
-
-/**
- * The progress status callback.
- */
-export type ProgressStatusCallback = (progress: DownloadProgress) => void;
-
-/**
- * Sanitized proxy URLs for different Microblink services.
- */
-type SanitizedProxyUrls = {
-  /**
-   * URL for ping service.
-   */
-  ping: string;
-  /**
-   * URL for Baltazar service.
-   */
-  baltazar: string;
-};
-
-/**
- * Error thrown when proxy URL validation fails
- */
-export class ProxyUrlValidationError extends Error {
-  constructor(
-    message: string,
-    public readonly url: string,
-  ) {
-    super(`Proxy URL validation failed for "${url}": ${message}`);
-    this.name = "ProxyUrlValidationError";
-  }
-}
-
-export type LicenseErrorCode = "LICENSE_ERROR";
-
-/**
- * Error thrown when license unlock fails
- */
-export class LicenseError extends Error {
-  code: LicenseErrorCode;
-
-  constructor(message: string, code: LicenseErrorCode) {
-    super(message);
-    this.name = "LicenseError";
-    this.code = code;
-  }
-}
+import {
+  DownloadProgress,
+  downloadResourceBuffer,
+} from "./downloadResourceBuffer";
+import {
+  sanitizeProxyUrls,
+  validateLicenseProxyPermissions,
+  type SanitizedProxyUrls,
+} from "./proxy-url-validator";
 
 /**
  * The BlinkID worker.
@@ -226,9 +68,16 @@ class BlinkIdWorker {
   #showProductionOverlay = true;
 
   /**
+   * Current session number.
+   */
+  #sessionCount = 0;
+
+  /**
    * Sanitized proxy URLs for Microblink services.
    */
   #proxyUrls?: SanitizedProxyUrls;
+
+  #userId!: string;
 
   /**
    * This method loads the Wasm module.
@@ -392,6 +241,33 @@ class BlinkIdWorker {
     }
   }
 
+  reportPinglet(pinglet: Ping) {
+    if (!this.#wasmModule) {
+      throw new Error("Wasm module not loaded");
+    }
+
+    if (!this.#wasmModule.isPingEnabled()) {
+      // Ping is not enabled, do nothing
+      return;
+    }
+
+    this.#wasmModule.queuePinglet(
+      JSON.stringify(pinglet.data),
+      pinglet.schemaName,
+      pinglet.schemaVersion,
+      // session number can be overriden by pinglet, otherwise use current
+      // session count
+      pinglet.sessionNumber ?? this.#sessionCount,
+    );
+  }
+
+  sendPinglets() {
+    if (!this.#wasmModule) {
+      throw new Error("Wasm module not loaded");
+    }
+    this.#wasmModule.sendPinglets();
+  }
+
   /**
    * This method initializes everything.
    */
@@ -407,6 +283,7 @@ class BlinkIdWorker {
 
     this.#defaultSessionSettings = defaultSessionSettings;
     this.progressStatusCallback = progressCallback;
+    this.#userId = settings.userId;
 
     await this.#loadWasm({
       resourceUrl: resourcesPath,
@@ -419,49 +296,90 @@ class BlinkIdWorker {
       throw new Error("Wasm module not loaded");
     }
 
+    const sdkInitPinglet = new StartPing({
+      packageName: self.location.hostname,
+      platform: "Emscripten",
+      product: "BlinkID",
+      userId: this.#userId,
+    });
+
+    this.reportPinglet(sdkInitPinglet);
+    this.sendPinglets();
+
     // Initialize with license key
-    const licenceUnlockResult = this.#wasmModule.initializeWithLicenseKey(
+    const licenseUnlockResult = this.#wasmModule.initializeWithLicenseKey(
       settings.licenseKey,
       settings.userId,
       false,
     );
 
-    if (licenceUnlockResult.licenseError) {
+    this.sendPinglets();
+
+    if (licenseUnlockResult.licenseError) {
+      this.#reportErrorPing({
+        errorType: "Crash",
+        errorMessage: licenseUnlockResult.licenseError,
+      });
+      this.sendPinglets();
       throw new LicenseError(
-        "License unlock error: " + licenceUnlockResult.licenseError,
+        "License unlock error: " + licenseUnlockResult.licenseError,
         "LICENSE_ERROR",
       );
     }
 
-    // Handle proxy URL configuration
     if (settings.microblinkProxyUrl) {
-      this.#configureProxyUrls(
-        settings.microblinkProxyUrl,
-        licenceUnlockResult,
-      );
+      // Validate the proxy URL permissions
+      // This will throw if the permissions are not valid
+      validateLicenseProxyPermissions(licenseUnlockResult);
+
+      // Sanitize the proxy URLs
+      this.#proxyUrls = sanitizeProxyUrls(settings.microblinkProxyUrl);
+
+      if (licenseUnlockResult.allowPingProxy && licenseUnlockResult.hasPing) {
+        // If ping proxy is allowed, configure the WASM module with the sanitized URLs
+        this.#wasmModule.setPingProxyUrl(this.#proxyUrls.ping);
+        console.debug(`Using ping proxy URL: ${this.#proxyUrls.ping}`);
+      }
     }
 
     // Check if we need to obtain a server permission
-    if (licenceUnlockResult.unlockResult === "requires-server-permission") {
-      // Use proxy URL if configured, otherwise use default
-      const baltazarUrl = this.#proxyUrls?.baltazar;
+    if (licenseUnlockResult.unlockResult === "requires-server-permission") {
+      const shouldUseBaltazarProxy =
+        this.#proxyUrls?.baltazar && licenseUnlockResult.allowBaltazarProxy;
 
-      const serverPermissionResponse =
-        baltazarUrl && licenceUnlockResult.allowBaltazarProxy
-          ? await obtainNewServerPermission(licenceUnlockResult, baltazarUrl)
-          : await obtainNewServerPermission(licenceUnlockResult);
+      const baltazarProxyUrl = shouldUseBaltazarProxy
+        ? this.#proxyUrls!.baltazar
+        : undefined;
+
+      if (baltazarProxyUrl) {
+        console.debug(`Using Baltazar proxy URL: ${baltazarProxyUrl}`);
+      }
+
+      const serverPermissionResponse = baltazarProxyUrl
+        ? await obtainNewServerPermission(licenseUnlockResult, baltazarProxyUrl)
+        : await obtainNewServerPermission(licenseUnlockResult);
 
       const serverPermissionResult = this.#wasmModule.submitServerPermission(
-        JSON.stringify(serverPermissionResponse),
+        serverPermissionResponse,
       );
 
-      if (serverPermissionResult.error) {
+      if (serverPermissionResult?.error) {
+        this.#reportErrorPing({
+          errorType: "Crash",
+          errorMessage: serverPermissionResult.error,
+        });
+        this.sendPinglets();
         throw new Error("Server unlock error: " + serverPermissionResult.error);
       }
     }
 
-    this.#showDemoOverlay = licenceUnlockResult.showDemoOverlay;
-    this.#showProductionOverlay = licenceUnlockResult.showProductionOverlay;
+    console.debug(`BlinkID SDK ${licenseUnlockResult.sdkVersion} unlocked`);
+
+    this.#showDemoOverlay = licenseUnlockResult.showDemoOverlay;
+    this.#showProductionOverlay = licenseUnlockResult.showProductionOverlay;
+
+    this.#wasmModule.initializeSdk(settings.userId);
+    this.sendPinglets();
   }
 
   /**
@@ -480,8 +398,15 @@ class BlinkIdWorker {
       this.#defaultSessionSettings,
     );
 
-    const session =
-      this.#wasmModule.createBlinkIdScanningSession(sessionSettings);
+    const session = this.#wasmModule.createBlinkIdScanningSession(
+      sessionSettings,
+      this.#userId,
+    );
+
+    this.sendPinglets();
+
+    // increment the session count
+    this.#sessionCount++;
 
     const proxySession = this.createProxySession(session, sessionSettings);
     return proxySession;
@@ -508,6 +433,10 @@ class BlinkIdWorker {
         const processResult = session.process(image);
 
         if ("error" in processResult) {
+          this.#reportErrorPing({
+            errorType: "NonFatal",
+            errorMessage: processResult.error,
+          });
           throw new Error(`Error processing frame: ${processResult.error}`);
         }
 
@@ -521,6 +450,8 @@ class BlinkIdWorker {
 
         return transferPackage;
       },
+      ping: (ping) => this.reportPinglet(ping),
+      sendPinglets: () => this.sendPinglets(),
       getSettings: () => sessionSettings,
       reset: () => session.reset(),
       delete: () => session.delete(),
@@ -532,6 +463,19 @@ class BlinkIdWorker {
     };
 
     return proxy(customSession);
+  }
+
+  #reportErrorPing(data: PingError["data"]) {
+    const error: PingError = {
+      data: {
+        errorType: data.errorType,
+        errorMessage: data.errorMessage,
+      },
+      schemaName: "ping.error",
+      schemaVersion: "1.0.0",
+    };
+
+    this.reportPinglet(error);
   }
 
   /**
@@ -546,150 +490,42 @@ class BlinkIdWorker {
   /**
    * Terminates the workers and the Wasm runtime.
    */
-  terminate() {
-    self.close();
-  }
+  async terminate() {
+    const gracePeriod = 5000;
 
-  /**
-   * If the ping is enabled, this method will return 1.
-   *
-   * @returns 1 if the ping is enabled, 0 otherwise.
-   */
-  ping() {
-    return 1;
-  }
+    self.setTimeout(() => self.close, gracePeriod);
 
-  /**
-   * Configures proxy URLs based on the provided settings and license permissions.
-   */
-  #configureProxyUrls(
-    proxyUrl: string,
-    licenceUnlockResult: {
-      allowPingProxy: boolean;
-      allowBaltazarProxy: boolean;
-      hasPing: boolean;
-      unlockResult: LicenseTokenState;
-    },
-  ): void {
-    if (!proxyUrl) {
-      console.debug(
-        "No proxy URL configured, using default Microblink servers",
+    if (!this.#wasmModule) {
+      console.warn(
+        "No Wasm module loaded during worker termination. Skipping cleanup.",
       );
+
+      self.close();
       return;
     }
 
-    // Validate license permissions
-    this.#validateProxyPermissions(licenceUnlockResult, proxyUrl);
+    // wasm module loaded
+    this.#wasmModule.terminateSdk();
 
-    // Validate and sanitize the proxy URL
-    try {
-      this.#proxyUrls = this.#sanitizeProxyUrls(proxyUrl);
+    // allow any pending pings to be reported before we report shutdown
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
-      if (licenceUnlockResult.allowPingProxy) {
-        // Configure the WASM module with the sanitized URLs
-        this.#wasmModule!.setPingProxyUrl(this.#proxyUrls.ping);
-      }
+    this.sendPinglets();
 
-      console.debug("Proxy URLs configured successfully:", {
-        ping: this.#proxyUrls.ping,
-        baltazar: this.#proxyUrls.baltazar,
-      });
-    } catch (error) {
-      // Enhance error message with actionable advice
-      const enhancedError =
-        error instanceof ProxyUrlValidationError
-          ? new Error(
-              `${error.message}\n\nTroubleshooting:\n- Ensure the URL is accessible\n- Check HTTPS requirements\n- Verify proxy server implementation`,
-            )
-          : error;
+    // Wait for any in-flight ping requests to finish, but don't wait forever
+    const startTime = Date.now();
 
-      throw enhancedError;
-    }
-  }
-
-  /**
-   * Validates that the license allows proxy usage.
-   */
-  #validateProxyPermissions(
-    licenceUnlockResult: {
-      allowPingProxy: boolean;
-      allowBaltazarProxy: boolean;
-      hasPing: boolean;
-      unlockResult: LicenseTokenState;
-    },
-    proxyUrl: string,
-  ): void {
-    if (
-      !licenceUnlockResult.allowPingProxy &&
-      !licenceUnlockResult.allowBaltazarProxy
+    while (
+      this.#wasmModule.arePingRequestsInProgress() &&
+      Date.now() - startTime < gracePeriod
     ) {
-      throw new Error(
-        `Proxy URL "${proxyUrl}" was provided, but your license does not permit proxy usage.\n` +
-          `License permissions: pingProxy=${licenceUnlockResult.allowPingProxy}, ` +
-          `baltazarProxy=${licenceUnlockResult.allowBaltazarProxy}\n` +
-          `Check your license.`,
-      );
-    } else if (
-      !licenceUnlockResult.hasPing &&
-      licenceUnlockResult.unlockResult !== "requires-server-permission"
-    ) {
-      throw new Error(
-        `Microblink proxy URL is set but cannot be used because ping and online license check are disabled in your license.\n` +
-          `Check your license.`,
-      );
+      // wait 100ms between checks
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
-  }
+    this.#wasmModule = undefined;
 
-  /**
-   * Validates and sanitizes proxy URLs for different Microblink services.
-   */
-  #sanitizeProxyUrls(baseUrl: string): SanitizedProxyUrls {
-    // Validate base URL format
-    let parsedUrl: URL;
-    try {
-      parsedUrl = new URL(baseUrl);
-    } catch (error) {
-      throw new ProxyUrlValidationError(
-        `Failed to create URL instance for provided Microblink proxy URL "${baseUrl}". Expected format: https://your-proxy.com or https://your-proxy.com/`,
-        baseUrl,
-      );
-    }
-
-    // Security validation: Ensure HTTPS in production
-    if (parsedUrl.protocol !== "https:") {
-      throw new ProxyUrlValidationError(
-        `Proxy URL validation failed for "${baseUrl}": HTTPS protocol must be used. Expected format: https://your-proxy.com or https://your-proxy.com/`,
-        baseUrl,
-      );
-    }
-
-    // Create sanitized URLs for each service
-    const baseUrlStr = parsedUrl.origin;
-
-    const baltazarUrl = this.#buildServiceUrl(
-      baseUrlStr,
-      "/api/v2/status/check",
-    );
-
-    return {
-      ping: baseUrlStr,
-      baltazar: baltazarUrl,
-    };
-  }
-
-  /**
-   * Builds a service URL by combining base URL with service path.
-   */
-  #buildServiceUrl(baseUrl: string, servicePath: string): string {
-    try {
-      const url = new URL(servicePath, baseUrl);
-      return url.toString();
-    } catch (error) {
-      throw new ProxyUrlValidationError(
-        `Failed to build service URL for path "${servicePath}"`,
-        baseUrl,
-      );
-    }
+    console.debug("BlinkIdWorker terminated 🔴");
+    self.close();
   }
 }
 
@@ -707,3 +543,155 @@ expose(blinkIdWorker);
  * The BlinkID worker proxy.
  */
 export type BlinkIdWorkerProxy = Omit<BlinkIdWorker, typeof finalizer>;
+
+/**
+ * This is a workaround for the fact that the types are not exported.
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface _BlinkIdScanningResult extends BlinkIdScanningResult {}
+
+/**
+ * This is a workaround for the fact that the types are not exported.
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface _BlinkIdSessionError extends BlinkIdSessionError {}
+
+/**
+ * The process result with buffer.
+ */
+export type ProcessResultWithBuffer = BlinkIdProcessResult & {
+  arrayBuffer: ArrayBuffer;
+};
+
+/**
+ * The worker scanning session.
+ */
+export type WorkerScanningSession = OverrideProperties<
+  BlinkIdScanningSession,
+  {
+    process: (image: ImageData) => ProcessResultWithBuffer;
+  }
+> & {
+  /**
+   * Gets the settings.
+   *
+   * @returns The settings.
+   */
+  getSettings: () => BlinkIdSessionSettings;
+  /**
+   * Shows the demo overlay.
+   *
+   * @returns Whether the demo overlay is shown.
+   */
+  showDemoOverlay: () => boolean;
+  /**
+   * Shows the production overlay.
+   *
+   * @returns Whether the production overlay is shown.
+   */
+  showProductionOverlay: () => boolean;
+  ping: BlinkIdWorker["reportPinglet"];
+  sendPinglets: BlinkIdWorker["sendPinglets"];
+};
+
+/**
+ * Initialization settings for the BlinkID worker.
+ *
+ * These settings control how the BlinkID worker is initialized and configured,
+ * including resource locations, memory allocation, and build variants.
+ */
+export type BlinkIdWorkerInitSettings = {
+  /**
+   * The license key required to unlock and use the BlinkID SDK.
+   * This must be a valid license key obtained from Microblink.
+   */
+  licenseKey: string;
+
+  /**
+   * The URL of the Microblink proxy server. This proxy handles requests to Microblink's Baltazar and Ping servers.
+   *
+   * **Requirements:**
+   * - Must be a valid HTTPS URL
+   * - The proxy server must implement the expected Microblink API endpoints
+   * - This feature is only available if explicitly permitted by your license
+   *
+   * **Endpoints:**
+   * - Ping: `{proxyUrl}/ping`
+   * - Baltazar: `{proxyUrl}/api/v2/status/check`
+   *
+   * @example "https://your-proxy.example.com"
+   */
+  microblinkProxyUrl?: string;
+
+  /**
+   * The parent directory where the `/resources` directory is hosted.
+   * Defaults to `window.location.href`, at the root of the current page.
+   */
+  resourcesLocation?: string;
+
+  /**
+   * A unique identifier for the user/session.
+   * Used for analytics and tracking purposes.
+   */
+  userId: string;
+
+  /**
+   * The WebAssembly module variant to use.
+   * Different variants may offer different performance/size tradeoffs.
+   */
+  wasmVariant?: WasmVariant;
+
+  /**
+   * The initial memory allocation for the Wasm module, in megabytes.
+   * Larger values may improve performance but increase memory usage.
+   */
+  initialMemory?: number;
+
+  /**
+   * Whether to use the lightweight build of the SDK.
+   * Lightweight builds have reduced size but may have limited functionality.
+   */
+  useLightweightBuild: boolean;
+};
+
+/**
+ * The load Wasm params.
+ */
+export type LoadWasmParams = {
+  resourceUrl: string;
+  variant?: WasmVariant;
+  useLightweightBuild: boolean;
+  initialMemory?: number;
+};
+
+/**
+ * The progress status callback.
+ */
+export type ProgressStatusCallback = (progress: DownloadProgress) => void;
+
+class StartPing implements PingSdkInitStart {
+  readonly data: SdkInitStartData;
+  /** Needs to be 0 for sorting purposes */
+  readonly sessionNumber = 0;
+  readonly schemaName = "ping.sdk.init.start";
+  readonly schemaVersion = "1.0.0";
+
+  constructor(data: SdkInitStartData) {
+    this.data = data;
+  }
+}
+
+export type LicenseErrorCode = "LICENSE_ERROR";
+
+/**
+ * Error thrown when license unlock fails
+ */
+export class LicenseError extends Error {
+  code: LicenseErrorCode;
+
+  constructor(message: string, code: LicenseErrorCode) {
+    super(message);
+    this.name = "LicenseError";
+    this.code = code;
+  }
+}

@@ -29,8 +29,6 @@ export const askForCameraPermission = async () => {
 
     closeStreamTracks(mediaStream);
   } catch (error) {
-    console.log(error);
-
     const newError = new CameraError(
       "Camera permission not given",
       "PERMISSION_DENIED",

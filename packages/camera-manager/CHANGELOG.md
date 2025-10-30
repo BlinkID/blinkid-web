@@ -1,5 +1,15 @@
 # @microblink/camera-manager
 
+## 7.2.6
+
+### Patch Changes
+
+- Implemented a mechanism for observing the camera permission state, available on the `cameraPermission` property on the `CameraManagerStore`
+- Added `videoResolution` and `extractionArea` properties on `CameraManagerStore`
+- Added a generic error dialog for camera errors that might not be a permission error.
+- Added translation files for 33 new languages (see [README.md](README.md#provided-translations))
+- Update dependencies
+
 ## 7.2.5
 
 ### Patch Changes

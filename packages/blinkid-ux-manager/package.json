@@ -1,7 +1,7 @@
 {
   "name": "@microblink/blinkid-ux-manager",
   "description": "BlinkID UX Manager provides user feedback based on the blinkid process results.",
-  "version": "7.4.3",
+  "version": "7.6.0",
   "author": "Microblink",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",
@@ -66,16 +66,17 @@
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@unocss/eslint-config": "^65.5.0",
     "@unocss/preset-uno": "^65.5.0",
+    "@vitest/browser": "^3.0.8",
     "concurrently": "^9.1.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "10.0.1",
     "eslint-define-config": "^1.24.1",
     "eslint-plugin-solid": "0.14.5",
-    "prettier-plugin-classnames": "^0.7.6",
+    "prettier-plugin-classnames": "^0.8.4",
     "publint": "^0.3.12",
     "rimraf": "^6.0.1",
     "sass": "^1.85.0",
-    "tsx": "^4.19.2",
+    "tsx": "^4.20.6",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.0",
     "typescript": "^5.8.3",
@@ -87,11 +88,11 @@
     "vite-plugin-solid-svg": "0.8.1",
     "vitest": "^3.0.8",
     "write-package": "^7.1.0",
-    "zx": "^8.5.2"
+    "zx": "^8.8.5"
   },
   "peerDependencies": {
-    "@ark-ui/solid": "^5.5.0",
-    "solid-js": "^1.9.5",
+    "@ark-ui/solid": "^5.26.2",
+    "solid-js": "^1.9.9",
     "solid-zustand": "^1.8.1"
   },
   "keywords": [],

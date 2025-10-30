@@ -1,5 +1,14 @@
 # example-blinkid-advanced-setup
 
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/camera-manager@7.2.6
+  - @microblink/blinkid-ux-manager@7.6.0
+  - @microblink/blinkid-core@7.6.0
+
 ## 1.1.13
 
 ### Patch Changes

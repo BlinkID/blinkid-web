@@ -89,12 +89,12 @@ const BlinkIdUiStoreContext = createContext<BlinkIdUiStoreContextValue>();
 export const BlinkIdUiStoreProvider: ParentComponent<{
   blinkIdUxManager: BlinkIdUxManager;
   cameraManagerComponent: CameraManagerComponent;
-  showOnboardingGuide?: boolean;
-  showHelpButton?: boolean;
-  showHelpTooltipTimeout?: number;
-  showDocumentFilteredModal?: boolean;
-  showTimeoutModal?: boolean;
-  showUnsupportedDocumentModal?: boolean;
+  showOnboardingGuide: boolean;
+  showHelpButton: boolean;
+  showHelpTooltipTimeout: number;
+  showDocumentFilteredModal: boolean;
+  showTimeoutModal: boolean;
+  showUnsupportedDocumentModal: boolean;
   dismountFeedbackUi: () => void;
 }> = (props) => {
   const [store, updateStore] = createStore<BlinkIdUiStore>(

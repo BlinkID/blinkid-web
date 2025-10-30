@@ -5,21 +5,13 @@
 import { createListCollection, Select } from "@ark-ui/solid/select";
 import { SmartEnvironmentProvider } from "@microblink/shared-components/SmartEnvironmentProvider";
 
-import { Component, createSignal, Index, Show } from "solid-js";
 import { eventFixer } from "@microblink/shared-components/eventFixer";
+import { Component, Index } from "solid-js";
 import IconCamera from "./assets/camera.svg?component-solid";
 import IconCheck from "./assets/check.svg?component-solid";
 import IconChevronDown from "./assets/general-c-chevron-down.svg?component-solid";
 import { useCameraUiStore } from "./CameraUiStoreContext";
 import { useLocalization } from "./LocalizationContext";
-
-/**
- * A camera option.
- */
-type CameraOption = {
-  value: string;
-  label: string;
-};
 
 /**
  * The CameraSelector component.
@@ -30,12 +22,11 @@ export const CameraSelector: Component = () => {
 
   const cameras = cameraManagerSolidStore((x) => x.cameras);
   const selectedCamera = cameraManagerSolidStore((x) => x.selectedCamera);
-  const isQueryingCameras = cameraManagerSolidStore((x) => x.isQueryingCameras);
   const facingFilter = cameraManagerSolidStore((x) => x.facingFilter);
+  const isQueryingCameras = cameraManagerSolidStore((x) => x.isQueryingCameras);
+  const isSwappingCamera = cameraManagerSolidStore((x) => x.isSwappingCamera);
 
-  const [isSwapping, setIsSwapping] = createSignal(false);
-
-  const isDisabled = () => isQueryingCameras() || isSwapping();
+  const isDisabled = () => isQueryingCameras() || isSwappingCamera();
 
   const camerasWithFacingFilter = () => {
     const $facingFilter = facingFilter();
@@ -77,12 +68,7 @@ export const CameraSelector: Component = () => {
     return [foundCamera.value];
   };
 
-  const isFakeCamera = (value: string) => {
-    return fakeCameras.some((fakeCamera) => fakeCamera.value === value);
-  };
-
   const selectCameraById = async (id: string) => {
-    setIsSwapping(true);
     const camera = cameras().find(
       (camera) => camera.deviceInfo.deviceId === id,
     );
@@ -93,7 +79,6 @@ export const CameraSelector: Component = () => {
     }
 
     await cameraManager.selectCamera(camera);
-    setIsSwapping(false);
   };
 
   return (
@@ -110,10 +95,6 @@ export const CameraSelector: Component = () => {
             lazyMount={true}
             disabled={isDisabled()}
             onValueChange={(details) => {
-              if (isFakeCamera(details.value[0])) {
-                console.warn("Fake camera, skipping");
-                return;
-              }
               void selectCameraById(details.value[0]);
             }}
           >
@@ -125,9 +106,11 @@ export const CameraSelector: Component = () => {
                   <button
                     {...eventFixer(selectProps())}
                     // Unterminated string literal if using regular multiline quotes
-                    class={`flex px-4 py-2 items-center gap-2 rounded-full bg-dark-100/50 backdrop-blur-xl
-                    whitespace-nowrap text-base color-white font-500 cursor-pointer appearance-none
-                    border-none disabled:opacity-50 disabled:cursor-not-allowed max-w-[100%]`}
+                    class={`flex px-4 py-2 items-center gap-2 rounded-full
+                    bg-gray-550/90 backdrop-blur-xl whitespace-nowrap text-base
+                    color-white font-500 cursor-pointer appearance-none
+                    border-none disabled:opacity-50 disabled:cursor-not-allowed
+                    max-w-[100%] btn-focus`}
                   >
                     <IconCamera class="size-6 shrink-0" aria-hidden />
                     <Select.ValueText
@@ -138,7 +121,9 @@ export const CameraSelector: Component = () => {
                           : t.select_a_camera
                       }
                     />
-                    <Select.Indicator class="shrink-0 data-[state=open]:scale-y-[-1]">
+                    <Select.Indicator
+                      class="shrink-0 data-[state=open]:scale-y-[-1]"
+                    >
                       <IconChevronDown class="size-6 shrink-0" />
                     </Select.Indicator>
                   </button>
@@ -146,16 +131,28 @@ export const CameraSelector: Component = () => {
               }}
             />
             {/* Dropdown */}
-            <Select.Positioner>
-              <Select.Content>
-                <Select.ItemGroup class="rounded-4 overflow-hidden text-base color-white">
+            <Select.Positioner class="focus-visible:outline-none">
+              <Select.Content class="focus-visible:outline-none outline-none">
+                <Select.ItemGroup
+                  class="rounded-4 overflow-hidden text-base color-white
+                    focus-visible:outline-none flex flex-col gap-[1px]"
+                >
                   <Index each={cameraCollection().items}>
                     {(camera, index) => {
+                      const isFirst = index === 0;
+                      const isLast =
+                        index === cameraCollection().items.length - 1;
+
                       return (
                         <Select.Item
                           item={camera()}
-                          class="flex py-3 pl-4 pr-12 cursor-pointer select-none relative gap-[1px]
-                            bg-dark-100/50 backdrop-blur-xl data-[highlighted]:bg-gray-500/50"
+                          class={`flex py-3 pl-4 pr-12 cursor-pointer
+                          select-none bg-gray-550/50 backdrop-blur-xl
+                          focus-visible:outline-none outline-none border-2
+                          border-solid border-transparent
+                          data-[highlighted]:border-primary relative
+                          ${isFirst ? "rounded-t-6" : ""}
+                          ${isLast ? "rounded-b-6" : ""}`}
                         >
                           <Select.ItemText class="truncate">
                             {camera().label}
@@ -163,10 +160,6 @@ export const CameraSelector: Component = () => {
                           <Select.ItemIndicator class="absolute right-4">
                             <IconCheck class="size-6 shrink-0" />
                           </Select.ItemIndicator>
-                          {/* separator */}
-                          <Show when={index !== 0}>
-                            <div class="h-[1px] absolute left-0 right-0 top-[-1px] bg-white pointer-events-none" />
-                          </Show>
                         </Select.Item>
                       );
                     }}
@@ -180,29 +173,3 @@ export const CameraSelector: Component = () => {
     </SmartEnvironmentProvider>
   );
 };
-
-/**
- * The fake cameras.
- */
-const fakeCameras: CameraOption[] = [
-  {
-    value: "5",
-    label: "Back Camera 2",
-  },
-  {
-    value: "2",
-    label: "Back Triple Camera",
-  },
-  {
-    value: "1",
-    label: "Back Dual Wide Camera",
-  },
-  {
-    value: "3",
-    label: "Front Camera 5",
-  },
-  {
-    value: "4",
-    label: "Some random desktop camera",
-  },
-];

@@ -21,7 +21,9 @@
       "dependsOn": ["^build:publish"],
       "cache": false
     },
-    "test": {},
+    "test": {
+      "cache": false
+    },
     "test:watch": {
       "cache": false,
       "persistent": true

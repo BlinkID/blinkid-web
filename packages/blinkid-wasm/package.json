@@ -1,13 +1,15 @@
 {
   "name": "@microblink/blinkid-wasm",
   "private": true,
-  "version": "7.4.3",
+  "version": "7.6.0",
   "scripts": {
     "build": "tsc",
     "build:publish": "tsc",
     "clean": "rimraf .turbo types",
     "docs:api": "typedoc",
+    "generate:ping-union": "tsx scripts/generate-ping-union.mts",
     "generate:size-manifest": "tsx scripts/generate-size-manifest.mts",
+    "generate:clangd": "tsx scripts/generate-clangd.mts",
     "lint": "pnpm lint:types",
     "lint:types": "tsc --emitDeclarationOnly false --noEmit",
     "build:dev": "tsc"
@@ -31,15 +33,15 @@
   "devDependencies": {
     "@microblink/tsconfig": "workspace:*",
     "dotenv-cli": "^8.0.0",
-    "prettier": "^3.5.1",
-    "prettier-plugin-jsdoc": "^1.3.2",
+    "prettier": "^3.6.2",
+    "prettier-plugin-jsdoc": "^1.3.3",
     "rimraf": "^6.0.1",
-    "tsx": "^4.19.2",
+    "tsx": "^4.20.6",
     "type-fest": "^4.35.0",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.0",
     "typescript": "^5.8.3",
-    "zx": "^8.5.2"
+    "zx": "^8.8.5"
   },
   "description": "Wasm runtime"
 }

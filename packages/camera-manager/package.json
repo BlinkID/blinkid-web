@@ -1,7 +1,7 @@
 {
   "name": "@microblink/camera-manager",
   "description": "Manages cameras and stream, provides both a headless component and a UI component",
-  "version": "7.2.5",
+  "version": "7.2.6",
   "author": "Microblink",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",
@@ -74,12 +74,12 @@
     "eslint-define-config": "^1.24.1",
     "eslint-plugin-solid": "0.14.5",
     "playwright": "^1.51.0",
-    "prettier": "^3.5.1",
-    "prettier-plugin-classnames": "^0.7.6",
+    "prettier": "^3.6.2",
+    "prettier-plugin-classnames": "^0.8.4",
     "publint": "^0.3.12",
     "rimraf": "^6.0.1",
     "sass": "^1.85.0",
-    "tsx": "^4.19.2",
+    "tsx": "^4.20.6",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.0",
     "typescript": "^5.8.3",
@@ -92,11 +92,11 @@
     "vite-plugin-solid-svg": "0.8.1",
     "vitest": "^3.0.8",
     "write-package": "^7.1.0",
-    "zx": "^8.5.2"
+    "zx": "^8.8.5"
   },
   "peerDependencies": {
-    "@ark-ui/solid": "^5.5.0",
-    "solid-js": "^1.9.5",
+    "@ark-ui/solid": "^5.26.2",
+    "solid-js": "^1.9.9",
     "solid-zustand": "^1.8.1",
     "zustand": "^4.5.5"
   },

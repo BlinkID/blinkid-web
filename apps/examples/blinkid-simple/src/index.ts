@@ -12,9 +12,6 @@ import { createBlinkId } from "@microblink/blinkid";
  */
 const blinkid = await createBlinkId({
   licenseKey: import.meta.env.VITE_LICENCE_KEY,
-  cameraManagerUiOptions: {
-    showMirrorCameraButton: false,
-  },
 });
 
 /**

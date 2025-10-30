@@ -11,6 +11,7 @@
 
 export * from "./core/blinkid-ui-state";
 export * from "./core/BlinkIdUxManager";
+export * from "./core/HapticFeedback";
 export * from "./ui/createBlinkIdFeedbackUi";
 export type {
   LocaleRecord,

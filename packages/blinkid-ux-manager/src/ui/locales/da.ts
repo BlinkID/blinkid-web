@@ -1,0 +1,58 @@
+/**
+ * Copyright (c) 2025 Microblink Ltd. All rights reserved.
+ */
+
+export default {
+  alert_cancel_btn: "Annuller",
+  alert_retry_btn: "Prøv igen",
+  blur_detected: "Hold dokumentet og telefonen stille",
+  camera_angle_too_steep: "Hold dokumentet parallelt med telefonen",
+  document_filtered: "Dokument ikke accepteret",
+  document_filtered_details: "Prøv at scanne et andet dokument.",
+  document_not_recognized: "Dokument ikke genkendt",
+  document_not_recognized_details: "Scan forsiden af et understøttet dokument.",
+  document_too_close_to_edge: "Flyt dokumentet væk fra kanten",
+  face_photo_not_fully_visible: "Hold ansigtsfotoet helt synligt",
+  flip_document: "Vend dokumentet",
+  flip_to_back_side: "Vend på bagsiden",
+  glare_detected: "Vip eller flyt dokumentet for at fjerne reflektionen",
+  help_aria_label: "Hjælp",
+  help_modal_back_btn: "Tilbage",
+  help_modal_details_1:
+    "Sørg for, at du ikke dækker nogen dele af dokumentet med en finger, herunder stregerne i bunden. Vær også opmærksom på hologramreflektioner, der går henover dokumentets felter.",
+  help_modal_details_2:
+    "Undgå direkte og skarpt lys, fordi de giver genskin fra dokumentet og kan gøre dele af dokumentet ulæselige. Hvis du ikke kan læse dataene på dokumentet, vil de ikke være synlige på kameraet.",
+  help_modal_details_3:
+    "Prøv at holde telefonen og dokumentet stille, mens du scanner. Bevægelse kan enten sløre billedet eller gøre dataene på dokumentet ulæselige.",
+  help_modal_done_btn: "Færdig",
+  help_modal_next_btn: "Næste",
+  help_modal_title_1: "Hold alle felterne synlige",
+  help_modal_title_2: "Vær opmærksom på skarpt lys",
+  help_modal_title_3: "Undgå bevægelse, mens du scanner",
+  help_tooltip: "Brug for hjælp?",
+  move_closer: "Flyt tættere på",
+  move_farther: "Flyt længere væk",
+  move_left: "Flyt til den venstre side",
+  move_right: "Flyt til den højre side",
+  move_top: "Flyt til den øverste side",
+  occluded: "Hold hele dokumentet synligt",
+  onboarding_modal_btn: "Start scanning",
+  onboarding_modal_details:
+    "Sørg for, at dokumentet er godt oplyst. Alle dokumentets felter skal være synlige på kameraskærmen.",
+  onboarding_modal_title: "Hold alle oplysningerne synlige",
+  scan_data_page: "Scan dokumentets dataside",
+  scan_last_page_barcode: "Scan stregkoden fra den sidste side",
+  scan_left_page: "Scan den venstre side",
+  scan_right_page: "Scan den højre side",
+  scan_the_back_side: "Scan dokumentets bagside",
+  scan_the_barcode: "Scan stregkoden",
+  scan_the_front_side: "Scan dokumentets forside",
+  scan_top_page: "Scan den øverste side",
+  scan_unsuccessful: "Scanning mislykkedes",
+  scan_unsuccessful_details: "Kunne ikke læse dokumentet. Prøv igen.",
+  too_bright: "Flyt til en sted med mindre lys",
+  too_dark: "Flyt til et lysere sted",
+  wrong_left: "Flyt til den venstre side",
+  wrong_right: "Flyt til den højre side",
+  wrong_top: "Flyt til den øverste side",
+} as const;

@@ -9,6 +9,7 @@ import { renderWithOwner } from "@microblink/shared-components/renderWithOwner";
 import { BlinkIdFeedbackUi } from "./BlinkIdFeedbackUi";
 import { BlinkIdUiStoreProvider } from "./BlinkIdUiStoreContext";
 import { LocalizationStrings } from "./LocalizationContext";
+import { merge } from "merge-anything";
 
 /**
  * The options for the createBlinkIdFeedbackUi function.
@@ -38,6 +39,12 @@ export type FeedbackUiOptions = {
    */
   showHelpButton?: boolean;
   /**
+   * The timeout for the help tooltip.
+   *
+   * @defaultValue 3000
+   */
+  showHelpTooltipTimeout?: number;
+  /**
    * If set to `true`, the document filtered modal will be shown.
    *
    * @defaultValue true
@@ -57,6 +64,17 @@ export type FeedbackUiOptions = {
   showUnsupportedDocumentModal?: boolean;
 };
 
+const defaultFeedbackUiOptions: Required<FeedbackUiOptions> = {
+  localizationStrings: {},
+  preserveSdkInstance: false,
+  showOnboardingGuide: true,
+  showHelpButton: true,
+  showDocumentFilteredModal: true,
+  showTimeoutModal: true,
+  showUnsupportedDocumentModal: true,
+  showHelpTooltipTimeout: 3000,
+};
+
 /**
  * Creates the BlinkID feedback UI.
  *
@@ -69,16 +87,7 @@ export type FeedbackUiOptions = {
 export function createBlinkIdFeedbackUi(
   blinkIdUxManager: BlinkIdUxManager,
   cameraManagerComponent: CameraManagerComponent,
-  {
-    localizationStrings,
-    // todo - implement this
-    preserveSdkInstance,
-    showOnboardingGuide = true,
-    showHelpButton = true,
-    showDocumentFilteredModal = true,
-    showTimeoutModal = true,
-    showUnsupportedDocumentModal = true,
-  }: FeedbackUiOptions = {},
+  feedbackUiOptions: Partial<FeedbackUiOptions>,
 ) {
   // Use a ref or closure to handle the circular reference
   const dismountFeedbackUiRef = {
@@ -86,6 +95,8 @@ export function createBlinkIdFeedbackUi(
       void 0;
     },
   };
+
+  const mergedUiOptions = merge(defaultFeedbackUiOptions, feedbackUiOptions);
 
   cameraManagerComponent.addOnDismountCallback(() => {
     // if the camera manager is unmounted, we need to unmount the feedback UI
@@ -97,14 +108,17 @@ export function createBlinkIdFeedbackUi(
       <BlinkIdUiStoreProvider
         blinkIdUxManager={blinkIdUxManager}
         cameraManagerComponent={cameraManagerComponent}
-        showOnboardingGuide={showOnboardingGuide}
-        showHelpButton={showHelpButton}
-        showDocumentFilteredModal={showDocumentFilteredModal}
-        showTimeoutModal={showTimeoutModal}
-        showUnsupportedDocumentModal={showUnsupportedDocumentModal}
+        showOnboardingGuide={mergedUiOptions.showOnboardingGuide}
+        showHelpButton={mergedUiOptions.showHelpButton}
+        showDocumentFilteredModal={mergedUiOptions.showDocumentFilteredModal}
+        showTimeoutModal={mergedUiOptions.showTimeoutModal}
+        showUnsupportedDocumentModal={
+          mergedUiOptions.showUnsupportedDocumentModal
+        }
+        showHelpTooltipTimeout={mergedUiOptions.showHelpTooltipTimeout}
         dismountFeedbackUi={() => dismountFeedbackUiRef.current()}
       >
-        <BlinkIdFeedbackUi localization={localizationStrings} />
+        <BlinkIdFeedbackUi localization={mergedUiOptions.localizationStrings} />
       </BlinkIdUiStoreProvider>
     ),
     cameraManagerComponent.feedbackLayerNode,

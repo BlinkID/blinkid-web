@@ -63,12 +63,16 @@ describe("BlinkIdUxManager - Document Class Filter", () => {
     showDemoOverlay: ReturnType<typeof vi.fn>;
     showProductionOverlay: ReturnType<typeof vi.fn>;
     getResult: ReturnType<typeof vi.fn>;
+    ping: ReturnType<typeof vi.fn>;
+    sendPinglets: ReturnType<typeof vi.fn>;
   } = {
     process: vi.fn(),
     getSettings: vi.fn().mockResolvedValue({ scanningSettings: {} }),
     showDemoOverlay: vi.fn().mockResolvedValue(false),
     showProductionOverlay: vi.fn().mockResolvedValue(false),
     getResult: vi.fn(),
+    ping: vi.fn(),
+    sendPinglets: vi.fn(),
   };
 
   let manager: BlinkIdUxManager;
@@ -503,6 +507,8 @@ describe("BlinkIdUxManager - Reset Behavior", () => {
     showProductionOverlay: ReturnType<typeof vi.fn>;
     getResult: ReturnType<typeof vi.fn>;
     reset: ReturnType<typeof vi.fn>;
+    ping: ReturnType<typeof vi.fn>;
+    sendPinglets: ReturnType<typeof vi.fn>;
   };
 
   interface TestCameraState {
@@ -550,6 +556,8 @@ describe("BlinkIdUxManager - Reset Behavior", () => {
       showProductionOverlay: vi.fn().mockResolvedValue(false),
       getResult: vi.fn(),
       reset: vi.fn().mockResolvedValue(undefined),
+      ping: vi.fn(),
+      sendPinglets: vi.fn(),
     };
 
     manager = new BlinkIdUxManager(
@@ -676,6 +684,8 @@ describe("BlinkIdUxManager - Timeout Behavior", () => {
     showDemoOverlay: vi.fn().mockResolvedValue(false),
     showProductionOverlay: vi.fn().mockResolvedValue(false),
     getResult: vi.fn(),
+    ping: vi.fn(),
+    sendPinglets: vi.fn(),
   };
 
   beforeEach(() => {
@@ -901,6 +911,8 @@ describe("BlinkIdUxManager - Overlay Methods", () => {
     getSettings: ReturnType<typeof vi.fn>;
     showDemoOverlay: ReturnType<typeof vi.fn>;
     showProductionOverlay: ReturnType<typeof vi.fn>;
+    ping: ReturnType<typeof vi.fn>;
+    sendPinglets: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(() => {
@@ -917,6 +929,8 @@ describe("BlinkIdUxManager - Overlay Methods", () => {
       getSettings: vi.fn().mockResolvedValue({ scanningSettings: {} }),
       showDemoOverlay: vi.fn().mockResolvedValue(false),
       showProductionOverlay: vi.fn().mockResolvedValue(false),
+      ping: vi.fn(),
+      sendPinglets: vi.fn(),
     };
 
     manager = new BlinkIdUxManager(
@@ -977,6 +991,8 @@ describe("BlinkIdUxManager - Session Management", () => {
     getResult: ReturnType<typeof vi.fn>;
     delete: ReturnType<typeof vi.fn>;
     isDeleted: ReturnType<typeof vi.fn>;
+    ping: ReturnType<typeof vi.fn>;
+    sendPinglets: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(() => {
@@ -995,6 +1011,8 @@ describe("BlinkIdUxManager - Session Management", () => {
       getResult: vi.fn(),
       delete: vi.fn().mockResolvedValue(undefined),
       isDeleted: vi.fn().mockResolvedValue(false),
+      ping: vi.fn(),
+      sendPinglets: vi.fn(),
     };
 
     manager = new BlinkIdUxManager(
@@ -1066,6 +1084,8 @@ describe("BlinkIdUxManager - Document Capture Flow Integration", () => {
     getResult: ReturnType<typeof vi.fn>;
     delete: ReturnType<typeof vi.fn>;
     isDeleted: ReturnType<typeof vi.fn>;
+    ping: ReturnType<typeof vi.fn>;
+    sendPinglets: ReturnType<typeof vi.fn>;
   };
   let frameCaptureCallback: FrameCaptureCallback;
 
@@ -1090,6 +1110,8 @@ describe("BlinkIdUxManager - Document Capture Flow Integration", () => {
       getResult: vi.fn(),
       delete: vi.fn().mockResolvedValue(undefined),
       isDeleted: vi.fn().mockResolvedValue(false),
+      ping: vi.fn(),
+      sendPinglets: vi.fn(),
     };
 
     manager = new BlinkIdUxManager(

@@ -7,5 +7,3 @@
 # Type Alias: FacingMode
 
 > **FacingMode** = `"front"` \| `"back"` \| `undefined`
-
-Copyright (c) 2025 Microblink Ltd. All rights reserved.
