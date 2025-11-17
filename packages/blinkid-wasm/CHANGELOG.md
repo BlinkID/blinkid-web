@@ -1,5 +1,12 @@
 # @microblink/blinkid-wasm
 
+## 7.6.1
+
+### Patch Changes
+
+- For some documents, the document type was returned as `none`, which was causing confusion. To prevent this, we are filling in the document type from the barcode in case customers are using `barcode-id` mode. The fix is applied to all the AAMVA types, plus some others (Argentina, Canada, Colombia, Nigeria, Panama, Paraguay, SouthAfrica).
+- Added `sub-field-designator` value to `BarcodeElementKey` type
+
 ## 7.6.0
 
 ### Minor Changes

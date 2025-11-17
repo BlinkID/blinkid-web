@@ -4,14 +4,14 @@ This directory contains example applications demonstrating the capabilities of t
 
 ## Available Examples
 
-*   [BlinkID Simple](./blinkid-simple/): A simple example of how to use the BlinkID SDK.
-*   [BlinkID Advanced Setup](./blinkid-advanced-setup/): Demonstrates advanced setup and customization of the BlinkID SDK.
-*   [BlinkID UI Customization](./blinkid-ui-customization/): Shows how to implement custom UI, such as replacing UI for various error states (camera errors, timeouts, unsupported documents, filtered documents).
-*   [BlinkID Photo Upload](./blinkid-photo-upload/): An example of how to use the BlinkID SDK with photo upload functionality.
-*   [BlinkID Core API](./blinkid-core-api/): Shows how to use the core API of the BlinkID SDK.
-*   [BlinkID Preload](./blinkid-preload/): Demonstrates how to preload the BlinkID SDK for faster initialization.
-*   [Camera Manager](./camera-manager/): An example of how to use the camera manager.
-*   [Camera Selection](./camera-selection/): An example of how to use the camera selection feature.
+- [BlinkID Simple](./blinkid-simple/): A simple example of how to use the BlinkID SDK.
+- [BlinkID Advanced Setup](./blinkid-advanced-setup/): Demonstrates advanced setup and customization of the BlinkID SDK.
+- [BlinkID UI Customization](./blinkid-ui-customization/): Shows how to implement custom UI, such as replacing UI for various error states (camera errors, timeouts, unsupported documents, filtered documents).
+- [BlinkID Photo Upload](./blinkid-photo-upload/): An example of how to use the BlinkID SDK with photo upload functionality.
+- [BlinkID Core API](./blinkid-core-api/): Shows how to use the core API of the BlinkID SDK.
+- [BlinkID Preload](./blinkid-preload/): Demonstrates how to preload the BlinkID SDK for faster initialization.
+- [Camera Manager](./camera-manager/): An example of how to use the camera manager.
+- [Camera Selection](./camera-selection/): An example of how to use the camera selection feature.
 
 ## Getting Started
 
@@ -30,7 +30,7 @@ pnpm install
 Before running the example applications, you need to build the monorepo packages. From the root of the monorepo, run:
 
 ```bash
-pnpm build:dev
+pnpm build:packages
 ```
 
 ### 3. Set up the License Key
@@ -58,4 +58,4 @@ cd apps/examples/blinkid-simple
 pnpm dev
 ```
 
-This will start a development server, and you can view the application in your browser at the address provided in the terminal. 
+This will start a development server, and you can view the application in your browser at the address provided in the terminal.

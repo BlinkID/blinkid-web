@@ -6,10 +6,6 @@
       "outputs": ["dist/**", "types/**"],
       "outputLogs": "new-only"
     },
-    "build:dev": {
-      "dependsOn": ["^build:dev"],
-      "outputs": ["dist/**", "types/**"]
-    },
     "build:publish": {
       "dependsOn": ["^build:publish"],
       "cache": false
@@ -30,12 +26,6 @@
     },
     "clean": {
       "cache": false,
-      "outputs": []
-    },
-    "watch": {
-      "dependsOn": ["^build:dev"],
-      "cache": false,
-      "persistent": true,
       "outputs": []
     }
   }
