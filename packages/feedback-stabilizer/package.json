@@ -4,7 +4,6 @@
   "version": "7.1.2",
   "scripts": {
     "build": "tsc",
-    "build:dev": "tsc",
     "build:publish": "tsc",
     "clean": "rimraf .turbo types dist *.tgz",
     "docs:api": "typedoc",

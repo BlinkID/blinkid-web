@@ -1,11 +1,10 @@
 {
   "name": "@microblink/blinkid",
   "description": "All-in-one BlinkID browser SDK for fast and accurate ID document scanning and recognition in web applications.",
-  "version": "7.6.0",
+  "version": "7.6.1",
   "author": "Microblink",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",
-    "build:dev": "concurrently pnpm:build:js-dev pnpm:build:types",
     "build:js": "vite build",
     "build:js-dev": "vite build --mode development",
     "build:publish": "pnpm build && pnpm type-rollup",

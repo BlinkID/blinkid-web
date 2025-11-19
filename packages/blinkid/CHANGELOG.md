@@ -1,5 +1,12 @@
 # @microblink/blinkid
 
+## 7.6.1
+
+### Patch Changes
+
+- @microblink/blinkid-core@7.6.1
+- @microblink/blinkid-ux-manager@7.6.1
+
 ## 7.6.0
 
 ### Patch Changes

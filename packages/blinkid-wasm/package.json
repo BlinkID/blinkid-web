@@ -1,18 +1,18 @@
 {
   "name": "@microblink/blinkid-wasm",
   "private": true,
-  "version": "7.6.0",
+  "version": "7.6.1",
   "scripts": {
     "build": "tsc",
     "build:publish": "tsc",
     "clean": "rimraf .turbo types",
     "docs:api": "typedoc",
+    "run:conan-install": "pnpm run conan-install",
     "generate:ping-union": "tsx scripts/generate-ping-union.mts",
     "generate:size-manifest": "tsx scripts/generate-size-manifest.mts",
     "generate:clangd": "tsx scripts/generate-clangd.mts",
     "lint": "pnpm lint:types",
-    "lint:types": "tsc --emitDeclarationOnly false --noEmit",
-    "build:dev": "tsc"
+    "lint:types": "tsc --emitDeclarationOnly false --noEmit"
   },
   "type": "module",
   "main": "src/index.ts",
