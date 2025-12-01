@@ -1,5 +1,11 @@
 # @microblink/blinkid-wasm
 
+## 7.6.2
+
+### Patch Changes
+
+- Bump version
+
 ## 7.6.1
 
 ### Patch Changes
