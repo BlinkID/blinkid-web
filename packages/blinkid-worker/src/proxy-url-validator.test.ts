@@ -166,8 +166,9 @@ describe("Proxy URL Validator", () => {
         },
         {
           input: "https://proxy.example.com/api/proxy",
-          expectedPing: "https://proxy.example.com",
-          expectedBaltazar: "https://proxy.example.com/api/v2/status/check",
+          expectedPing: "https://proxy.example.com/api/proxy",
+          expectedBaltazar:
+            "https://proxy.example.com/api/proxy/api/v2/status/check",
           description: "HTTPS proxy URL with path (path is ignored)",
         },
       ])(

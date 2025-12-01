@@ -296,36 +296,12 @@ class BlinkIdWorker {
       throw new Error("Wasm module not loaded");
     }
 
-    const sdkInitPinglet = new StartPing({
-      packageName: self.location.hostname,
-      platform: "Emscripten",
-      product: "BlinkID",
-      userId: this.#userId,
-    });
-
-    this.reportPinglet(sdkInitPinglet);
-    this.sendPinglets();
-
     // Initialize with license key
     const licenseUnlockResult = this.#wasmModule.initializeWithLicenseKey(
       settings.licenseKey,
       settings.userId,
       false,
     );
-
-    this.sendPinglets();
-
-    if (licenseUnlockResult.licenseError) {
-      this.#reportErrorPing({
-        errorType: "Crash",
-        errorMessage: licenseUnlockResult.licenseError,
-      });
-      this.sendPinglets();
-      throw new LicenseError(
-        "License unlock error: " + licenseUnlockResult.licenseError,
-        "LICENSE_ERROR",
-      );
-    }
 
     if (settings.microblinkProxyUrl) {
       // Validate the proxy URL permissions
@@ -340,6 +316,28 @@ class BlinkIdWorker {
         this.#wasmModule.setPingProxyUrl(this.#proxyUrls.ping);
         console.debug(`Using ping proxy URL: ${this.#proxyUrls.ping}`);
       }
+    }
+
+    const sdkInitPinglet = new StartPing({
+      packageName: self.location.hostname,
+      platform: "Emscripten",
+      product: "BlinkID",
+      userId: this.#userId,
+    });
+
+    this.reportPinglet(sdkInitPinglet);
+    this.sendPinglets();
+
+    if (licenseUnlockResult.licenseError) {
+      this.#reportErrorPing({
+        errorType: "Crash",
+        errorMessage: licenseUnlockResult.licenseError,
+      });
+      this.sendPinglets();
+      throw new LicenseError(
+        "License unlock error: " + licenseUnlockResult.licenseError,
+        "LICENSE_ERROR",
+      );
     }
 
     // Check if we need to obtain a server permission

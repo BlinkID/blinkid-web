@@ -1,5 +1,16 @@
 # @microblink/blinkid-core
 
+## 7.6.2
+
+### Patch Changes
+
+- Fixes `microblinkProxyUrl` handling
+    - Prevent an extra ping to the Microblink server when a proxy URL is configured (previously one redundant request was sent).
+    - Preserve the user-provided path when using a proxy URL (previously the path was removed).
+- Updated dependencies
+  - @microblink/blinkid-wasm@7.6.2
+  - @microblink/blinkid-worker@7.6.2
+
 ## 7.6.1
 
 ### Patch Changes

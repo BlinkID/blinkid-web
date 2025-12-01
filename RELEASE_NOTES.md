@@ -1,3 +1,11 @@
+## 7.6.2
+
+### Bugfixes
+
+- Fixes `microblinkProxyUrl` handling
+    - Prevent an extra ping to the Microblink server when a proxy URL is configured (previously one redundant request was sent).
+    - Preserve the user-provided path when using a proxy URL (previously the path was removed).
+
 ## 7.6.1
 
 ### What's New

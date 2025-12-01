@@ -1,5 +1,13 @@
 # @microblink/blinkid
 
+## 7.6.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/blinkid-core@7.6.2
+  - @microblink/blinkid-ux-manager@7.6.2
+
 ## 7.6.1
 
 ### Patch Changes

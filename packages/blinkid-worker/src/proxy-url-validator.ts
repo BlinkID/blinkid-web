@@ -37,14 +37,14 @@ export function validateLicenseProxyPermissions(
   // Check if the license allows usage of any proxy
   if (!allowPingProxy && !allowBaltazarProxy) {
     throw new Error(
-      `Microblink proxy URL is set but your license doesn't permit proxy usage. Check your license.`,
+      "Microblink proxy URL is set but your license doesn't permit proxy usage. Check your license.",
     );
   }
 
   // For offline licenses, ping must be enabled. For online licenses, ping requirement is waived.
   if (!isOnlineLicense && !hasPing) {
     throw new Error(
-      `Microblink proxy URL is set but your license doesn't permit proxy usage. Check your license.`,
+      "Microblink proxy URL is set but your license doesn't permit proxy usage. Check your license.",
     );
   }
 
@@ -56,7 +56,7 @@ export function validateLicenseProxyPermissions(
     (isOnlineLicense && !hasPing && !allowBaltazarProxy && allowPingProxy)
   ) {
     throw new Error(
-      `Microblink proxy URL is set but your license doesn't permit proxy usage. Check your license.`,
+      "Microblink proxy URL is set but your license doesn't permit proxy usage. Check your license.",
     );
   }
 }
@@ -93,10 +93,13 @@ export function sanitizeProxyUrls(baseUrl: string): {
   const baseUrlStr = parsedUrl.origin;
 
   try {
-    const baltazarUrl = new URL("/api/v2/status/check", baseUrlStr).toString();
+    const baltazarUrl = new URL(
+      `${parsedUrl.pathname}${parsedUrl.pathname.endsWith("/") ? "" : "/"}api/v2/status/check`,
+      baseUrlStr,
+    ).toString();
 
     return {
-      ping: baseUrlStr,
+      ping: baseUrlStr + parsedUrl.pathname.replace(/\/$/, ""),
       baltazar: baltazarUrl,
     };
   } catch (error) {
