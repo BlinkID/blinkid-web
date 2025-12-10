@@ -24,7 +24,7 @@ interface CreateInputDeviceProps extends Partial<InputDeviceInfo> {
  * @param props - The properties for the device.
  * @returns The fake `InputDeviceInfo` info object.
  */
-export const createInputDeviceInfo = ({
+export const createMockInputDeviceInfo = ({
   label,
   deviceId = crypto.randomUUID(),
   groupId = crypto.randomUUID(),
@@ -48,12 +48,7 @@ export const createInputDeviceInfo = ({
       };
     },
     getCapabilities: () => {
-      // throw error if Firefox user agent
-      // not supported as of Firefox 133
-      // https://bugzilla.mozilla.org/show_bug.cgi?id=1179084
-      if (navigator.userAgent.includes("Firefox")) {
-        throw new Error("Not implemented");
-      }
+      // not supported as of Firefox 133 and iOS 16.4
       return mockCapabilities;
     },
   };

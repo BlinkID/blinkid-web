@@ -30,6 +30,12 @@ Represents the data for the `ping.sdk.camera.input.info` event.
 
 ***
 
+### deviceId
+
+> **deviceId**: `string`
+
+***
+
 ### roiHeight
 
 > **roiHeight**: `number`

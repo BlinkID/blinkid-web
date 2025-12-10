@@ -680,7 +680,7 @@ export class CameraManager {
   async #startCameraStream({
     autoplay = true,
     preferredCamera,
-    preferredFacing,
+    preferredFacing = "back",
   }: StartCameraStreamOptions = {}) {
     const videoElement = store.getState().videoElement;
 

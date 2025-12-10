@@ -48,3 +48,8 @@ export function getKeyWithHighestValue(map: Map<string, number>) {
 
   return maxKey;
 }
+
+export function isIOS(): boolean {
+  const userAgent = self.navigator.userAgent.toLowerCase();
+  return /iphone|ipad|ipod/.test(userAgent);
+}

@@ -1,5 +1,12 @@
 # @microblink/camera-manager
 
+## 7.2.7
+
+### Patch Changes
+
+- Updated the camera picking logic
+- Improved error handling on the `Camera` class
+
 ## 7.2.6
 
 ### Patch Changes

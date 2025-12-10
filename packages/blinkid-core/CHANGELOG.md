@@ -1,12 +1,25 @@
 # @microblink/blinkid-core
 
+## 7.6.3
+
+### Patch Changes
+
+- Improved automatic lightweight build detection for mobile devices
+  - Now uses Device Memory API to detect low-memory devices (< 4GB)
+  - Applies to all mobile devices (phones and tablets) with available memory information
+  - Falls back to `undefined` when memory information is unavailable, allowing manual configuration
+  - Previously used a simple user agent check for all mobile devices
+- Updated dependencies
+  - @microblink/blinkid-worker@7.6.3
+  - @microblink/blinkid-wasm@7.6.3
+
 ## 7.6.2
 
 ### Patch Changes
 
 - Fixes `microblinkProxyUrl` handling
-    - Prevent an extra ping to the Microblink server when a proxy URL is configured (previously one redundant request was sent).
-    - Preserve the user-provided path when using a proxy URL (previously the path was removed).
+  - Prevent an extra ping to the Microblink server when a proxy URL is configured (previously one redundant request was sent).
+  - Preserve the user-provided path when using a proxy URL (previously the path was removed).
 - Updated dependencies
   - @microblink/blinkid-wasm@7.6.2
   - @microblink/blinkid-worker@7.6.2

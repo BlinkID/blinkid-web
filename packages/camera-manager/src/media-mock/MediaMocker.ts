@@ -3,7 +3,7 @@
  */
 
 import { FacingMode } from "../core/Camera";
-import { createInputDeviceInfo } from "./createInputDeviceInfo";
+import { createMockInputDeviceInfo } from "./createInputDeviceInfo";
 import { defineProperty } from "./defineProperty";
 import { ExtendedCameraInfo, fakeDevices } from "./fake-devices";
 import { getResolutionFromConstraints } from "./utils";
@@ -58,7 +58,7 @@ class MediaMocker {
    * @returns The camera devices.
    */
   getCameraDevices() {
-    return fakeDevices[this.fakeDevice].cameras;
+    return this.cameras;
   }
 
   /**
@@ -100,7 +100,7 @@ class MediaMocker {
       "enumerateDevices",
       (): Promise<InputDeviceInfo[]> => {
         const devices = this.cameras.map((camera) => {
-          return createInputDeviceInfo(camera.inputDeviceInfo);
+          return createMockInputDeviceInfo(camera.inputDeviceInfo);
         });
 
         return Promise.resolve(devices);

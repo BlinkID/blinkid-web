@@ -6,6 +6,7 @@ import { PingBase } from "./PingBase";
 
 /** Represents the data for the `ping.sdk.camera.input.info` event. */
 export type SdkCameraInputInfoData = {
+  deviceId: string;
   cameraFacing: "Front" | "Back" | "Unknown";
   cameraFrameWidth: number;
   cameraFrameHeight: number;
@@ -18,5 +19,5 @@ export type SdkCameraInputInfoData = {
 export type PingSdkCameraInputInfo = PingBase<
   SdkCameraInputInfoData,
   "ping.sdk.camera.input.info",
-  "1.0.1"
+  "1.0.2"
 >;

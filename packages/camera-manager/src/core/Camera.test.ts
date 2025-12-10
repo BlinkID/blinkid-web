@@ -3,7 +3,7 @@
  */
 
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import { createInputDeviceInfo } from "../media-mock/createInputDeviceInfo";
+import { createMockInputDeviceInfo } from "../media-mock/createInputDeviceInfo";
 import { Camera, VideoResolutionName, videoResolutions } from "./Camera";
 
 // Mock getUserMedia
@@ -45,7 +45,7 @@ Object.defineProperty(globalThis, "navigator", {
 describe("Camera facingMode label detection", () => {
   test("Front label is applied correctly", () => {
     const camera = new Camera(
-      createInputDeviceInfo({
+      createMockInputDeviceInfo({
         mockCapabilities: {
           facingMode: ["user"],
         },
@@ -57,7 +57,7 @@ describe("Camera facingMode label detection", () => {
 
   test("Back label is applied correctly", () => {
     const camera = new Camera(
-      createInputDeviceInfo({
+      createMockInputDeviceInfo({
         label: "Camera 1, 0 back",
         mockCapabilities: {
           facingMode: ["environment"],
@@ -78,7 +78,7 @@ describe("Camera resolution fallback", () => {
     mockGetUserMedia.mockResolvedValue(mockStream);
 
     const camera = new Camera(
-      createInputDeviceInfo({
+      createMockInputDeviceInfo({
         label: "Test Camera",
         mockCapabilities: {
           facingMode: ["environment"],
@@ -104,7 +104,7 @@ describe("Camera resolution fallback", () => {
     });
 
     const camera = new Camera(
-      createInputDeviceInfo({
+      createMockInputDeviceInfo({
         label: "Test Camera",
         mockCapabilities: {
           facingMode: ["environment"],
@@ -143,7 +143,7 @@ describe("Camera resolution fallback", () => {
     });
 
     const camera = new Camera(
-      createInputDeviceInfo({
+      createMockInputDeviceInfo({
         label: "Test Camera",
         mockCapabilities: {
           facingMode: ["environment"],
@@ -171,7 +171,7 @@ describe("Camera resolution fallback", () => {
     mockGetUserMedia.mockRejectedValue(new Error("No resolution supported"));
 
     const camera = new Camera(
-      createInputDeviceInfo({
+      createMockInputDeviceInfo({
         label: "Test Camera",
         mockCapabilities: {
           facingMode: ["environment"],
@@ -189,7 +189,7 @@ describe("Camera resolution fallback", () => {
     mockGetUserMedia.mockResolvedValue(mockStream);
 
     const camera = new Camera(
-      createInputDeviceInfo({
+      createMockInputDeviceInfo({
         label: "Test Camera",
         mockCapabilities: {
           facingMode: ["environment"],
@@ -214,7 +214,7 @@ describe("Camera resolution fallback", () => {
     mockGetUserMedia.mockResolvedValue(mockStream);
 
     const camera = new Camera(
-      createInputDeviceInfo({
+      createMockInputDeviceInfo({
         label: "Test Camera",
         mockCapabilities: {
           facingMode: ["environment"],

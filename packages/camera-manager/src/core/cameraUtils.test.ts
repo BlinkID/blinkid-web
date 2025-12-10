@@ -188,14 +188,15 @@ describe("filterCamerasByFacing", () => {
     expect(filtered.map((c) => c.name)).toEqual(["Front Camera", "front 1"]);
   });
 
-  test("defaults to back cameras when facing is undefined", () => {
+  test("returns all cameras when no facing mode is requested", () => {
     const cameras = [
       new MockCamera("Back Camera", { facingMode: "back" }),
       new MockCamera("Front Camera", { facingMode: "front" }),
+      new MockCamera("back 0", { facingMode: "back" }),
+      new MockCamera("front 1", { facingMode: "front" }),
     ];
     const filtered = filterCamerasByFacing(cameras, undefined);
-    expect(filtered).toHaveLength(1);
-    expect(filtered[0].name).toBe("Back Camera");
+    expect(filtered).toHaveLength(4);
   });
 
   test("returns empty array when no matching cameras", () => {
@@ -210,12 +211,14 @@ describe("filterCamerasByFacing", () => {
 
 describe("findIdealCamera", () => {
   test("throws error when no cameras available", async () => {
-    await expect(findIdealCamera([])).rejects.toThrow("No cameras found");
+    await expect(findIdealCamera([], "1080p", "back")).rejects.toThrow(
+      "No cameras found",
+    );
   });
 
   test("returns single camera when only one available", async () => {
     const camera = new MockCamera("Test Camera");
-    const result = await findIdealCamera([camera]);
+    const result = await findIdealCamera([camera], "1080p", "front");
     expect(result).toBe(camera);
   });
 
@@ -285,7 +288,8 @@ describe("findIdealCamera", () => {
     expect(result.name).toBe("Unknown Camera 3");
   });
 
-  test("handles stream failures and retries", async () => {
+  // TODO: shouldn't be a capability of `findIdealCamera`
+  test.fails("falls back to last known working camera", async () => {
     let camera1Attempts = 0;
     let camera2Attempts = 0;
 
@@ -310,7 +314,7 @@ describe("findIdealCamera", () => {
       }),
     ];
 
-    const result = await findIdealCamera(cameras);
+    const result = await findIdealCamera(cameras, "1080p", undefined);
     expect(result.name).toBe("Camera 1");
     expect(camera1Attempts).toBe(2);
     expect(camera2Attempts).toBe(1);
