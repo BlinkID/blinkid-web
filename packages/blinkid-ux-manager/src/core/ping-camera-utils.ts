@@ -30,6 +30,7 @@ export const createCameraInputInfo = ({
     : videoResolution.height;
 
   return new PingSdkCameraInputInfoImpl({
+    deviceId: selectedCamera.name,
     cameraFacing: mapCameraFacingToPingFacing(selectedCamera.facingMode),
     cameraFrameWidth: videoResolution.width,
     cameraFrameHeight: videoResolution.height,
@@ -56,6 +57,7 @@ export const mapCameraFacingToPingFacing = (
 
 export const convertCameraToPingCamera = (camera: Camera): PingCamera => {
   return {
+    deviceId: camera.name,
     cameraFacing: mapCameraFacingToPingFacing(camera.facingMode),
     /** we can't know this */
     availableResolutions: undefined,

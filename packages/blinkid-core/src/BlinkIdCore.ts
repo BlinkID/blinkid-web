@@ -12,6 +12,7 @@ import { createProxyWorker } from "./createProxyWorker";
 import { getUserId } from "./getUserId";
 import { proxy, Remote } from "comlink";
 import { defaultSessionSettings } from "./defaultSessionSettings";
+import { shouldUseLightweightBuild } from "./shouldUseLightweightBuild";
 
 /**
  * Configuration options for initializing the BlinkID core.
@@ -56,11 +57,7 @@ export async function loadBlinkIdCore(
   }
 
   if (settings.useLightweightBuild === undefined) {
-    // use only on desktop devices
-    settings.useLightweightBuild =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent,
-      );
+    settings.useLightweightBuild = await shouldUseLightweightBuild();
   }
 
   const proxyProgressCallback = progressCallback

@@ -1,7 +1,7 @@
 {
   "name": "@microblink/camera-manager",
   "description": "Manages cameras and stream, provides both a headless component and a UI component",
-  "version": "7.2.6",
+  "version": "7.2.7",
   "author": "Microblink",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",

@@ -60,7 +60,7 @@ export class PingHardwareCameraInfoImpl implements PingHardwareCameraInfo {
 
   readonly data: HardwareCameraInfoData;
   readonly schemaName = "ping.hardware.camera.info";
-  readonly schemaVersion = "1.0.1";
+  readonly schemaVersion = "1.0.3";
   readonly sessionNumber = 0;
 }
 
@@ -81,7 +81,7 @@ export class PingSdkCameraInputInfoImpl implements PingSdkCameraInputInfo {
 
   readonly data: SdkCameraInputInfoData;
   readonly schemaName = "ping.sdk.camera.input.info";
-  readonly schemaVersion = "1.0.1";
+  readonly schemaVersion = "1.0.2";
 }
 
 export class PingSdkCameraPermissionImpl implements PingSdkCameraPermission {

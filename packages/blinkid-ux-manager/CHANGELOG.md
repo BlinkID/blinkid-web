@@ -1,5 +1,13 @@
 # @microblink/blinkid-ux-manager
 
+## 7.6.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @microblink/camera-manager@7.2.7
+  - @microblink/blinkid-core@7.6.3
+
 ## 7.6.2
 
 ### Patch Changes

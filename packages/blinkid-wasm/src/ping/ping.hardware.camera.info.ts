@@ -7,6 +7,7 @@ import { PingBase } from "./PingBase";
 /** Represents the data for the `ping.hardware.camera.info` event. */
 export type HardwareCameraInfoData = {
   availableCameras: {
+    deviceId: string;
     cameraFacing: "Front" | "Back" | "Unknown";
     focus?: "Auto" | "Fixed";
     availableResolutions?: {
@@ -20,6 +21,6 @@ export type HardwareCameraInfoData = {
 export type PingHardwareCameraInfo = PingBase<
   HardwareCameraInfoData,
   "ping.hardware.camera.info",
-  "1.0.1",
+  "1.0.3",
   0
 >;

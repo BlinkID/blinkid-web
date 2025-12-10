@@ -1,3 +1,15 @@
+## v7.6.3
+
+### Improvements
+
+- Improved automatic lightweight build detection for mobile devices
+    - Now uses Device Memory API to detect low-memory devices (< 4GB)
+    - Applies to all mobile devices (phones and tablets) with available memory information
+    - Falls back to `undefined` when memory information is unavailable, allowing manual configuration
+    - Previously used a simple user agent check for all mobile devices
+- Updated the camera picking logic
+- Improved error handling on the `Camera` class
+
 ## 7.6.2
 
 ### Bugfixes

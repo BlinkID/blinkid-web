@@ -13,7 +13,7 @@ import {
 } from "./Camera";
 import { isBackCameraName, isFrontCameraName } from "./cameraNames";
 import { backDualWideCameraLocalizations } from "./iosCameraNames";
-import { asError } from "./utils";
+import { asError, isIOS } from "./utils";
 import { CameraError } from "./cameraError";
 
 /**
@@ -140,11 +140,15 @@ export function filterCamerasByFacing(
   requestedFacing: FacingMode,
 ): Camera[] {
   return cameras.filter((camera) => {
-    if (requestedFacing === "back" || requestedFacing === undefined) {
+    if (requestedFacing === "back") {
       return isBackCameraName(camera.name);
-    } else {
+    }
+    if (requestedFacing === "front") {
       return isFrontCameraName(camera.name);
     }
+
+    // If no facing mode is requested, return all cameras
+    return true;
   });
 }
 
@@ -160,12 +164,12 @@ export function filterCamerasByFacing(
  */
 export const findIdealCamera = async (
   cameras: Camera[],
-  resolution: VideoResolutionName = "4k",
-  requestedFacing: FacingMode = "back",
+  resolution: VideoResolutionName,
+  requestedFacing: FacingMode,
 ): Promise<Camera> => {
   // if there are no cameras, throw an error
   if (cameras.length === 0) {
-    throw new Error("No cameras found");
+    throw new Error("No cameras found on device");
   }
 
   // if there's only one camera, we can return it immediately
@@ -216,10 +220,12 @@ export const findIdealCamera = async (
   let maxScore = -Infinity;
 
   // we iterate in reverse order to prioritize the last camera
-  // this is usually the best camera on Android
-  for (let i = cameraPool.length - 1; i >= 0; i--) {
-    const camera = cameraPool[i];
+  // this is usually the best camera on Android devices
+  if (!isIOS()) {
+    cameraPool.reverse();
+  }
 
+  for (const camera of cameraPool) {
     try {
       // Start stream to detect capabilities
       await camera.startStream(resolution);
@@ -230,22 +236,23 @@ export const findIdealCamera = async (
 
       // Update best camera if this one has a higher score
       if (score > maxScore) {
-        // Stop stream on previous best camera if it exists
-        if (bestCamera && bestCamera !== camera) {
-          bestCamera.stopStream();
-        }
         maxScore = score;
         bestCamera = camera;
       } else {
         // Not the best camera, stop its stream
         camera.stopStream();
+
+        // go to next loop
+        continue;
       }
 
       // Perfect match - has both torch and single shot support
       if (score === 2) {
-        console.debug("Found camera with all capabilities, returning early");
         return camera;
       }
+
+      // Stop stream to free camera for the best candidate search
+      camera.stopStream();
     } catch (error) {
       console.warn(`Failed to test camera ${camera.name}:`, error);
       // Stop stream if it was started
@@ -253,15 +260,12 @@ export const findIdealCamera = async (
     }
   }
 
-  // Return the best camera we found
-  if (bestCamera) {
-    return bestCamera;
+  if (!bestCamera) {
+    throw new Error("No suitable camera found, should not happen!");
   }
 
-  // If we haven't found any working camera, try one last time with the first camera
-  const firstCamera = cameraPool[0];
-  await firstCamera.startStream(resolution);
-  return firstCamera;
+  // Return the best camera we found, or the last one that was tested
+  return bestCamera;
 };
 
 /**

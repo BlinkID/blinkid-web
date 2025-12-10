@@ -3,11 +3,11 @@
  */
 
 import { subscribeWithSelector } from "zustand/middleware";
+import { shallow } from "zustand/shallow";
 import { createStore } from "zustand/vanilla";
 import { CameraError } from "./cameraError";
 import { isBackCameraName, isFrontCameraName } from "./cameraNames";
 import { closeStreamTracks, createConstraints } from "./cameraUtils";
-import { shallow } from "zustand/shallow";
 
 interface CameraState {
   deviceInfo: InputDeviceInfo;
@@ -19,6 +19,8 @@ interface CameraState {
   singleShotSupported: boolean;
   maxSupportedResolution?: VideoResolutionName;
   streamCapabilities?: ReturnType<MediaStreamTrack["getCapabilities"]>;
+  /** not implemented in iOS Safari and Firefox at the time of writing */
+  deviceCapabilities?: ReturnType<InputDeviceInfo["getCapabilities"]>;
   error?: CameraError;
 }
 
@@ -39,6 +41,7 @@ const initialCameraState: CameraState = {
   singleShotSupported: false,
   maxSupportedResolution: undefined,
   streamCapabilities: undefined,
+  deviceCapabilities: undefined,
   error: undefined,
 } as CameraState;
 
@@ -77,6 +80,15 @@ export class Camera {
   }
 
   get activeStream() {
+    if (this.store.getState().activeStream?.active === false) {
+      console.warn(
+        "Detected inactive stream on camera:",
+        this.name,
+        this.store.getState().activeStream,
+      );
+      // stream is inactive, clear it from state
+      this.store.setState({ activeStream: undefined });
+    }
     return this.store.getState().activeStream;
   }
 
@@ -174,9 +186,6 @@ export class Camera {
       fireImmediately?: boolean;
     },
   ): () => void {
-    // Add your side effects here
-    console.debug(`Creating subscription for camera: ${this.name}`);
-
     // Call original method with proper argument handling
     let unsubscribe: () => void;
 
@@ -237,13 +246,15 @@ export class Camera {
 
     // Happens when camera device disconnects
     videoTrack.onended = () => {
+      const error = new CameraError(
+        "Camera stream ended unexpectedly",
+        "STREAM_ENDED_UNEXPECTEDLY",
+      );
       this.store.setState({
-        error: new CameraError(
-          "Camera stream ended unexpectedly",
-          "STREAM_ENDED_UNEXPECTEDLY",
-        ),
+        error,
       });
       this.stopStream();
+      throw error;
     };
 
     return stream;
@@ -266,8 +277,10 @@ export class Camera {
         this.deviceInfo.deviceId,
       );
 
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
       // can throw if device is currently in use by another process
-      return await navigator.mediaDevices.getUserMedia(constraints);
+      return stream;
     } catch (error) {
       // This branch shouldn't happen as we are using `ideal` when making
       // constraints, however it's a good fallback to have
@@ -299,6 +312,12 @@ export class Camera {
    */
   private populateCapabilities(stream: MediaStream) {
     const streamCapabilities = stream.getVideoTracks()[0].getCapabilities();
+
+    if ("getCapabilities" in this.deviceInfo) {
+      // not implemented in iOS Safari and Firefox at the time of writing
+      const deviceCapabilities = this.deviceInfo.getCapabilities();
+      this.store.setState({ deviceCapabilities });
+    }
 
     // shallow compare and set to avoid unnecessary updates
     const same = shallow(streamCapabilities, this.streamCapabilities);
